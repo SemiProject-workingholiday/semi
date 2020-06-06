@@ -282,7 +282,8 @@
               <div class="item active">
                 <img src="images/country/Australia/OpheraHouse.jpg" alt="First slide">
                 <div class="container">
-                  <div class="carousel-caption">
+                  <div class="carousel-caption">0
+                  3333
                     <h1>호주</h1>
                     <h1>오페라하우스</h1>
                     <hr />
@@ -305,7 +306,7 @@
                   <div class="carousel-caption">
                     <h1>캐나다</h1>
                     <h1>나이아가라 폭포</h1>
-                    <hr />
+                    <hr/>
                   </div>
                 </div>
               </div>
@@ -325,7 +326,7 @@
                   <div class="carousel-caption">
                     <h1>뉴질랜드</h1>
                     <h1>지옥에나 가라</h1>
-                    <hr />
+                    <hr/>
                   </div>
                 </div>
               </div>
