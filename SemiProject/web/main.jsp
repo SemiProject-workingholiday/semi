@@ -141,6 +141,10 @@
                 color: black;
                 text-decoration: none;
             }
+            .login_register li a:hover{
+            	 background: none;
+           	     color: white;
+            }
 
             #footer{
                 margin-top: 10%;
@@ -324,7 +328,7 @@
                 <div class="container">
                   <div class="carousel-caption">
                     <h1>뉴질랜드</h1>
-                    <h1>지옥에나 가라</h1>
+                    <h1>지옥</h1>
                     <hr />
                   </div>
                 </div>
