@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
-    <title>Delivery Management System</title>
+    <title>Delivery Management</title>
 
     <!-- Bootstrap CSS -->
     <link rel="icon" href="images/favicon.ico">
