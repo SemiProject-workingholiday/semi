@@ -4,30 +4,30 @@ import java.sql.Date;
 
 public class Member {
 
-	int userNo;
-	String userId;
-	String userPw;
-	String userName;
-	Date userBirth;
-	String phone;
-	String email;
-	int grade;
-	String sanction;
-	String status;
-	String gender;
+	private int userNo;
+	private String userId;
+	private String userPw;
+	private String userName;
+	private Date userBirth;
+	private String phone;
+	private String email;
+	private int grade;
+	private String sanction;
+	private String status;
+	private String gender;
 	
 	
 	public Member() {
 		
 	}
 
-	
 
 	public Member(String userId, String userPw) {
 		super();
 		this.userId = userId;
 		this.userPw = userPw;
 	}
+
 
 
 

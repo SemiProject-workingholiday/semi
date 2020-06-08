@@ -1,11 +1,19 @@
 package member.controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.catalina.connector.Request;
+
+import member.model.service.MemberService;
+import member.model.vo.Member;
 
 /**
  * Servlet implementation class LoginServlet
@@ -26,12 +34,25 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("dod?");
+	
 		String id = request.getParameter("userId");
 		String pw = request.getParameter("userPw");
 		
-		System.out.println("아이디:"+id);
-		System.out.println("비밀번호:"+pw);
+		Member member = new Member(id,pw);
+		
+		Member loginUser = new MemberService().loginMember(member);
+		
+		if(loginUser != null) {
+			HttpSession session = request.getSession();
+			session.setAttribute("loginUser",loginUser);
+			response.sendRedirect("main.jsp");
+		}
+		else {
+			request.setAttribute("erorrMsg", "로그인실패");
+			RequestDispatcher view = request.getRequestDispatcher("view/Member/LoginView.jsp");
+			view.forward(request, response);
+		}
+		
 	}
 
 	/**
