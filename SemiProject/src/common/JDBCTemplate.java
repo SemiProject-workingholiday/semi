@@ -11,17 +11,15 @@ import java.sql.Statement;
 import java.util.Properties;
 
 public class JDBCTemplate {
-	public static Connection getConnection() {
+	
+	public static Connection getConnetion() {
 		Connection conn = null;
 		Properties prop = new Properties();
 		
 		String fileName = JDBCTemplate.class.getResource("/sql/driver.properties").getPath();
 		
-		System.out.println("Service단에서 Connection 객체 만들 때 : " +fileName);					
-
 		try {
 			prop.load(new FileReader(fileName));
-			
 			String driver = prop.getProperty("driver");
 			String url = prop.getProperty("url");
 			String user = prop.getProperty("user");
@@ -29,13 +27,13 @@ public class JDBCTemplate {
 			
 			Class.forName(driver);
 			
-			conn = DriverManager.getConnection(url,user,pwd);
-			
+			conn=DriverManager.getConnection(url, user, pwd);
 			conn.setAutoCommit(false);
-			
 		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -45,8 +43,11 @@ public class JDBCTemplate {
 			e.printStackTrace();
 		}
 		
+		
 		return conn;
+		
 	}
+	
 	
 	public static void close(Connection conn) {
 		try {
