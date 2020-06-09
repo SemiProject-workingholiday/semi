@@ -26,6 +26,7 @@
 
     <!-- Custom styles for this template -->
     <style>
+<<<<<<< HEAD
     
     	header{
       width: 100%;
