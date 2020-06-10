@@ -90,10 +90,11 @@
 
     <div id='registFrame'>
         <h3>· 구직 등록</h3>
+        <form action='<%=request.getContextPath() %>/jobRegist.bo' method='get' encType='multipart/form-data'>
         <table>
             <tr>
                 <td style='width:10%;'>제목</td>
-                <td><input type="text" placeholder="내용을 입력해주세요."></td>
+                <td><input type="text" name='title' placeholder="내용을 입력해주세요."></td>
             </tr>
             <tr>
                 <td>나라</td>
@@ -132,24 +133,24 @@
                 <td style='vertical-align: top;'><div style='margin-top:20%;'>기간</div></td>
                 <td>
                     <div id='term' class='select'>
-                        <input type='radio' id='term1' name='term' value='3개월 미만'><label for='term1'>3개월 미만</label>
-                        <input type='radio' id='term2' name='term' value='3개월 이상'><label for='term2'>3개월 이상</label>
-                        <input type='radio' id='term3' name='term' value='6개월 이상'><label for='term3'>6개월 이상</label>
-                        <input type='radio' id='term4' name='term' value='9개월 이상'><label for='term4'>9개월 이상</label>
-                        <input type='radio' id='term5' name='term' value='1년 이상'><label for='term5'>1년 이상</label>
+                        <input type='radio' id='term1' name='period' value='3개월 미만'><label for='term1'>3개월 미만</label>
+                        <input type='radio' id='term2' name='period' value='3개월 이상'><label for='term2'>3개월 이상</label>
+                        <input type='radio' id='term3' name='period' value='6개월 이상'><label for='term3'>6개월 이상</label>
+                        <input type='radio' id='term4' name='period' value='9개월 이상'><label for='term4'>9개월 이상</label>
+                        <input type='radio' id='term5' name='period' value='1년 이상'><label for='term5'>1년 이상</label>
                         <br>
-                        <input type='radio' id='week1' name='week' value='주중'><label for='week1'>주중</label>
-                        <input type='radio' id='week2' name='week' value='주말'><label for='week2'>주말</label>
+                        <input type='radio' id='week1' name='workday' value='주중'><label for='week1'>주중</label>
+                        <input type='radio' id='week2' name='workday' value='주말'><label for='week2'>주말</label>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>주소</td>
-                <td><input id='address' type="text" placeholder="내용을 입력해주세요."></td>
+                <td><input id='address' type="text" name="address" placeholder="내용을 입력해주세요."></td>
             </tr>
             <tr>
                 <td>모집인원</td>
-                <td><input id='num' type='number' value='0'></td>
+                <td><input id='num' type='number' name="recruitment" value='0'></td>
             </tr>
             <tr>
                 <td>성별</td>
@@ -163,7 +164,7 @@
             </tr>
             <tr>
                 <td>시급</td>
-                <td><input type="text" placeholder="내용을 입력해주세요."></td>
+                <td><input type="text" name='pay' placeholder="내용을 입력해주세요."></td>
             </tr>
             <tr>
                 <td>연령</td>
@@ -171,41 +172,42 @@
                     <div id='age'>
                         <label><input type='radio' name='age' value='N'>무관</label>
                         <label><input type='radio' name='age' value='직접입력'>직접입력</label>
-                        <input type='number' placeholder="직접입력">세 이상
+                        <input type='number' name='age' placeholder="직접입력">세 이상
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>마감일</td>
-                <td><input type='date'></td>
+                <td><input type='date' name='dueDate'></td>
             </tr>
             <tr>
                 <td>근무시간</td>
                 <td>
-                    <input type='time'>
+                    <input type='time' name='worktime'>
                     ~
-                    <input type='time'>
+                    <input type='time' name='worktime'>
                 </td>
             </tr>
             <tr>
                 <td>사진등록</td>
-                <td><input type='file'></td>
+                <td><input type='file' name='logoImg'></td>
             </tr>
             <tr>
                 <td>상세내용</td>
                 <td>
-                    <textarea rows='5'>
+                    <textarea rows='5' name='content' style='resize:none;'>
 학력 : 
 우대 : 
-고용형태 :
-                    </textarea>
+고용형태 : </textarea>
                 </td>
             </tr>
         </table>
         <div align='center'>
-            <button id='registBtn'>등록하기</button>
+            <button id='registBtn' type='submit'>등록하기</button>
         </div>
+        </form>
     </div>  
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="assets/js/docs.min.js"></script>

@@ -22,6 +22,7 @@ public class MemberDao {
 			pstmt=conn.prepareStatement(query);
 			pstmt.setString(1, member.getUserId());
 			pstmt.setString(2, member.getUserPw());
+
 			
 			rs=pstmt.executeQuery();
 			

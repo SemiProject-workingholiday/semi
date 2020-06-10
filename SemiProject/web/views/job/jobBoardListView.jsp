@@ -216,7 +216,7 @@
             </td>
           </tr>
         </table>
-        <button id='searchJob' type="submit" align='center'>검색</button>
+        <button id='searchJob' type="submit" align='center' onclick="jobSearch();">검색</button>
       </fieldset>
     </form>
   </div>
@@ -335,6 +335,14 @@
 
     </table>
   </div>
+
+	<script>
+		function jobSearch(){
+			
+		}
+	</script>
+	
+
 
   <!-- 페이지 -->
   <div id='pageBtn' align='center'>
