@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="job.model.vo.*, java.util.ArrayList"%>
+<%
+	Pagenation pn=(Pagenation)request.getAttribute("pn");
+	ArrayList list=(ArrayList)request.getAttribute("list");
+
+	int listCount=pn.getListCount();
+	int currentPage=pn.getCurrentPage();
+	int maxPage=pn.getMaxPage();
+	int startPage=pn.getStartPage();
+	int endPage=pn.getEndPage();
+%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -216,7 +227,7 @@
             </td>
           </tr>
         </table>
-        <button id='searchJob' type="submit" align='center' onclick="jobSearch();">검색</button>
+        <button id='searchJob' type="submit" align='center' onclick="selectCategory();">검색</button>
       </fieldset>
     </form>
   </div>
@@ -225,17 +236,23 @@
   <!-- 직업 게시판-->
   <div id='postFrame'>
     <table>
-      <tr class="jpost">
-        <div class='jobPost'>
-          <td>
-            <img src='../../images/jobImg/canada_img.jpg' class='jobLogo'>
-            <p>스타벅스커피호주<br>
-              스타벅스 바리스타 모집합니다.
-           <img class='like' src='../../images/jobImg/heart-icon_white.png' align='right'>
-         </p>
-          </td>
-        </div>
-      </tr>
+    	<%if(list.isEmpty()){%>
+    		<tr>조회된 게시글이 없습니다.</tr>
+    	<%}else{ %>
+    		<%for(int i=0;i<list.size();i++){ %>
+      			<tr class="jpost">
+        			<div class='jobPost'>
+          				<td>
+            				<img src='../../images/jobImg/canada_img.jpg' class='jobLogo'>
+            				<p>스타벅스커피호주<br>
+             			 		스타벅스 바리스타 모집합니다.
+           						<img class='like' src='../../images/jobImg/heart-icon_white.png' align='right'>
+         					</p>
+          				</td>
+        			</div>
+      			</tr>
+      		<%} %>
+      	<%} %>
 
       <tr class="jpost">
         <div class='jobPost'>
@@ -337,7 +354,7 @@
   </div>
 
 	<script>
-		function jobSearch(){
+		function selectCategory(){
 			
 		}
 	</script>

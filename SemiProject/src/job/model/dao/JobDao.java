@@ -1,11 +1,14 @@
 package job.model.dao;
 
+import static common.JDBCTemplate.close;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import job.model.vo.Job;
-import static common.JDBCTemplate.*;
 
 public class JobDao {
 
@@ -43,6 +46,33 @@ public class JobDao {
 		}
 		
 		return result;
+	}
+
+	public int getListCount(Connection conn) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		int result=0;
+		
+		String query="SELECT COUNT(*) FROM JOBSEARCH";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+
+			rset=pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result=rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public ArrayList selectList(Connection conn, int currentPage, int limit) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

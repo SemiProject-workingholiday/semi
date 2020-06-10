@@ -1,6 +1,7 @@
 package job.model.service;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import job.model.dao.JobDao;
 import job.model.vo.Job;
@@ -21,6 +22,24 @@ public class JobService {
 		
 		close(conn);
 		return result;
+	}
+
+	public int getListCount() {
+		Connection conn=getConnection();
+		
+		int listCount=new JobDao().getListCount(conn);
+		
+		close(conn);
+		return listCount;
+	}
+
+	public ArrayList selectList(int currentPage, int limit) {
+		Connection conn= getConnection();
+		
+		ArrayList list=new JobDao().selectList(conn, currentPage, limit);
+		
+		close(conn);
+		return list;
 	}
 
 }
