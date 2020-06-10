@@ -33,7 +33,7 @@ public class Emailsand {
 		// 인증 번호 생성기
 		StringBuffer temp = new StringBuffer();
 		Random rnd = new Random();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			int rIndex = rnd.nextInt(3);
 			switch (rIndex) {
 			case 0:

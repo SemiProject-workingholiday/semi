@@ -3,6 +3,7 @@
 <%
 	String msg = "";
 	msg=(String)request.getAttribute("erorrMsg");
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -46,6 +47,7 @@
  .menup{
      float: left;
      width: 33%;
+      cursor:pointer;
  }
  #ero_msg{
      float: left; 
@@ -63,6 +65,7 @@
      font-size: 25px; 
      border: none; 
      background-color:rgb(202, 202, 202);
+     cursor:pointer;
  }
 
 </style>
@@ -73,14 +76,14 @@
 		<br><br>	
 		<form  method="post" action="<%=request.getContextPath()%>/login.me" onsubmit="return loginf()">
 		<div class="center_div">
-            <label style="float: left; font-size: 18px; font-weight: 900;">아이디</label>
+           
             <br>                    
             <input type="text" name="userId" id="userId" class="log" placeholder=" 아이디를 입력해주세요."> <br>    
                         
         </div>
-		<br>
+		
 		<div class="center_div">
-		    <label style="float: left; font-size: 18px; font-weight: 900;">비밀번호</label>
+		    
 		    <br>   
 		    <input type="password" name="userPw" id="userPw" class="log"  placeholder=" 비밀번호를 입력해주세요.">
 		    <p id="ero_msg">
@@ -102,8 +105,8 @@
 		<br>
 		
 		<div class="center_div" style="border-top:1px solid rgb(202,202,202); padding: 10px; ">			
-			<div class="menup">아이디 찾기</div>
-			<div class="menup" style="border-left: 1.5px solid rgb(202, 202, 202); border-right: 1.5px solid rgb(202, 202, 202);">비밀번호 찾기</div>
+			<div class="menup" onclick="location.href='findid.jsp'">아이디 찾기</div>
+			<div class="menup" style="border-left: 1.5px solid rgb(202, 202, 202); border-right: 1.5px solid rgb(202, 202, 202); ">비밀번호 찾기</div>
 			<div class="menup" onclick="location.href='join.html'">회원가입</div>
 		</div>
 		
@@ -125,6 +128,8 @@
 			return true;
 		}
 		
+		
+		})
 	</script>
 	
 	
