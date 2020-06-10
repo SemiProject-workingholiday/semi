@@ -35,36 +35,57 @@ public class HomeListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HomeService hService = new HomeService();
 		
-		// 1_1. 게시판 리스트 총 갯수 구하기
-		int listCount = hService.getListCount();
-		System.out.println(listCount);
+		String country = request.getParameter("country");
+		String home = request.getParameter("home");
+		String period = request.getParameter("period");
+		
+		int listCount;
 		
 		int currentPage;	// 현재 페이지를 표시 할 변수 기본값 1
 		int limit;			// 한 페이지에 게시글이 몇 개가 보여질 것인지
 		int maxPage;		// 전체 페이지에서 가장 마지막 페이지
 		int startPage;		// 한번에 표시될 페이지가 시작 할 페이지
 		int endPage;		// 한번에 표시될 페이지가 끝나는 페이지
+		int pageLimit;
 		
 		currentPage = 1;
+		
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.valueOf(request.getParameter("currentPage"));
 		}
 		
-		limit = 10;
+		limit = 12;
+		pageLimit = 10;
 		
-		maxPage = (int)((double)listCount/limit + 0.9);
-
-		startPage = (((int)((double)currentPage/limit + 0.9))-1)*limit + 1;
 		
-		endPage = startPage + limit - 1;
+		ArrayList<Home> list = new ArrayList<Home>();
 		
-		if(maxPage < endPage) {
-			endPage = maxPage;
+		if(country == null && home == null && period == null) {			
+			 list = hService.selectList(currentPage, limit);
+			 listCount = hService.getListCount();
+			 
+			 maxPage = (int)((double)listCount/limit + 1);
+			 startPage = (((int)((double)currentPage/pageLimit + 0.9))-1)*limit + 1;
+			 endPage = startPage + pageLimit - 1;
+			 
+			 if(maxPage < endPage) {
+				endPage = maxPage;
+			 }
+				
+		} else {
+			list = hService.selectList2(currentPage, limit, country, home, period);
+			listCount = hService.getListCount2(country, home, period);
+			
+			maxPage = (int)((double)listCount/limit + 1);
+			startPage = (((int)((double)currentPage/pageLimit + 0.9))-1)*limit + 1;
+			endPage = startPage + pageLimit - 1;
+			
+			if(maxPage < endPage) {
+				endPage = maxPage;
+			}
 		}
 		
 		Pagination pn = new Pagination(currentPage,listCount,limit,maxPage,startPage,endPage);
-		
-		ArrayList<Home> list = hService.selectList(currentPage, limit);
 		
 		RequestDispatcher view = null;
 		

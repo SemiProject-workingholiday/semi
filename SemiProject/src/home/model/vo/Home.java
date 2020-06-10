@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 public class Home implements Serializable{
+	
 
 	/**
 	 * 
@@ -19,8 +20,19 @@ public class Home implements Serializable{
 	private String address;	// 주소
 	private Date writeDate;	// 작성날짜
 	private int countryNo;	// 나라번호
+	private String country;
 	private int writerNo;	// 작성자번호
-	
+	private String userName;
+	private String essentialitem;
+	private String wifi;
+	private String television;
+	private String heater;
+	private String airconditional;
+	private String livingroom;
+	private String diningroom;
+	private String bathroom;
+	private String pet;
+
 	public Home() {}
 
 	public Home(int hNo, String type, String period, int fee, String title, String content, int report, String address,
@@ -36,6 +48,32 @@ public class Home implements Serializable{
 		this.writeDate = writeDate;
 		this.countryNo = countryNo;
 		this.writerNo = writerNo;
+	}
+	
+	
+	public Home(int hNo, String type, String period, int fee, String title, String content, String address,
+			Date writeDate, String country, String userName, String essentialitem, String wifi, String television,
+			String heater, String airconditional, String livingroom, String diningroom, String bathroom, String pet) {
+		super();
+		this.hNo = hNo;
+		this.type = type;
+		this.period = period;
+		this.fee = fee;
+		this.title = title;
+		this.content = content;
+		this.address = address;
+		this.writeDate = writeDate;
+		this.country = country;
+		this.userName = userName;
+		this.essentialitem = essentialitem;
+		this.wifi = wifi;
+		this.television = television;
+		this.heater = heater;
+		this.airconditional = airconditional;
+		this.livingroom = livingroom;
+		this.diningroom = diningroom;
+		this.bathroom = bathroom;
+		this.pet = pet;
 	}
 
 	public int gethNo() {
@@ -126,16 +164,110 @@ public class Home implements Serializable{
 		this.writerNo = writerNo;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getEssentialitem() {
+		return essentialitem;
+	}
+
+	public void setEssentialitem(String essentialitem) {
+		this.essentialitem = essentialitem;
+	}
+
+	public String getWifi() {
+		return wifi;
+	}
+
+	public void setWifi(String wifi) {
+		this.wifi = wifi;
+	}
+
+	public String getTelevision() {
+		return television;
+	}
+
+	public void setTelevision(String television) {
+		this.television = television;
+	}
+
+	public String getHeater() {
+		return heater;
+	}
+
+	public void setHeater(String heater) {
+		this.heater = heater;
+	}
+
+	public String getAirconditional() {
+		return airconditional;
+	}
+
+	public void setAirconditional(String airconditional) {
+		this.airconditional = airconditional;
+	}
+
+	public String getLivingroom() {
+		return livingroom;
+	}
+
+	public void setLivingroom(String livingroom) {
+		this.livingroom = livingroom;
+	}
+
+	public String getDiningroom() {
+		return diningroom;
+	}
+
+	public void setDiningroom(String diningroom) {
+		this.diningroom = diningroom;
+	}
+
+	public String getBathroom() {
+		return bathroom;
+	}
+
+	public void setBathroom(String bathroom) {
+		this.bathroom = bathroom;
+	}
+
+	public String getPet() {
+		return pet;
+	}
+
+	public void setPet(String pet) {
+		this.pet = pet;
+	}
+	
+	
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 	@Override
 	public String toString() {
 		return "Home [hNo=" + hNo + ", type=" + type + ", period=" + period + ", fee=" + fee + ", title=" + title
 				+ ", content=" + content + ", report=" + report + ", address=" + address + ", writeDate=" + writeDate
-				+ ", countryNo=" + countryNo + ", writerNo=" + writerNo + "]";
+				+ ", countryNo=" + countryNo + ", writerNo=" + writerNo + ", userName=" + userName + ", essentialitem="
+				+ essentialitem + ", wifi=" + wifi + ", television=" + television + ", heater=" + heater
+				+ ", airconditional=" + airconditional + ", livingroom=" + livingroom + ", diningroom=" + diningroom
+				+ ", bathroom=" + bathroom + ", pet=" + pet + "]";
 	}
 	
+	
+
+
 
 }

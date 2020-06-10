@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="home.model.vo.*, java.util.ArrayList"%>
+<%
+	Pagination pn = (Pagination)request.getAttribute("pn");
+	ArrayList list = (ArrayList)request.getAttribute("list");
+	
+	int listCount = pn.getListCount();
+	int currentPage = pn.getCurrentPage();
+	int maxPage = pn.getMaxPage();
+	int startPage = pn.getStartPage();
+	int endPage = pn.getEndPage();
+%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -205,36 +215,36 @@
     <body>
     	<%@ include file = "../common/menubar.jsp" %>
         <div id = "content">
-            <form class = "category">
+            <form action = "<%=request.getContextPath()%>/list.ho" class = "category">
                 <table class = "home_reservation_category">
                     <tr>
                         <td><b>나라</b></td>
                         <td>
-                            <label class="country_option"><input type="checkbox"" name = "cp_item" value="australia"><span>호주</span></label>
-                            <label class="country_option"><input type="checkbox"" name = "cp_item" value="japan"><span>일본</span></label>
-                            <label class="country_option"><input type="checkbox"" name = "cp_item" value="canada"><span>캐나다</span></label>
-                            <label class="country_option"><input type="checkbox"" name = "cp_item" value="newzealand"><span>뉴질랜드</span></label>
-                            <label class="country_option"><input type="checkbox"" name = "cp_item" value="germany"><span>독일</span></label>
+                            <label class="country_option"><input type="checkbox"" name = "country" value="1"><span>호주</span></label>
+                            <label class="country_option"><input type="checkbox"" name = "country" value="2"><span>일본</span></label>
+                            <label class="country_option"><input type="checkbox"" name = "country" value="3"><span>캐나다</span></label>
+                            <label class="country_option"><input type="checkbox"" name = "country" value="4"><span>뉴질랜드</span></label>
+                            <label class="country_option"><input type="checkbox"" name = "country" value="5"><span>독일</span></label>
                         </td>
                     </tr>
                     <tr> 
                         <td><b>집 종류</b></td>
                         <td>
-                            <label class="home_option"><input type="checkbox"" name = "cp_item2" value="sharehouse"><span>쉐어하우스</span></label>
-                            <label class="home_option"><input type="checkbox"" name = "cp_item2" value="dormitory"><span>기숙사</span></label>
-                            <label class="home_option"><input type="checkbox"" name = "cp_item2" value="homestay"><span>홈스테이</span></label>
-                            <label class="home_option"><input type="checkbox"" name = "cp_item2" value="oneroom"><span>원룸</span></label>
-                            <label class="home_option"><input type="checkbox"" name = "cp_item2" value="apartment"><span>아파트</span></label>
+                            <label class="home_option"><input type="checkbox"" name = "home" value="sharehouse"><span>쉐어하우스</span></label>
+                            <label class="home_option"><input type="checkbox"" name = "home" value="dormitory"><span>기숙사</span></label>
+                            <label class="home_option"><input type="checkbox"" name = "home" value="homestay"><span>홈스테이</span></label>
+                            <label class="home_option"><input type="checkbox"" name = "home" value="oneroom"><span>원룸</span></label>
+                            <label class="home_option"><input type="checkbox"" name = "home" value="apartment"><span>아파트</span></label>
                         </td>
                     </tr>
                     <tr id = "term">
                         <td><b>기간</b></td>
                         <td>
-                            <label class="term_option"><input type="checkbox"" name = "cp_item3" value="3monthless"><span>3개월 미만</span></label>
-                            <label class="term_option"><input type="checkbox"" name = "cp_item3" value="3months"><span>3개월 이상</span></label>
-                            <label class="term_option"><input type="checkbox"" name = "cp_item3" value="6months"><span>6개월 이상</span></label>
-                            <label class="term_option"><input type="checkbox"" name = "cp_item3" value="9month"><span>9개월 이상</span></label>
-                            <label class="term_option"><input type="checkbox"" name = "cp_item3" value="1year"><span>1년 이상</span></label>
+                            <label class="term_option"><input type="checkbox"" name = "period" value="3monthless"><span>3개월 미만</span></label>
+                            <label class="term_option"><input type="checkbox"" name = "period" value="3months"><span>3개월 이상</span></label>
+                            <label class="term_option"><input type="checkbox"" name = "period" value="6months"><span>6개월 이상</span></label>
+                            <label class="term_option"><input type="checkbox"" name = "period" value="9months"><span>9개월 이상</span></label>
+                            <label class="term_option"><input type="checkbox"" name = "period" value="1year"><span>1년 이상</span></label>
                         </td>
                     </tr>
                     <tr>
@@ -246,117 +256,40 @@
             </form>
 
             <div id="home" class="home">
-	            
-                <ul class="list img-list">
-                    <li>
-                        <a href="#" class="inner">
-                            <div class="li-img">
-                                <img src="../../images/home.jpg" alt = "Image Alt Text" />
-                            </div>
-                            <div class="li-text">
-                                <h4 class="li-head">Title of Content</h4>
-                                <p class="li-sub">Summary of content</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="inner">
-                            <div class="li-img">
-                                <img src="../../images/home.jpg" alt="Image Alt Text" />
-                            </div>
-                            <div class="li-text">
-                                <h4 class="li-head">Title of More Content</h4>
-                                <p class="li-sub">Summary of more content</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="inner">
-                            <div class="li-img">
-                                <img src="../../images/home.jpg" alt="Image Alt Text" />
-                            </div>
-                            <div class="li-text">
-                                <h4 class="li-head">Title of Content</h4>
-                                <p class="li-sub">Summary of content</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="inner">
-                            <div class="li-img">
-                                <img src="../../images/home.jpg" alt="Image Alt Text" />
-                            </div>
-                            <div class="li-text">
-                                <h4 class="li-head">Title of More Content</h4>
-                                <p class="li-sub">Summary of more content</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="inner">
-                            <div class="li-img">
-                                <img src="../../images/home.jpg" alt="Image Alt Text" />
-                            </div>
-                            <div class="li-text">
-                                <h4 class="li-head">Title of Content</h4>
-                                <p class="li-sub">Summary of content</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="inner">
-                            <div class="li-img">
-                                <img src="../../images/home.jpg" alt="Image Alt Text" />
-                            </div>
-                            <div class="li-text">
-                                <h4 class="li-head">Title of More Content</h4>
-                                <p class="li-sub">Summary of more content</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="inner">
-                            <div class="li-img">
-                                <img src="../../images/home.jpg" alt="Image Alt Text" />
-                            </div>
-                            <div class="li-text">
-                                <h4 class="li-head">Title of More Content</h4>
-                                <p class="li-sub">Summary of more content</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="inner">
-                            <div class="li-img">
-                                <img src="../../images/home.jpg" alt="Image Alt Text" />
-                            </div>
-                            <div class="li-text">
-                                <h4 class="li-head">Title of Content</h4>
-                                <p class="li-sub">Summary of content</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="inner">
-                            <div class="li-img">
-                                <img src="../../images/home.jpg" alt="Image Alt Text" />
-                            </div>
-                            <div class="li-text">
-                                <h4 class="li-head">Title of More Content</h4>
-                                <p class="li-sub">Summary of more content</p>
-                            </div>
-                        </a>
-                    </li>
+            	<ul class="list img-list">
+		            <% if(list.isEmpty()){ System.out.println("아무것도없음");%>
+						
+					<%} else{%>
+						<%for(int i = 0; i < list.size(); i++) { %>
+							<input type = "hidden" value = "<%=((Home)list.get(i)).gethNo()%>">
+							<li>
+		                        <a href="#" class="inner">
+		                            <div class="li-img">
+		                                <img src="<%=request.getContextPath()%>/images/home.jpg" alt = "Image Alt Text" />
+		                            </div>
+		                            <div class="li-text">
+		                                <h4 class="li-head"><%=((Home)list.get(i)).getTitle() %></h4>
+		                                <p class="li-sub"><%=((Home)list.get(i)).getContent() %></p>
+		                            </div>
+		                        </a>
+	                    	</li>
+						<%} %>
+					<%} %>
                 </ul>
             </div>
 
-            <button id = "page_btn"><</button>
-            <button id = "page_btn">1</button>
-            <button id = "page_btn">2</button>
-            <button id = "page_btn">3</button>
-            <button id = "page_btn">4</button>
-            <button id = "page_btn">5</button>
-            <button id = "page_btn">></button>
+			<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=1%>'"> << </button>
+			<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=currentPage-1%>'"> < </button>
+			<% for(int p = startPage; p <= endPage; p++) {%>
+				<%if(p == currentPage) { %>
+					<button disabled><%=p%></button>
+				<%} else{ %>
+					<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=p%>'"><%=p%></button>
+				<%} %>
+			<%} %>
+			
+			<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=currentPage+1%>'"> > </button>
+			<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=maxPage%>'"> >> </button>
         </div>        
             
         <div id = "footer">
@@ -369,7 +302,24 @@
             $(".search").click(function(){
                 $(".alert").addClass("show");
             })
+            
+            $(function(){
+				$(".home li").click(function(){
+					var hNo = $(this).parent().children("input").val();
+					
+					location.href = "<%=request.getContextPath()%>/detail.ho?hNo=" + hNo;
+					
+					<%-- <% if(loginUser != null) {%>
+						location.href = "<%=request.getContextPath()%>/detail.bo?bid=" + bid;
+					<%} else{%>
+						alert("로그인 해야만 상세보기가 가능합니다.");
+					<%}%> --%>
+				});
+			})
+            
         </script>
+        
+        
         <!-- Bootstrap core JavaScript
             ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<<<<<<< HEAD
 <html>
 <head>
 <meta charset="UTF-8">
@@ -17,7 +16,7 @@
 <!-- Bootstrap CSS -->
 <link rel="icon" href="../../favicon.ico">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link href="../carousel/carousel.css" rel="stylesheet">
+<link href="../../carousel.css" rel="stylesheet">
 <!-- Bootstrap Javascript -->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -153,7 +152,7 @@
 <header>
     <div class="container2">
       <div class="logo">
-        <a class="navbar-brand" href="#"><img src="../../images/semi.png"></img></a>
+        <a class="navbar-brand" href="#"><img src="images/semi.png"></img></a>
       </div>
       <div class="menu">
         <ul class="nav">

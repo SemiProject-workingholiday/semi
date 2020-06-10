@@ -16,8 +16,7 @@ public class JDBCTemplate {
 		Properties prop = new Properties();
 		
 		String fileName = JDBCTemplate.class.getResource("/sql/driver.properties").getPath();
-		
-		System.out.println("Service단에서 Connection 객체 만들 때 : " +fileName);					
+					
 
 		try {
 			prop.load(new FileReader(fileName));
