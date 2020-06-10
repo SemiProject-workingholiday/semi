@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import member.model.service.MemberService;
+import static member.controller.Emailsand.*;
 
 /**
  * Servlet implementation class FindIdServlet
@@ -37,9 +38,11 @@ public class FindIdServlet extends HttpServlet {
 		
 		String userId = new MemberService().findUserId(userName, email);
 		PrintWriter out = response.getWriter();
+		String num="";
 		if(userId != "") {
 //			response.sendRedirect("emailsend.me");
-			out.print("Yes");
+			num=EmailSandMethod(email);
+			out.print(num);
 		}else {
 			out.print("No");
 
