@@ -203,8 +203,8 @@
     </head>
 
     <body>
-    	<%@ include file = "../common/menubar.jsp" %>
-        <div id = "content">
+    	<%@ include file = "../common/menubar.jsp" %> 
+        <div id = "content">.
             <form class = "category">
                 <table class = "home_reservation_category">
                     <tr>
