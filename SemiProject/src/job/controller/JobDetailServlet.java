@@ -1,7 +1,7 @@
-package mypage.controller;
+package job.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.model.service.MemberService;
-import mypage.model.service.MyPageService;
+import job.model.service.JobSearchService;
+import job.model.vo.JobSearch;
 
 /**
- * Servlet implementation class PwdCheckServlet
+ * Servlet implementation class JobDetailServlet
  */
-@WebServlet("/PwdCheckServlet")
-public class PwdCheckServlet extends HttpServlet {
+@WebServlet("/detail.job")
+public class JobDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PwdCheckServlet() {
+    public JobDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,23 +31,29 @@ public class PwdCheckServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			String userPwd = request.getParameter("userPwd");
-			String userId = request.getParameter("userId");	
-		//		System.out.println(userId);
-				
-				int result = new MyPageService().pwdCheck(userPwd,userId);
-				
-				PrintWriter out = response.getWriter();
-				
-				if(result == 0) {
-					out.print("permit");
-				}else {
-					out.print("fail");
-				}
-				
-				out.flush();
-				out.close();
-	}
+	
+			String jobNo = request.getParameter("jobNo");
+			int jobNo2 = Integer.valueOf(jobNo);
+			String userNo = request.getParameter("userNo");
+			int userNo2 = Integer.valueOf(userNo);
+		
+		
+			JobSearch jobsearch = new JobSearchService().selectJobSearch(jobNo2, userNo2);
+			
+	
+			
+			
+			
+			if(jobsearch != null) {
+				request.setAttribute("jobsearch", jobsearch);
+			
+				request.getRequestDispatcher("views/JobSearch/도짱의.jsp").forward(request, response);
+			}
+		}
+		
+		
+		
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

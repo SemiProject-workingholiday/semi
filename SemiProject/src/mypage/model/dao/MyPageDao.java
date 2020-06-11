@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import mypage.model.vo.Member;
 
 public class MyPageDao {
-
+	Member m = new Member();
 	public int deleteMember(Connection conn, String userId) {
 
 		PreparedStatement pstmt = null;
@@ -36,7 +36,7 @@ public class MyPageDao {
 		
 	}
 
-	public int updateName(Connection conn, Member member) {
+	public int updateName(Connection conn, String userName, String userId) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
@@ -44,8 +44,8 @@ public class MyPageDao {
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, member.getUserName());
-			pstmt.setString(2, member.getUserId());
+			pstmt.setString(1, m.getUserName());
+			pstmt.setString(2, m.getUserId());
 			
 			result = pstmt.executeUpdate();
 			
@@ -65,7 +65,7 @@ public class MyPageDao {
 		
 	}
 
-	public int updatePwd(Connection conn, Member member) {
+	public int updatePwd(Connection conn, String userPwd, String userId) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
@@ -73,8 +73,8 @@ public class MyPageDao {
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, member.getUserPwd());
-			pstmt.setString(2, member.getUserId());
+			pstmt.setString(1, m.getUserPwd());
+			pstmt.setString(2, m.getUserId());
 			
 			result = pstmt.executeUpdate();
 			
@@ -92,33 +92,9 @@ public class MyPageDao {
 		
 	}
 
-	public int updatePhone(Connection conn, Member member) {
-		PreparedStatement pstmt = null;
-		int result = 0;
-		
-		String query = "UPDATE MEMBER SET PHONE=? WHERE USER_ID =?";
-		
-		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, member.getPhone());
-			pstmt.setString(2, member.getUserId());
-			
-			result = pstmt.executeUpdate();
-			
-			
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(pstmt);
-		}
-		
-		
-		
-		return result;
-	}
+	
 
-	public int updateEmail(Connection conn, Member member) {
+	public int updateEmail(Connection conn, String email, String userId) {
 		
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -127,8 +103,8 @@ public class MyPageDao {
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, member.getEmail());
-			pstmt.setString(2, member.getUserId());
+			pstmt.setString(1, m.getEmail());
+			pstmt.setString(2, m.getUserId());
 			
 			result = pstmt.executeUpdate();
 			
@@ -175,6 +151,34 @@ public class MyPageDao {
 		return result;
 		
 
+	}
+
+	public int gradeCheck(Connection conn, String userId, String grade) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int result = 0;
+		
+		String query = "SELECT GRADE = ? FROM MEMBER WHERE USERID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, grade);
+			pstmt.setString(2, userId);
+			rs=pstmt.executeQuery();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		
+		
+		return result;
+		
 	}
 
 }

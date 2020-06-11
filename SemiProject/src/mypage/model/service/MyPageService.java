@@ -1,9 +1,7 @@
 package mypage.model.service;
 
-import static common.JDBCTemplate.*;
-
 import java.sql.Connection;
-
+import static common.JDBCTemplate.*;
 import mypage.model.dao.MyPageDao;
 import mypage.model.vo.Member;
 
@@ -34,10 +32,10 @@ public class MyPageService {
 		}
 
 
-		public int updateName(Member member) {
+		public int updateName(String userName, String userId) {
 			Connection conn = getConnection();
 			
-			int result = new MyPageDao().updateName(conn,member);
+			int result = new MyPageDao().updateName(conn,userName, userId);
 			
 			if(result>0) {
 				commit(conn);
@@ -50,10 +48,10 @@ public class MyPageService {
 		}
 
 
-		public int updatePwd(Member member) {
+		public int updatePwd(String userPwd, String userId) {
 			Connection conn = getConnection();
 			
-			int result = new MyPageDao().updatePwd(conn,member);
+			int result = new MyPageDao().updatePwd(conn,userPwd,userId);
 			
 			if(result>0) {
 				commit(conn);
@@ -66,26 +64,11 @@ public class MyPageService {
 		}
 
 
-		public int updatePhone(Member member) {
+		
+		public int updateEmail(String email, String userId) {
 			Connection conn = getConnection();
 			
-			int result = new MyPageDao().updatePhone(conn,member);
-			
-			if(result>0) {
-				commit(conn);
-			}else {
-				rollback(conn);
-			}
-			close(conn);
-			
-			return result;
-		}
-
-
-		public int updateEmail(Member member) {
-			Connection conn = getConnection();
-			
-			int result = new MyPageDao().updateEmail(conn,member);
+			int result = new MyPageDao().updateEmail(conn,email,userId);
 			
 			if(result>0) {
 				commit(conn);
@@ -107,6 +90,20 @@ public class MyPageService {
 			
 			
 			return result;
+		}
+
+
+		public int gradeCheck(String userId, String grade) {
+			Connection conn = getConnection();
+			
+			int result = new MyPageDao().gradeCheck(conn,userId,grade);
+			
+			close(conn);
+			
+			
+			return result;
+			
+		
 		}
 		
 

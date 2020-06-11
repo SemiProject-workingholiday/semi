@@ -6,7 +6,7 @@
 	String userId = member.getUserId();
     String userName = member.getUserName();
     String userPwd = member.getUserPwd();
-    String phone = member.getPhone() != null ? member.getPhone() : "";
+
     String email = member.getEmail() != null ? member.getEmail() : "";
  %>   
 <!DOCTYPE html>
@@ -192,7 +192,7 @@
 
 <body>
 
- <%@ include file="/views/common/menubar.jsp" %>
+ <%@ include file="/views/common/menubar.jsp"%>
 
 
 
@@ -237,7 +237,7 @@
           <h2 class="mb-0">이름</h2><br>
           <div class="mb-1 text-muted" style="font-size:20px;">사용자가 홈페이지에서 이용하게 될 이름입니다.<br> 개명을 하셨거나 이름을 바꾸길 원하시는 경우
             수정바랍니다.</div><br>
-          <label>사용자의 현재 이름 : &nbsp;</label><label id="uName" style="text-align: center; background: lightgray; border: none; font-weight: 700;">ddfdf</label>
+          <label>사용자의 현재 이름 : &nbsp;</label><label id="uName" style="text-align: center; background: lightgray; border: none; font-weight: 700;"><%=userName %></label>
         </div><br>
         <button class="btn1 btn-primary btn-lg" data-toggle="modal" data-target="#myModalName"
           style="width:200px; height: 50px; margin-left: 180px;" id="nameChange">이름 수정하기</button>
@@ -257,19 +257,7 @@
       </div>
     </div>
 
-    <div class="col-md-6">
-      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
-        style="margin-left: 5px;">
-        <div class="col p-4 d-flex flex-column position-static">
-          <h2 class="mb-0">연락처</h2><br>
-          <div class="mb-1 text-muted" style="font-size:20px;">사용자가 페이지를 이용하면서 연락을 받게 될 연락처입니다.</div><br>
-          <label>사용자의 현재 연락처 : &nbsp;</label>
-          <label id="uPhone" style="text-align: center; background: lightgray; border: none; font-weight: 700;"></label>
-        </div><br>
-        <button  class="btn1 btn-primary btn-lg" data-toggle="modal" data-target="#myModalP"
-          style="width:200px; height: 50px; margin-left: 180px;" id="phoneChange">연락처 변경하기</button>
-      </div>
-    </div>
+   
 
     <div class="col-md-6">
       <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
@@ -278,7 +266,9 @@
           <h2 class="mb-0">이메일</h2><br>
           <div class="mb-1 text-muted" style="font-size:20px;">사용자가 페이지를 이용하면서 mail을 받게 될 e-mail입니다.</div><br>
           <label>사용자의 현재 e-mail : &nbsp;</label>
-          <label id="uEmail" style="text-align: center; background: lightgray; border: none; font-weight: 700;"></label>
+          <label id="uEmail" style="text-align: center; background: lightgray; border: none; font-weight: 700;">
+          <%=email %>
+          </label>
         </div><br>
         <button  class="btn1 btn-primary btn-lg" data-toggle="modal" data-target="#myModalE"
           style="width:200px; height: 50px; margin-left: 180px;" id="emailChange">이메일 변경하기</button>
@@ -377,43 +367,9 @@
 
   </div>
 
-  <div class="modal fade" id="myModalP" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-    style=" margin-top: 15%; margin-left: 15%;" action="<%=request.getContextPath()%>/update.me" method="post">
+ 
 
-    <div class="modal-dialog">
-
-      <div class="modal-content" style="height: 10%; width: 70%;">
-
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-              aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">연락처 변경</h4>
-        </div>
-
-        <div class="modal-body">
-          <form>
-            <table>
-              <tr>
-                <td><label>사용할 연락처를 입력해주세요.</label></td>
-              </tr>
-              <tr>
-                  <td><label>변경할 연락처 : </label>
-                  <input type="tel" class="tel" name="Phone" required></td>
-              </tr>
-            </table>
-          </form>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="UpdatePhone">수정</button>
-          <button style="margin-right: 35%;" type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
+     
 
   <div class="modal fade" id="myModalE" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
     style=" margin-top: 15%; margin-left: 15%;" action="<%=request.getContextPath()%>/update.me" method="post">
@@ -578,33 +534,7 @@
  		
  		
  	})
- 	$(function(){
- 		$("#UpdatePhone").click(function(){
- 			var userPhone = $("#joinForm input[name='Phone']");
-			
-			
-			$.ajax({
-				url:"<%=request.getContextPath()%>/update.me",
-				type:"post",
-				data:{phone:userPhone.val()},
-				success:function(data){
-					$uPhone = $("#uPhone");
-					$uPhone.html("");
-					
-					var $label = $("<label>").text(data[key].phone);
-					
-					
-					$uPhone.append($label);
-					
-				},
-				error:function(request,status,error){
-	                   alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	               }
-			});
- 		})
- 		
- 		
- 	})
+ 	
  	
  	$(function(){
  		$("#UpdateEmail").click(function(){

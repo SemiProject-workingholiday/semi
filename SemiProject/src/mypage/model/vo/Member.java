@@ -1,4 +1,4 @@
-package member.model.vo;
+package mypage.model.vo;
 
 import java.sql.Date;
 
@@ -9,7 +9,6 @@ public class Member {
 	private String userPwd;
 	private String userName;
 	private Date userBirth;
-	private String phone;
 	private String email;
 	private int grade;
 	private String sanction;
@@ -24,19 +23,18 @@ public class Member {
 
 
 	
-	public Member(String userId, String userName,String userPwd, String phone, String email) {
+	public Member(String userId, String userName,String userPwd, String email) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
 		this.userPwd = userPwd;
-		this.phone = phone;
 		this.email = email;
 	}
 
 
 
 
-	public Member(int userNo, String userId, String userPwd, String userName, Date userBirth, String phone, String email,
+	public Member(int userNo, String userId, String userPwd, String userName, Date userBirth,String email,
 			int grade, String sanction, String status, String gender) {
 		super();
 		this.userNo = userNo;
@@ -44,7 +42,6 @@ public class Member {
 		this.userPwd = userPwd;
 		this.userName = userName;
 		this.userBirth = userBirth;
-		this.phone = phone;
 		this.email = email;
 		this.grade = grade;
 		this.sanction = sanction;
@@ -102,17 +99,6 @@ public class Member {
 		this.userBirth = userBirth;
 	}
 
-
-	public String getPhone() {
-		return phone;
-	}
-
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-
 	public String getEmail() {
 		return email;
 	}
@@ -166,7 +152,7 @@ public class Member {
 	@Override
 	public String toString() {
 		return "Member [userNo=" + userNo + ", userId=" + userId + ", userPw=" + userPwd + ", userName=" + userName
-				+ ", userBirth=" + userBirth + ", phone=" + phone + ", email=" + email + ", grade=" + grade
+				+ ", userBirth=" + userBirth + ", email=" + email + ", grade=" + grade
 				+ ", sanction=" + sanction + ", status=" + status + ", gender=" + gender + "]";
 	}
 

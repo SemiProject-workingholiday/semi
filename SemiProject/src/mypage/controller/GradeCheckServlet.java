@@ -1,8 +1,6 @@
 package mypage.controller;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,19 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mypage.model.service.MyPageService;
-import mypage.model.vo.Member;
 
 /**
- * Servlet implementation class UpdateMemberServlet
+ * Servlet implementation class GradeCheckServlet
  */
-@WebServlet("/update.me")
-public class UpdateMemberServlet extends HttpServlet {
+@WebServlet("/grade.check")
+public class GradeCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateMemberServlet() {
+    public GradeCheckServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,25 +28,21 @@ public class UpdateMemberServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		
-		
-		String userName = request.getParameter("userName");
-		String email = request.getParameter("email");
-		String userPwd = request.getParameter("userPwd");
-		String userId = request.getParameter("userId");
-		
 	
-		int resultName = new MyPageService().updateName(userName,userId);
-		int resultPwd = new MyPageService().updatePwd(userPwd,userId);
-		int resultEmail = new MyPageService().updateEmail(email,userId);
+		String userId = request.getParameter("userId");
+		String grade = request.getParameter("grade");
 		
-		RequestDispatcher view = null;
-		 if(resultName > 0 || resultPwd > 0 ||  resultEmail > 0) {
-			 view = request.getRequestDispatcher("views/mypage/PIU/personalIU.jsp");
-		 }
-		 
-		 view.forward(request, response);
+		int result = new MyPageService().gradeCheck(userId,grade);
+		if(result == 2) {
+			request.setAttribute(userId,userId );
+			request.setAttribute(grade, grade);
+			request.getRequestDispatcher("views/mypage/PIU/personalIU.jsp").forward(request, response); // 워홀러 마이페이지 개인정보수정으로
+		}else if(result == 3) {
+			request.setAttribute(userId,userId );
+			request.setAttribute(grade, grade);
+			request.getRequestDispatcher("views/mypage/PIU/NpersonalIU.jsp").forward(request, response); // 현지인 마이페이지 개인정보수정으로
+		}
+		
 	}
 
 	/**

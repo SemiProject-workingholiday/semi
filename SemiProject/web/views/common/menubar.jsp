@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="mypage.model.vo.Member"%>
+    <%
+	Member member = (Member)request.getAttribute("member");
+	String userName = member.getUserName();    
+    
+%>
 <!DOCTYPE html>
 
 <html>
@@ -172,16 +177,27 @@
           </li>
         </ul>
     </div>
-    <ul class="login_register" >
-        <li><a href="#">로그인</a></li>
-        <li><a href="#">회원가입</a></li>
-    </ul>
+     <ul class="login_register" >
+          <li><%=userName+"님" %></li>
+          <li><button id="logout">로그아웃</button></li>
+          <li><button id="mypage">마이페이지</button></li>
+        </ul>
     </div>
 </header>
 <script>
 	function goHome(){
 		location.href = "<%=request.getContextPath()%>/list.ho";
 	}
+	$(function(){
+			$("#logout").click(function(){
+				location.href="<%=request.getContextPath()%>/mainpage.jsp";
+			})
+			$("#mypage").click(function(){
+				location.href="<%=request.getContextPath()%>/grade.check;"
+			})
+			
+			
+		})
 </script>
 </body>
 </html>
