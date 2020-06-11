@@ -9,7 +9,6 @@ public class Member {
 	private String userPw;
 	private String userName;
 	private Date userBirth;
-	private String phone;
 	private String email;
 	private int grade;
 	private String sanction;
@@ -31,6 +30,19 @@ public class Member {
 
 
 
+	public Member(String userId, String userPw, String userName, Date userBirth, String email, int grade,
+			String gender) {
+		super();
+		this.userId = userId;
+		this.userPw = userPw;
+		this.userName = userName;
+		this.userBirth = userBirth;
+		this.email = email;
+		this.grade = grade;
+		this.gender = gender;
+	}
+
+
 	public Member(String userId, String userName, String email) {
 		super();
 		this.userId = userId;
@@ -38,8 +50,11 @@ public class Member {
 		this.email = email;
 	}
 
+	
 
-	public Member(int userNo, String userId, String userPw, String userName, Date userBirth, String phone, String email,
+
+
+	public Member(int userNo, String userId, String userPw, String userName, Date userBirth, String email,
 			int grade, String sanction, String status, String gender) {
 		super();
 		this.userNo = userNo;
@@ -47,7 +62,7 @@ public class Member {
 		this.userPw = userPw;
 		this.userName = userName;
 		this.userBirth = userBirth;
-		this.phone = phone;
+		
 		this.email = email;
 		this.grade = grade;
 		this.sanction = sanction;
@@ -106,16 +121,7 @@ public class Member {
 	}
 
 
-	public String getPhone() {
-		return phone;
-	}
-
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-
+	
 	public String getEmail() {
 		return email;
 	}
@@ -169,7 +175,7 @@ public class Member {
 	@Override
 	public String toString() {
 		return "Member [userNo=" + userNo + ", userId=" + userId + ", userPw=" + userPw + ", userName=" + userName
-				+ ", userBirth=" + userBirth + ", phone=" + phone + ", email=" + email + ", grade=" + grade
+				+ ", userBirth=" + userBirth+ ", email=" + email + ", grade=" + grade
 				+ ", sanction=" + sanction + ", status=" + status + ", gender=" + gender + "]";
 	}
 	

@@ -1,7 +1,5 @@
 package member.controller;
 
-import static member.controller.Emailsand.EmailSandMethod;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -10,22 +8,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import member.model.service.MemberService;
-import member.model.vo.Member;
 
 /**
- * Servlet implementation class FindIdServlet
+ * Servlet implementation class IdCheckServlet
  */
-@WebServlet("/findid.me")
-public class FindIdServlet extends HttpServlet {
+@WebServlet("/idcheck.me")
+public class IdCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindIdServlet() {
+    public IdCheckServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,26 +30,18 @@ public class FindIdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		System.out.println("서블릿옴");
+		String userId = request.getParameter("userId");
+		System.out.println(userId);
 		
-		String userName=request.getParameter("userName");
-		String email=request.getParameter("email");
-		
-		String userId = new MemberService().findUserId(userName, email);
-		Member FindUser = new Member(userId,userName,email);
-		
-		HttpSession session = request.getSession();
-		session.setAttribute("FindUser", FindUser);
+		int result = new MemberService().IdCheck(userId);
 		
 		PrintWriter out = response.getWriter();
-		String num="";
-		if(userId != "") {
-			num=EmailSandMethod(email);
-			out.print(num);
+		if(result > 0) {
+			out.print("Y");
 		}else {
-			out.print("No");
-
+			out.print("N");
 		}
+		
 	}
 
 	/**

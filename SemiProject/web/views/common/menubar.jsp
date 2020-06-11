@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<<<<<<< HEAD
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -153,7 +153,7 @@
 <header>
     <div class="container2">
       <div class="logo">
-        <a class="navbar-brand" href="#"><img src="../../images/semi.png"></img></a>
+        <a class="navbar-brand" href="#"><img src="/images/semi.png"></img></a>
       </div>
       <div class="menu">
         <ul class="nav">

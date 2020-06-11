@@ -26,4 +26,33 @@ public class MemberService {
 		return userId;
 	}
 
+	public String findUserPw(String userId, String email) {
+		Connection conn = getConnetion();
+		String userPw = new MemberDao().findUserPw(conn,userId,email);
+		
+		close(conn);
+		return userPw;
+	}
+
+	public int IdCheck(String userId) {
+		Connection conn = getConnetion();
+		
+		int result = new MemberDao().IdCheck(conn, userId);
+		return result;
+	}
+
+	public int InsertMember(Member member) {
+		Connection conn = getConnetion();
+		int result= new MemberDao().InsertMember(conn, member);
+		
+		if(result > 0) {
+			commit(conn);
+		}
+		else {
+			rollback(conn);
+		}
+		
+		return result;
+	}
+
 }

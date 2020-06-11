@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="member.model.vo.Member"%>
- <%
+<%
  	Member FindUser = (Member)session.getAttribute("FindUser");
  	String UserId = FindUser.getUserId();
- 	String UserName = FindUser.getUserName();
+ 	String UserPw = FindUser.getUserName();
  %>
 <!DOCTYPE html>
 <html>
@@ -51,6 +51,7 @@
 	    width: 33%;
 	    cursor:pointer;
 	}
+	
 	#log_btn{
 	    font-weight: 1000; 
 	    font-size: 25px; 
@@ -66,19 +67,20 @@
 </style>
 </head>
 <body>
+
 <div id="warp">
 	<input type="hidden" name="nowView" vlaue="findId">
 	<img id="logoimg" src="<%=request.getContextPath()%>/images/logo2.png" onclick="location.href='main.jsp'">
 		<br>
 	
 	<div class="center_div">
-		<p style=" font-weight: 1000; font-size: 25px; color:rgb(127,127,127); margin:10px ">아이디 찾기
+		<p style=" font-weight: 1000; font-size: 25px; color:rgb(127,127,127); margin:10px ">비밀번호 찾기
 		<div class="center_div" style="border-top:2px solid rgb(202,202,202); padding: 10px; width:470px;">	</div>
 		
 		<div class="center_div" style="width: 460px; height: 180px; border:1px solid rgb(51,51,51); border-radius:16px; ">
 			<br><br>
-			<p><%=UserName %>님의 아이디는<br>			
-			<div style="font-size:33px; color:black; font-weight:1000;"><%=UserId %></div><p> 입니다.</p>
+			<p><%=UserId %>님의 비밀번호는<br>			
+			<div style="font-size:33px; color:black; font-weight:1000;"><%=UserPw %></div><p> 입니다.</p>
 		</div>
 		<br><br>
 		<button id="log_btn"  onclick="FindidFinish();">확인 완료</button>
@@ -93,7 +95,7 @@
 	<br><br>
 	<script>
 		function FindidFinish(){
-			location.href="<%=request.getContextPath()%>/sessionclear.me?nowView=N1";
+			location.href="<%=request.getContextPath()%>/sessionclear.me?nowView=N2";
 		}
 	</script>
 </body>

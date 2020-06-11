@@ -16,16 +16,16 @@ import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class FindIdServlet
+ * Servlet implementation class FindPwServlet
  */
-@WebServlet("/findid.me")
-public class FindIdServlet extends HttpServlet {
+@WebServlet("/findpw.me")
+public class FindPwServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindIdServlet() {
+    public FindPwServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,20 +34,19 @@ public class FindIdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		System.out.println("서블릿옴");
-		
-		String userName=request.getParameter("userName");
+		System.out.println("패스워드 찾기 서블릿 옴");
+		String userId=request.getParameter("userId");
 		String email=request.getParameter("email");
 		
-		String userId = new MemberService().findUserId(userName, email);
-		Member FindUser = new Member(userId,userName,email);
+		String userPw = new MemberService().findUserPw(userId, email);
+		Member FindUser = new Member(userId,userPw,email);
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("FindUser", FindUser);
 		
 		PrintWriter out = response.getWriter();
 		String num="";
-		if(userId != "") {
+		if(userPw != "") {
 			num=EmailSandMethod(email);
 			out.print(num);
 		}else {

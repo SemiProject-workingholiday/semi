@@ -31,7 +31,6 @@ public class MemberDao {
 									   rs.getString("userpw"),
 									   rs.getString("USERNAME"),
 									   rs.getDate("USERBIRTH"),
-									   rs.getString("PHONE"),
 									   rs.getString("EMAIL"),
 									   rs.getInt("grade"),
 									   rs.getString("SANCTION"),
@@ -84,4 +83,102 @@ public class MemberDao {
 		return userId;
 	}
 
+	public String findUserPw(Connection conn, String userId, String email) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String userPw="";
+		String query="SELECT USERPW FROM MEMBER WHERE USERiD=? AND EMAIL=? AND STATUS='N'";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, userId);
+			pstmt.setString(2, email);
+			
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				userPw=rs.getString("userpw");
+			}
+//			System.out.println(userId);
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		
+		return userPw;
+	}
+
+	public int IdCheck(Connection conn, String userId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		String query = "SELECT USERID FROM MEMBER WHERE USERID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userId);
+			
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result=1;
+			}
+			System.out.println(result);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		
+		
+		return result;
+	}
+
+	public int InsertMember(Connection conn, Member member) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query="INSERT INTO MEMBER VALUES(MEM_NO.NEXTVAL,?,?,?,?,?,?,DEFAULT,DEFAULT,?)";
+//		'eunjin2','c1234','권으','970520','flwkdf@skdf.com',2,DEFAULT,DEFAULT,'F'
+		try {
+			pstmt= conn.prepareStatement(query);
+			pstmt.setString(1, member.getUserId());
+			pstmt.setString(2, member.getUserPw());
+			pstmt.setString(3, member.getUserName());
+			pstmt.setDate(4, member.getUserBirth());
+			pstmt.setString(5, member.getEmail());
+			pstmt.setInt(6, member.getGrade());
+			pstmt.setString(7, member.getGender());
+			
+			result=pstmt.executeUpdate();
+//			System.out.println(result);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

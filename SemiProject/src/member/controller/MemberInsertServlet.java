@@ -1,31 +1,30 @@
 package member.controller;
 
-import static member.controller.Emailsand.EmailSandMethod;
-
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class FindIdServlet
+ * Servlet implementation class MemberInsertServlet
  */
-@WebServlet("/findid.me")
-public class FindIdServlet extends HttpServlet {
+@WebServlet("/insert.me")
+public class MemberInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindIdServlet() {
+    public MemberInsertServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,25 +33,28 @@ public class FindIdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		System.out.println("서블릿옴");
+		String userId = request.getParameter("userId");
+		String userPw = request.getParameter("userPw");
+		String userName = request.getParameter("userName");
+		java.util.Date d = null;
+		try {
+			d = new SimpleDateFormat("yyMMdd").parse(request.getParameter("birth"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Date userBrith = new Date(d.getTime());
+		String email = request.getParameter("email");
+		int grade = Integer.valueOf( request.getParameter("grade"));
+		String gender = request.getParameter("gender");
 		
-		String userName=request.getParameter("userName");
-		String email=request.getParameter("email");
+		Member member = new Member(userId,userPw, userName,userBrith,  email, grade, gender);
 		
-		String userId = new MemberService().findUserId(userName, email);
-		Member FindUser = new Member(userId,userName,email);
-		
-		HttpSession session = request.getSession();
-		session.setAttribute("FindUser", FindUser);
-		
-		PrintWriter out = response.getWriter();
-		String num="";
-		if(userId != "") {
-			num=EmailSandMethod(email);
-			out.print(num);
+		int result = new MemberService().InsertMember(member);
+		if(result > 0) {
+			System.out.println("회원가입 성공");
 		}else {
-			out.print("No");
-
+			System.out.println("회원가입 실패");
 		}
 	}
 
