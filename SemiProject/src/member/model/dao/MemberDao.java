@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import static common.JDBCTemplate.*;
 
 import member.model.vo.Member;
@@ -168,6 +170,81 @@ public class MemberDao {
 		
 		return result;
 	}
+
+	public ArrayList<Member> SelectAllMember(Connection conn, int limit, int currentPage) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Member member = null;
+		ArrayList<Member> list = new ArrayList<>();
+		int startRow = 1+(currentPage-1)*limit;
+		int endRow = currentPage*limit;
+		
+		
+		
+		  String query ="SELECT * FROM (SELECT ROWNUM RNUM, M.* FROM MEMBER M WHERE GRADE = 2 ORDER BY USERNO DESC) WHERE RNUM BETWEEN ? AND ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+		
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				member = new Member(
+										   rs.getInt(1),
+										   rs.getInt("userno"),
+										   rs.getString("userid"),
+										   rs.getString("userpw"),
+										   rs.getString("USERNAME"),
+										   rs.getDate("USERBIRTH"),
+										   rs.getString("EMAIL"),
+										   rs.getInt("grade"),
+										   rs.getString("SANCTION"),
+										   rs.getString("STATUS"),
+										   rs.getString("GENDER"));
+				list.add(member);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return list;
+	}
+
+	public int SelectListCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int listCount = 0;
+		String query="SELECT COUNT(*) FROM MEMBER WHERE GRADE=2";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				listCount = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		
+		return listCount;
+	}
+
 
 	
 	

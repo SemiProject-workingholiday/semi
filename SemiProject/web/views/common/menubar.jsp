@@ -26,7 +26,7 @@
 <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 <style>
    header{
-      width: 100%;
+      width: 1400px;
       font-family: 'Noto Sans KR', sans-serif;
       color: black;
       text-align: center;
@@ -153,7 +153,7 @@
 <header>
     <div class="container2">
       <div class="logo">
-        <a class="navbar-brand" href="#"><img src="/images/semi.png"></img></a>
+        <a class="navbar-brand" href="#"><img src="<%=request.getContextPath()%>/images/semi.png"></img></a>
       </div>
       <div class="menu">
         <ul class="nav">

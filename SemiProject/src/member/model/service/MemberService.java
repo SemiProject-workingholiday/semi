@@ -5,6 +5,7 @@ import member.model.vo.Member;
 import static common.JDBCTemplate.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 public class MemberService {
 
@@ -54,5 +55,24 @@ public class MemberService {
 		
 		return result;
 	}
+
+	public ArrayList<Member> SelectAllMember(int limit, int currentPage) {
+		Connection conn = getConnetion();
+	
+		ArrayList<Member> list =  new MemberDao().SelectAllMember(conn,limit, currentPage);
+		
+		close(conn);
+		return list;
+	}
+
+	public int SelectListCount() {
+		Connection conn = getConnetion();
+		int listCount = new MemberDao().SelectListCount(conn);		
+		
+		close(conn);
+		
+		return listCount;
+	}
+
 
 }
