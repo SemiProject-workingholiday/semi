@@ -16,13 +16,13 @@
 <!-- Bootstrap CSS -->
 <link rel="icon" href="../../favicon.ico">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link href="../../carousel.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/carousel.css" rel="stylesheet">
 <!-- Bootstrap Javascript -->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <!-- <script src="http://googledrive.com/host/0B-QKv6rUoIcGeHd6VV9JczlHUjg"></script> -->
 
-<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+<script src="<%=request.getContextPath()%>/assets/js/ie-emulation-modes-warning.js"></script>
 <style>
    header{
       width: 100%;
@@ -94,7 +94,7 @@
       position: absolute;
       opacity: 1;
       display: block;
-      margin-top: 4.5%;
+      margin-top: 4%;
       height: 3em;
       text-align: center;
       background: #ADD4D9;
@@ -152,7 +152,7 @@
 <header>
     <div class="container2">
       <div class="logo">
-        <a class="navbar-brand" href="#"><img src="images/semi.png"></img></a>
+        <a class="navbar-brand" href="#"><img src="<%=request.getContextPath()%>/images/semi.png"></img></a>
       </div>
       <div class="menu">
         <ul class="nav">

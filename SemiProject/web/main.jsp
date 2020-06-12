@@ -13,20 +13,20 @@
     <title>Delivery Management System</title>
 
     <!-- Bootstrap CSS -->
-    <link rel="icon" href="images/favicon.ico">
+    <link rel="icon" href="../../favicon.ico">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link href="carousel.css" rel="stylesheet">
+    <link href="<%=request.getContextPath()%>/carousel.css" rel="stylesheet">
     <!-- Bootstrap Javascript -->
     
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="http://googledrive.com/host/0B-QKv6rUoIcGeHd6VV9JczlHUjg"></script>
 
-    <script src="assets/js/ie-emulation-modes-warning.js"></script>
+    <script src="<%=request.getContextPath()%>/assets/js/ie-emulation-modes-warning.js"></script>
 
     <!-- Custom styles for this template -->
     <style>
-        #nation {
+         #nation {
             border: 0.5px solid rgb(176, 171, 171);
             border-top-left-radius: 0.5em;
             border-top-right-radius: 0.5em;
@@ -101,7 +101,7 @@
         }
 
         #information{
-            width: 75%;
+            width: 70%;
             margin: 0 auto;
         }
 
@@ -111,7 +111,6 @@
 
         .container a{
             color: black;
-        }
 
     </style>
   </head>
@@ -286,14 +285,15 @@
       <p class="pull-right"><a href="#">Back to top</a></p>
       <p>&copy; 2017 Delivery Management System &middot; <a href="#">Privacy</a></p>
     </div>
-      <script>
-          $('.carousel').carousel({ interval: 2000 });
-        </script>
+    
+    <script>
+    	$('.carousel').carousel({ interval: 2000 });
+    </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="assets/js/docs.min.js"></script>
+    <script src="<%=request.getContextPath()%>/assets/js/docs.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="<%=request.getContextPath()%>/assets/js/ie10-viewport-bug-workaround.js"></script>
     <!-- <script src="vendor/holder.js"></script> -->
   </body>
 </html>

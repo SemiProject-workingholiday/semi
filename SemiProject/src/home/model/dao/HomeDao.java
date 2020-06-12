@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import home.model.vo.Home;
+import home.model.vo.Img;
+import oracle.security.o3logon.b;
 
 public class HomeDao {
 
@@ -42,7 +44,7 @@ public class HomeDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String query = "SELECT COUNT(*) FROM HOME WHERE PERIOD = ? AND COUNTRYNO = ? AND TYPE = ?;";
+		String query = "SELECT COUNT(*) FROM HOME WHERE PERIOD = ? AND COUNTRYNO = ? AND TYPE = ?";
 		
 		int result = 0;
 		
@@ -112,6 +114,36 @@ public class HomeDao {
 		
 		return list;
 	}
+	
+	public ArrayList selectFList(Connection conn, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Img at = null;
+		ArrayList list = new ArrayList();
+		
+		// 대표 이미지  SELECT 쿼리
+		String query = "SELECT * FROM HOMEPHOTO WHERE FILE_LEVEL = 0";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				at = new Img(rs.getInt("imgno"),
+							rs.getInt("houseno"),
+							rs.getString("img"),
+							rs.getInt("file_level")
+							);
+				list.add(at);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return list;
+	}
 
 	public ArrayList selectList2(Connection conn, int currentPage, int limit, String country, String home,
 			String period) {
@@ -151,6 +183,50 @@ public class HomeDao {
 			
 				
 				list.add(h);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList selectFList2(Connection conn, int currentPage, int limit, String country, String home,
+			String period) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Img at = null;
+		ArrayList list = new ArrayList();
+		
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
+		
+		// 대표 이미지  SELECT 쿼리
+		String query = "SELECT IMGNO, IMG, FILE_LEVEL, P.HOUSENO\r\n" + 
+				"FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE PERIOD = ? AND COUNTRYNO = ? AND TYPE = ? ORDER BY HOUSENO DESC) H\r\n" + 
+				"JOIN HOMEPHOTO P ON(H.HOUSENO = P.HOUSENO)\r\n" + 
+				"WHERE FILE_LEVEL = 0 AND RNUM BETWEEN ? AND ?";
+		
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, period);
+			pstmt.setInt(2, Integer.valueOf(country));
+			pstmt.setString(3, home);
+			pstmt.setInt(4, startRow);
+			pstmt.setInt(5, endRow);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				at = new Img(rs.getInt("imgno"),
+							rs.getInt("houseno"),
+							rs.getString("img"),
+							rs.getInt("file_level")
+							);
+				list.add(at);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -206,9 +282,127 @@ public class HomeDao {
 		
 		return home;
 	}
+	
+	public ArrayList selectImgList(Connection conn, int hNo2) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Img at = null;
+		ArrayList list = new ArrayList();
+		
+		String query = "SELECT IMGNO, HOUSENO, IMG, FILE_LEVEL FROM HOMEPHOTO WHERE HOUSENO = ?";
+		
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, hNo2);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				at = new Img(rs.getInt("imgno"),
+							rs.getInt("houseno"),
+							rs.getString("img"),
+							rs.getInt("file_level")
+							);
+				list.add(at);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return list;
+	}
+
+	public int insertHomeImg(Connection conn, ArrayList<Img> fileList) {
+		PreparedStatement pstmt = null;
+		
+		int result = 0;
+		
+		String query = "INSERT INTO HOMEPHOTO VALUES(SEQ_HOMEIMG.NEXTVAL,SEQ_HOME.CURRVAL,?,?)";
+		
+		try {
+			for(int i = 0; i < fileList.size(); i++) {
+				Img at = fileList.get(i);
+			
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, at.getImg());
+				pstmt.setInt(2, at.getFileLevel());
+				
+				result += pstmt.executeUpdate();
+				
+			} 
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertHome(Connection conn, Home h) {
+		PreparedStatement pstmt = null;
+		
+		int result = 0;
+		
+		String query = "INSERT INTO HOME VALUES (SEQ_HOME.NEXTVAL,?,?,?,?,?,DEFAULT,?,DEFAULT,?,?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, h.getType());
+			pstmt.setString(2, h.getPeriod());
+			pstmt.setInt(3, h.getFee());
+			pstmt.setString(4, h.getTitle());
+			pstmt.setString(5, h.getContent());
+			pstmt.setString(6, h.getAddress());
+			pstmt.setInt(7, h.getCountryNo());
+			pstmt.setInt(8, h.getWriterNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertHomeEtc(Connection conn, Home h) {
+		PreparedStatement pstmt = null;
+		
+		int result = 0;
+		
+		String query = "INSERT INTO HOMEETC VALUES (SEQ_HOME.CURRVAL,?,?,?,?,?,?,?,?,?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			
+			pstmt.setString(1, h.getEssentialitem());
+			pstmt.setString(2, h.getWifi());
+			pstmt.setString(3, h.getTelevision());
+			pstmt.setString(4, h.getHeater());
+			pstmt.setString(5, h.getAirconditional());
+			pstmt.setString(6, h.getLivingroom());
+			pstmt.setString(7, h.getDiningroom());
+			pstmt.setString(8, h.getBathroom());
+			pstmt.setString(9, h.getPet());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 
 	
 
+	
 
 
 }

@@ -1,13 +1,6 @@
-<<<<<<< HEAD
-/common/
-=======
->>>>>>> refs/remotes/origin/master
 /community/
-/home/
 /job/
-/mypage/
-<<<<<<< HEAD
-/sql/
-=======
 /member/
->>>>>>> refs/remotes/origin/master
+/mypage/
+/home/
+/common/

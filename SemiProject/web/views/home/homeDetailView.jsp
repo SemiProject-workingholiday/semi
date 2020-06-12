@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import = "home.model.vo.Home"%>
+    pageEncoding="UTF-8" import = "home.model.vo.*, java.util.ArrayList"%>
 <%
 	Home home = (Home)request.getAttribute("home");
 	String period = home.getPeriod();
@@ -12,6 +12,8 @@
 	String diningroom = home.getDiningroom();
 	String bathroom = home.getBathroom();
 	String pet = home.getPet();
+	
+	ArrayList<Img> flist = (ArrayList<Img>)request.getAttribute("flist");
 	
 %>
 <!DOCTYPE html>
@@ -81,7 +83,7 @@
 	        height: 1.3em;
 	      }
 	      
-	      #check{
+	      #registerReview{
 	        width: 100%;
 	        height: 2.5em;
 	        background:gray;
@@ -124,18 +126,36 @@
 	        width: 100%;
 	      }
 	      
+	      .starRev{
+	        width: 110%;
+	      }
+	
+	      .starR{
+	        background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
+	        background-size: auto 70%;
+	        width: 20px;
+	        height: 30px;
+	        display: inline-block;
+	        text-indent: -9999px;
+	        cursor: pointer;
+	      }
+	
+	      .starR.on{background-position:0 0;}
     </style>
   </head>
   <body>
     <%@ include file = "../common/menubar.jsp" %>
     <div id ="contents">
-      <div id = "photo">
-        <div class = "item1" style = "background-color: red;"><img src = "<%=request.getContextPath()%>/images/home.jpg"></div>
-        <div class = "item2" style = "background-color: blue;"><img src = "<%=request.getContextPath()%>/images/home.jpg"></div>
-        <div class = "item3" style = "background-color: yellow;"><img src = "<%=request.getContextPath()%>/images/home.jpg"></div>
-        <div class = "item4" style = "background-color: yellowgreen;"><img src = "<%=request.getContextPath()%>/images/home.jpg"></div>
-        <div class = "item5" style = "background-color: purple;"><img src = "<%=request.getContextPath()%>/images/home.jpg"></div>
-      </div>
+		<div id = "photo">
+	      <% if(flist.isEmpty()){ System.out.println("아무것도없음");%>
+							
+			<%} else{%>
+				<%for(int i = 0; i < flist.size(); i++) { 
+					Img a = flist.get(i);%>
+				        <div class = "item<%=i%>" style = "background-color: red;"><img src = "<%=request.getContextPath() %>/home_uploadFiles/<%=a.getImg()%>"></div>
+				<%} %>
+			<%} %>
+		</div>
 
       <div id = "detail_content">
         <div id = "top">
@@ -246,16 +266,30 @@
                 <%} %>
                 
             </tr>
-            <tr>
-                <td rowspan="3"><b>후기</b></td>
-                <td colspan="2">
-                    <textarea cols="70" name="detail" rows="5" style="resize: none;"></textarea>
-                </td>
-            </tr>
-            <tr>
-              <td><input type = "file" multiple = "multiple" name = "photo"></td>
-              <td  width="100px"><input type = "submit" id = "check" value = "확인"></td>
-            </tr>
+            <form id = "reviewRegister" enctype="multipart/form-data" method = "post">
+	            <tr>
+	                <td rowspan="2"><b>후기</b></td>
+	                <td colspan="4">
+	                    <textarea cols="70" name="reviewContent" rows="5" style="resize: none;"></textarea>
+	                </td>
+	            </tr>
+	            <tr>
+	              <td>
+	                <div class="starRev">
+	                  <span class="starR on">별1</span>
+	                  <span class="starR">별2</span>
+	                  <span class="starR">별3</span>
+	                  <span class="starR">별4</span>
+	                  <span class="starR">별5</span>
+	                </div>
+	              </td>          
+	              <td width = "250px">
+	                <input type = "file" multiple = "multiple" name = "photo" id = "reviewPhoto">
+	              </td>
+	                  
+	              <td width = "120px"> <input type = "submit" id = "registerReview" onclick = "registerReview()" value = "확인"> </td>
+            	</tr>
+            </form>
           </table>
           <div id = "review">
             <img src = "<%=request.getContextPath()%>/images/profile.png" style = "width: 40px; height: 40px;">
@@ -263,17 +297,17 @@
             <span><small>2020.05.29</small></span>
             <pre style = "background: none; border: none; margin-left: -60px;">
               <img src = "<%=request.getContextPath()%>/images/homes.jpg" style="width: 70px; height: 70px;">
-              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
-              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
-              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바
+		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
+		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
+		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바
             </pre>
             <img src = "<%=request.getContextPath()%>/images/profile.png" style = "width: 40px; height: 40px;">
             <span><b>홍길동</b></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span><small>2020.05.29</small></span>
             <pre style = "background: none; border: none; margin-left: -60px;">
-              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
-              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
-              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바
+		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
+		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
+		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바
             </pre>
           </div>
         </div>
@@ -314,6 +348,15 @@
             $("#totalPrice").text("₩ " + num * 190000)
           });
       });
+        
+      $('.starRev span').click(function(){
+         $(this).parent().children('span').removeClass('on');
+         $(this).addClass('on').prevAll('span').addClass('on');
+
+         console.log($('.on').length);
+
+         return false;
+      });
 
       $(function() {
         var offset = $("#reservation").offset();
@@ -330,6 +373,31 @@
           };
         });
       });
+      
+      $(function(){
+    	  var fileTarget = $('#reviewPhoto');
+    	  var file = "";
+    	  var filename = "";
+
+		  fileTarget.on('change', function(){  // 값이 변경되면
+			if(window.FileReader){  // modern browser
+				filename = $(this)[0].files[0].name;
+				file = filename;
+			} 
+			else {  // old IE
+				filename = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
+				file = filename;
+			}
+
+			// 추출한 파일명 삽입
+		});
+			console.log(file);
+      })
+      
+      
+      
+     
+			
 
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

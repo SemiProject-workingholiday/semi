@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import home.model.service.HomeService;
 import home.model.vo.Home;
+import home.model.vo.Img;
 
 /**
  * Servlet implementation class HomeDetailServlet
@@ -37,6 +38,7 @@ public class HomeDetailServlet extends HttpServlet {
 		
 
 		Home home = new HomeService().selectHome(hNo2);
+		ArrayList<Img> flist = new HomeService().selectImgList(hNo2);
 		
 //		System.out.println("내가 누른 게시글 정보 : " + board);
 		
@@ -47,6 +49,7 @@ public class HomeDetailServlet extends HttpServlet {
 		
 		if(home != null) {
 			request.setAttribute("home", home);
+			request.setAttribute("flist", flist);
 //			request.setAttribute("rlist", rlist);
 			request.getRequestDispatcher("views/home/homeDetailView.jsp").forward(request, response);
 		} else {

@@ -2,7 +2,8 @@
     pageEncoding="UTF-8" import="home.model.vo.*, java.util.ArrayList"%>
 <%
 	Pagination pn = (Pagination)request.getAttribute("pn");
-	ArrayList list = (ArrayList)request.getAttribute("list");
+	ArrayList<Home> list = (ArrayList<Home>)request.getAttribute("list");
+	ArrayList<Img> flist = (ArrayList<Img>)request.getAttribute("flist");
 	
 	int listCount = pn.getListCount();
 	int currentPage = pn.getCurrentPage();
@@ -140,13 +141,13 @@
             .li-img {
                 display: table-cell;
                 vertical-align: middle;
-                width: 40%;
+                width: 45%;
                 padding-right: 1em;
             }
             .li-img img {
                 display: block;
-                width: 100%;
-                height: auto;
+                width : 100%;
+                height : 150px; 
             }
             .li-text {
                 display: table-cell;
@@ -202,13 +203,24 @@
             .show{
                 display: inline;
             }
+            
+            #register_btn{
+                width: 8%;
+                line-height: 2.5em;
+                background: rgb(113, 177, 197);
+                border: none;
+                color: white;
+                font-size: 1em;
+                margin-right:-73%;
+                margin-top:1%;
+            }
 
             #page_btn{
                 border: none;
                 padding: 0.5%;
             }
-
-            
+			
+			
         </style>
     </head>
 
@@ -260,36 +272,46 @@
 		            <% if(list.isEmpty()){ System.out.println("아무것도없음");%>
 						
 					<%} else{%>
-						<%for(int i = 0; i < list.size(); i++) { %>
-							<input type = "hidden" value = "<%=((Home)list.get(i)).gethNo()%>">
+						<%for(int i = 0; i < list.size(); i++) { 
+							Home h = list.get(i);%>
+							<input type = "hidden" value = "<%=(list.get(i)).gethNo()%>">
 							<li>
 		                        <a href="#" class="inner">
 		                            <div class="li-img">
-		                                <img src="<%=request.getContextPath()%>/images/home.jpg" alt = "Image Alt Text" />
+										<%for(int j = 0; j < flist.size(); j++) {
+											Img a = flist.get(j);%>
+				                            	<%if(h.gethNo() == a.getHouseNo()) { %> <!-- 한 게시글의 대표 이미지  -->
+													<img src = "<%=request.getContextPath() %>/home_uploadFiles/<%=a.getImg()%>" width = "200px" height = "150px" alt = "Image Alt Text" >
+												<%} %>
+										<%} %>
 		                            </div>
 		                            <div class="li-text">
-		                                <h4 class="li-head"><%=((Home)list.get(i)).getTitle() %></h4>
-		                                <p class="li-sub"><%=((Home)list.get(i)).getContent() %></p>
+		                                <h4 class="li-head"><%=(list.get(i)).getTitle() %></h4>
+		                                <p class="li-sub"><%=(list.get(i)).getContent() %></p>
 		                            </div>
 		                        </a>
-	                    	</li>
+                    		</li>
 						<%} %>
 					<%} %>
                 </ul>
             </div>
-
-			<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=1%>'"> << </button>
-			<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=currentPage-1%>'"> < </button>
-			<% for(int p = startPage; p <= endPage; p++) {%>
-				<%if(p == currentPage) { %>
-					<button disabled><%=p%></button>
-				<%} else{ %>
-					<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=p%>'"><%=p%></button>
+            
+            <button id = "register_btn" onclick = "registerHome();">등록하기</button>
+            
+            <div id = "page_btn">
+            	<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=1%>'"> << </button>
+				<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=currentPage-1%>'"> < </button>
+				<% for(int p = startPage; p <= endPage; p++) {%>
+					<%if(p == currentPage) { %>
+						<button disabled><%=p%></button>
+					<%} else{ %>
+						<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=p%>'"><%=p%></button>
+					<%} %>
 				<%} %>
-			<%} %>
 			
-			<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=currentPage+1%>'"> > </button>
-			<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=maxPage%>'"> >> </button>
+				<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=currentPage+1%>'"> > </button>
+				<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=maxPage%>'"> >> </button>
+            </div>
         </div>        
             
         <div id = "footer">
@@ -301,7 +323,7 @@
         <script>
             $(".search").click(function(){
                 $(".alert").addClass("show");
-            })
+            });
             
             $(function(){
 				$(".home li").click(function(){
@@ -315,7 +337,11 @@
 						alert("로그인 해야만 상세보기가 가능합니다.");
 					<%}%> --%>
 				});
-			})
+			});
+            
+            function registerHome(){
+            	location.href = 'views/home/homeInsertForm.jsp';
+            }
             
         </script>
         

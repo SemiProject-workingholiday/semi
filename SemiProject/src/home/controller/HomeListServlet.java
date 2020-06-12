@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import home.model.service.HomeService;
 import home.model.vo.Home;
+import home.model.vo.Img;
 import home.model.vo.Pagination;
 
 /**
@@ -59,9 +60,11 @@ public class HomeListServlet extends HttpServlet {
 		
 		
 		ArrayList<Home> list = new ArrayList<Home>();
+		ArrayList<Img> flist = new ArrayList<Img>();
 		
 		if(country == null && home == null && period == null) {			
 			 list = hService.selectList(currentPage, limit);
+			 flist = hService.selectImgList(currentPage, limit);
 			 listCount = hService.getListCount();
 			 
 			 maxPage = (int)((double)listCount/limit + 1);
@@ -74,6 +77,7 @@ public class HomeListServlet extends HttpServlet {
 				
 		} else {
 			list = hService.selectList2(currentPage, limit, country, home, period);
+			flist = hService.selectImgList2(currentPage, limit, country, home, period);
 			listCount = hService.getListCount2(country, home, period);
 			
 			maxPage = (int)((double)listCount/limit + 1);
@@ -92,6 +96,7 @@ public class HomeListServlet extends HttpServlet {
 		if(list != null) {
 			view = request.getRequestDispatcher("views/home/homeListView.jsp");
 			request.setAttribute("list", list);
+			request.setAttribute("flist", flist);
 			request.setAttribute("pn", pn);
 		} else {
 			System.out.println("게시글 조회 실패");
