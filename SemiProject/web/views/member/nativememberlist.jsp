@@ -16,6 +16,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
   #warp{
         width: 1200px;
@@ -47,22 +48,45 @@
     	height:800px;
     	padding:120px 0 0 80px;
     }
-    #memberTb{
-    	width: 980px;
-    }
     #memberTb th{
     	text-align: center;
     	font-size: 16px;
     	height: 30px;
+     	
     }
      #memberTb td{
      	height: 45px;
+     	
      }
+    #memberTb{
+    	width: 980px;
+    	
+    }
     .pageingBtn button{
     	width: 40px;
     	height: 40px;
     }
-    
+    #modal-tb{
+	width: 350px;
+	margin-left:auto;
+	margin-right: auto;
+	
+	}
+	#modal-tb th{
+	width:80px;
+		text-align: right;
+		font-size:15px;
+		padding:3px 5px 3px 3px;
+		border-bottom: 1px solid gray;
+		
+	}
+	#modal-tb td{
+		padding-left: 5px;
+		font-size:15px;
+		padding:5px;
+		text-align: left;
+		border-bottom: 1px solid gray;
+	}
 </style>
 </head>
 <body>
@@ -73,8 +97,8 @@
 			<p class="font_style">회원 관리
 			<div style="height: 50px;"></div>
 			<ul>
-			<li><div onclick="location.href='<%=request.getContextPath()%>/selectallmember.me?grade=2'">워홀러 회원조회</div></li>
-			<li><div onclick="location.href='<%=request.getContextPath()%>/selectallmember.me?grade=3'">현지인 회원조회</div></li>
+			<li><div onclick="location.href='<%=request.getContextPath()%>/wselectallmember.me'">워홀러 회원조회</div></li>
+			<li><div onclick="location.href='<%=request.getContextPath()%>/nselectallmember.me'">현지인 회원조회</div></li>
 			<li>신고내역</li>
 			</ul>
 		</div>
@@ -101,7 +125,7 @@
 				   String sanction = ((Member)list.get(i)).getSanction();
 				   String status = ((Member)list.get(i)).getStatus();
 					   %>
-					   		<tr id="s1">
+					   		<tr id="tb_tr<%=i %>"  >
 							<td><%=((Member)list.get(i)).getTableNo()%></td>
 					   <%if(sanction.equals("N") && status.equals("N")){ %>
 	
@@ -111,8 +135,8 @@
 							<td><%=((Member)list.get(i)).getUserName()%></td>
 							<td><%=((Member)list.get(i)).getUserBirth()%></td>
 							<td><%=((Member)list.get(i)).getGender()%></td>
-							<td><button>제재하기</button></td>
-							<td><p style="margin:0;"> </p>
+							<td><button type="button" onclick="trClick('tb_tr<%=i%>');">제재하기</button></td>
+							<td><p style="margin:0;"></p>
 					   <%} else if(sanction.equals("Y")){%>
 					   		<td style="color:rgb(223,102,102);"><%=((Member)list.get(i)).getUserNo()%></td>
 							<td style="color:rgb(223,102,102);"><%=((Member)list.get(i)).getUserId()%></td>
@@ -120,7 +144,7 @@
 							<td style="color:rgb(223,102,102);"><%=((Member)list.get(i)).getUserName()%></td>
 							<td style="color:rgb(223,102,102);"><%=((Member)list.get(i)).getUserBirth()%></td>
 							<td style="color:rgb(223,102,102);"><%=((Member)list.get(i)).getGender()%></td>
-							<td style="color:rgb(223,102,102);"><p id="gr" style="margin:0;">사용불가</td>
+							<td style="color:rgb(223,102,102);"><p id="gr" style="margin:0;" onclick="NsetSanction('tb_tr<%=i%>');">사용불가</td>
 					   		<td style="color:rgb(223,102,102);"><p style="margin:0;">─</p></td>
 					   <%} else if(status.equals("Y")){ %>
 					   		<td style="color:rgb(160,160,160);"><%=((Member)list.get(i)).getUserNo()%></td>
@@ -137,21 +161,108 @@
 				<%} %>
 				
 			</table>
+			
+
+			
+			
 			<div id="selectbar" style="height: 30px"></div>
 			 <div class="pageingBtn">
-				<button onclick="location.href='<%=request.getContextPath()%>/selectallmember.me?currentPage=1'"><<</button>
-				<button onclick="location.href='<%=request.getContextPath()%>/selectallmember.me?currentPage=<%=currentPage-1%>'"><</button>
+				<button onclick="location.href='<%=request.getContextPath()%>/nselectallmember.me?currentPage=1'"><<</button>
+				<button onclick="location.href='<%=request.getContextPath()%>/nselectallmember.me?currentPage=<%=currentPage-1%>'"><</button>
 				<%for(int i=startPage; i <=endPage ; i++){ %>
-					<button onclick="location.href='<%=request.getContextPath()%>/selectallmember.me?currentPage=<%=i%>'"><%=i %></button>
+					<button onclick="location.href='<%=request.getContextPath()%>/nselectallmember.me?currentPage=<%=i%>'"><%=i %></button>
 				<%} %>
-				<button onclick="location.href='<%=request.getContextPath()%>/selectallmember.me?currentPage=<%=currentPage+1%>'">></button>
-				<button onclick="location.href='<%=request.getContextPath()%>/selectallmember.me?currentPage=<%=maxPage%>'">>></button>
+				<button onclick="location.href='<%=request.getContextPath()%>/nselectallmember.me?currentPage=<%=currentPage+1%>'">></button>
+				<button onclick="location.href='<%=request.getContextPath()%>/nselectallmember.me?currentPage=<%=maxPage%>'">>></button>
 			</div> 
 			<div id="selectbar" style="height: 30px"></div>
+			
 			<script>
+				function trClick(trId){
+					var trId = $("#"+trId);
+					var td = trId.children();
+					var no = td.eq(0).text();
+					var userno = td.eq(1).text();
+					var userid= td.eq(2).text();
+					var email= td.eq(3).text();
+					var username= td.eq(4).text();
+					var birth= td.eq(5).text();
+					var gender= td.eq(6).text();
+					var sanction= td.eq(7).text();
+					var status= td.eq(8).text();
+				
+					var resu = confirm(userid+" 회원을 제재하시겠습니까?");
+					if(resu == true){
+						$.ajax({
+							url:"<%=request.getContextPath()%>/setsanction.me",
+							type:"post",
+							data:{userNo:userno},
+							success:function(data){
+								if(data == "Y"){
+									td.eq(1).css("color","rgb(223,102,102)");
+									td.eq(2).css("color","rgb(223,102,102)");
+									td.eq(3).css("color","rgb(223,102,102)");
+									td.eq(4).css("color","rgb(223,102,102)");
+									td.eq(5).css("color","rgb(223,102,102)");
+									td.eq(6).css("color","rgb(223,102,102)");
+									     
+									td.eq(7).html("<p id='gr' style='margin:0;'>사용불가").css("color","rgb(223,102,102)");
+								
+									td.eq(8).text("─").css("color","rgb(223,102,102)");
+								}
+							},
+							error:function(request,status,error){
+			 	                   alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			 	           		}
+						})
+					}else{
+						alert("취소하였습니다.");
+					}
+				}
+				
+				function NsetSanction(trId){
+					var trId = $("#"+trId);
+					var td = trId.children();
+					var no = td.eq(0).text();
+					var userno = td.eq(1).text();
+					var userid= td.eq(2).text();
+					var email= td.eq(3).text();
+					var username= td.eq(4).text();
+					var birth= td.eq(5).text();
+					var gender= td.eq(6).text();
+					var sanction= td.eq(7).text();
+					var status= td.eq(8).text();
+				
+					var resu = confirm(userid+" 회원을 정지를 해지하시겠습니까?");
+					if(resu == true){
+					
+						 $.ajax({
+							url:"<%=request.getContextPath()%>/nsetsanction.me",
+							type:"post",
+							data:{userNo:userno},
+							success:function(data){
+								if(data == "Y"){
+										td.eq(1).css("color","black");
+										td.eq(2).css("color","black");
+										td.eq(3).css("color","black");
+										td.eq(4).css("color","black");
+										td.eq(5).css("color","black");
+										td.eq(6).css("color","black");
+										     
+										td.eq(7).html("<button type='button' >제재하기</button>").css("color","black");
+										td.eq(8).text("");
+								}
+							},
+							error:function(request,status,error){
+			 	                   alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			 	           		}
+						}) 
+					}else{
+						alert("취소하였습니다.");
+					}
+				}
 				
 			</script>
-			
 		</div>
 	</div>
 </body>

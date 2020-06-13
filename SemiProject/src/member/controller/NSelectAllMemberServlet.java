@@ -3,7 +3,6 @@ package member.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,23 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.oracle.jrockit.jfr.RequestDelegate;
-
 import home.model.vo.Pagination;
 import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class WorkingMemberServlet
+ * Servlet implementation class NSelectAllMemberServlet
  */
-@WebServlet("/wselectallmember.me")
-public class WSelectAllMemberServlet extends HttpServlet {
+@WebServlet("/nselectallmember.me")
+public class NSelectAllMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public WSelectAllMemberServlet() {
+    public NSelectAllMemberServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,7 +39,7 @@ public class WSelectAllMemberServlet extends HttpServlet {
 		int startPage;
 		int endPage;
 	
-		int listCount = new MemberService().SelectListCount(2);
+		int listCount = new MemberService().SelectListCount(3);
 		
 		currentPage =1;
 		if(request.getParameter("currentPage") != null) {
@@ -60,7 +57,7 @@ public class WSelectAllMemberServlet extends HttpServlet {
 		
 		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
-		ArrayList<Member> list = new MemberService().WSelectAllMember(limit,currentPage);
+		ArrayList<Member> list = new MemberService().NSelectAllMember(limit,currentPage);
 		
 		
 		System.out.println(pn.toString());
@@ -68,7 +65,7 @@ public class WSelectAllMemberServlet extends HttpServlet {
 		if(list != null) {
 			request.setAttribute("list", list);
 			request.setAttribute("pn", pn);
-			view = request.getRequestDispatcher("views/member/workingmemberlist.jsp");
+			view = request.getRequestDispatcher("views/member/nativememberlist.jsp");
 			
 		}
 		view.forward(request, response);

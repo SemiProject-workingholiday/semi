@@ -56,22 +56,59 @@ public class MemberService {
 		return result;
 	}
 
-	public ArrayList<Member> SelectAllMember(int limit, int currentPage) {
+	public ArrayList<Member> WSelectAllMember(int limit, int currentPage) {
 		Connection conn = getConnetion();
 	
-		ArrayList<Member> list =  new MemberDao().SelectAllMember(conn,limit, currentPage);
+		ArrayList<Member> list =  new MemberDao().WSelectAllMember(conn,limit, currentPage);
 		
 		close(conn);
 		return list;
 	}
 
-	public int SelectListCount() {
+	public int SelectListCount(int grade) {
 		Connection conn = getConnetion();
-		int listCount = new MemberDao().SelectListCount(conn);		
+		int listCount = new MemberDao().SelectListCount(conn,grade);		
 		
 		close(conn);
 		
 		return listCount;
+	}
+
+	public int SetSanction(int userNo) {
+		Connection conn = getConnetion();
+		int result = new MemberDao().SetSanction(conn, userNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+
+	public ArrayList<Member> NSelectAllMember(int limit, int currentPage) {
+		Connection conn = getConnetion();
+		
+		ArrayList<Member> list =  new MemberDao().NSelectAllMember(conn,limit, currentPage);
+		
+		close(conn);
+		return list;
+	}
+
+	public int NSetSanction(int userNo) {
+		Connection conn = getConnetion();
+		int result = new MemberDao().NSetSanction(conn, userNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
 	}
 
 
