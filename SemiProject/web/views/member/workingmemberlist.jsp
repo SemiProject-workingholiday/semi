@@ -16,6 +16,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
   #warp{
         width: 1200px;
@@ -47,17 +48,20 @@
     	height:800px;
     	padding:120px 0 0 80px;
     }
-    #memberTb{
-    	width: 980px;
-    }
     #memberTb th{
     	text-align: center;
     	font-size: 16px;
     	height: 30px;
+     	
     }
      #memberTb td{
      	height: 45px;
+     	
      }
+    #memberTb{
+    	width: 980px;
+    	
+    }
     .pageingBtn button{
     	width: 40px;
     	height: 40px;
@@ -137,15 +141,20 @@
 				<%} %>
 				
 			</table>
+			
+			
+			
+			
+			
 			<div id="selectbar" style="height: 30px"></div>
 			 <div class="pageingBtn">
-				<button onclick="location.href='<%=request.getContextPath()%>/selectallmember.me?currentPage=1'"><<</button>
-				<button onclick="location.href='<%=request.getContextPath()%>/selectallmember.me?currentPage=<%=currentPage-1%>'"><</button>
+				<button onclick="location.href='<%=request.getContextPath()%>/wselectallmember.me?currentPage=1'"><<</button>
+				<button onclick="location.href='<%=request.getContextPath()%>/wselectallmember.me?currentPage=<%=currentPage-1%>'"><</button>
 				<%for(int i=startPage; i <=endPage ; i++){ %>
-					<button onclick="location.href='<%=request.getContextPath()%>/selectallmember.me?currentPage=<%=i%>'"><%=i %></button>
+					<button onclick="location.href='<%=request.getContextPath()%>/wselectallmember.me?currentPage=<%=i%>'"><%=i %></button>
 				<%} %>
-				<button onclick="location.href='<%=request.getContextPath()%>/selectallmember.me?currentPage=<%=currentPage+1%>'">></button>
-				<button onclick="location.href='<%=request.getContextPath()%>/selectallmember.me?currentPage=<%=maxPage%>'">>></button>
+				<button onclick="location.href='<%=request.getContextPath()%>/wselectallmember.me?currentPage=<%=currentPage+1%>'">></button>
+				<button onclick="location.href='<%=request.getContextPath()%>/wselectallmember.me?currentPage=<%=maxPage%>'">>></button>
 			</div> 
 			<div id="selectbar" style="height: 30px"></div>
 			<script>
