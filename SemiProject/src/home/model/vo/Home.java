@@ -21,7 +21,7 @@ public class Home implements Serializable{
 	private Date writeDate;	// 작성날짜
 	private int countryNo;	// 나라번호
 	private String country;
-	private int writerNo;	// 작성자번호
+
 	private String userName;
 	private String essentialitem;
 	private String wifi;
@@ -32,6 +32,7 @@ public class Home implements Serializable{
 	private String diningroom;
 	private String bathroom;
 	private String pet;
+	private int writerNo;	// 작성자번호
 
 	public Home() {}
 
@@ -51,6 +52,33 @@ public class Home implements Serializable{
 	}
 	
 	
+	
+	
+	public Home(int hNo, String type, String period, int fee, String title, String content, String address, Date writeDate,
+			String country, String userName, String essentialitem, String wifi, String television, String heater,
+			String airconditional, String livingroom, String diningroom, String bathroom, String pet, int writerNo) {
+		this.hNo = hNo;
+		this.type = type;
+		this.period = period;
+		this.fee = fee;
+		this.title = title;
+		this.content = content;
+		this.address = address;
+		this.writeDate = writeDate;
+		this.country = country;
+		this.userName = userName;
+		this.essentialitem = essentialitem;
+		this.wifi = wifi;
+		this.television = television;
+		this.heater = heater;
+		this.airconditional = airconditional;
+		this.livingroom = livingroom;
+		this.diningroom = diningroom;
+		this.bathroom = bathroom;
+		this.pet = pet;
+		this.writerNo = writerNo;
+	}
+
 	public Home(int hNo, String type, String period, int fee, String title, String content, String address,
 			Date writeDate, String country, String userName, String essentialitem, String wifi, String television,
 			String heater, String airconditional, String livingroom, String diningroom, String bathroom, String pet) {

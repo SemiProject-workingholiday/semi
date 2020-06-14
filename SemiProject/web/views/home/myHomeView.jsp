@@ -1,5 +1,94 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import = "home.model.vo.*, java.util.ArrayList"%>
+<% 	
+	Home home = (Home)request.getAttribute("home");
+	ArrayList<Img> flist = (ArrayList<Img>)request.getAttribute("flist");
+
+	String country = home.getCountry();
+	
+	String[] checkedCountry = new String[5];
+	
+	switch(country){
+		case "australia": checkedCountry[0] = "checked"; break;
+		case "japan": checkedCountry[1] = "checked"; break;
+		case "canada": checkedCountry[2] = "checked"; break;
+		case "newzealand": checkedCountry[3] = "checked"; break;
+		case "germany": checkedCountry[4] = "checked"; break;
+	}
+	
+	String type = home.getType();
+	String[] checkedType = new String[5];
+	switch(type){
+		case "sharehouse": checkedType[0] = "checked"; break;
+		case "dormitory": checkedType[1] = "checked"; break;
+		case "homestay": checkedType[2] = "checked"; break;
+		case "oneroom": checkedType[3] = "checked"; break;
+		case "apartment": checkedType[4] = "checked"; break;
+	}
+	
+	String period = home.getPeriod();
+	String[] checkedPeriod = new String[5];
+	switch(period){
+		case "3monthless": checkedPeriod[0] = "checked"; break;
+		case "3months": checkedPeriod[1] = "checked"; break;
+		case "6months": checkedPeriod[2] = "checked"; break;
+		case "9months": checkedPeriod[3] = "checked"; break;
+		case "1year": checkedPeriod[4] = "checked"; break;
+	}
+	
+	String essentialitem = home.getEssentialitem();
+	String wifi = home.getWifi();
+	String television = home.getTelevision();
+	String heater = home.getHeater();
+	String airconditional = home.getAirconditional();
+	String livingroom = home.getLivingroom();
+	String diningroom = home.getDiningroom();
+	String bathroom = home.getBathroom();
+	
+	String[] checkedEtc = new String[8];
+	
+	if(essentialitem.equals("Y")){
+		checkedEtc[0] = "checked";
+	}
+	
+	if(wifi.equals("Y")){
+		checkedEtc[1] = "checked";
+	}
+	
+	if(television.equals("Y")){
+		checkedEtc[2] = "checked";
+	}
+	
+	if(heater.equals("Y")){
+		checkedEtc[3] = "checked";
+	}
+	
+	if(airconditional.equals("Y")){
+		checkedEtc[4] = "checked";
+	}
+	
+	if(livingroom.equals("Y")){
+		checkedEtc[5] = "checked";
+	}
+	
+	if(diningroom.equals("Y")){
+		checkedEtc[6] = "checked";
+	}
+	
+	if(bathroom.equals("Y")){
+		checkedEtc[7] = "checked";
+	}
+	
+
+	
+	String pet = home.getPet();
+	String[] checkedPet = new String[2];
+	switch(pet){
+		case "Y": checkedPet[0] = "checked"; break;
+		case "N": checkedPet[1] = "checked"; break;
+		
+	}
+%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -149,84 +238,87 @@
   	<%@ include file = "../common/menubar.jsp" %>
     <div id = "contents">
         <ul><li><h3><b>집 등록</b></h3></li></ul>
-        <form id = "registerForm" action = "<%=request.getContextPath()%>/insert.ho" enctype="multipart/form-data" method = "post">
+        <form id = "registerForm" action = "<%=request.getContextPath()%>/update.ho" enctype="multipart/form-data" method = "post">
+            <input type = "hidden" name = "hno" value = "<%=home.gethNo()%>">
             <table>
                 <tr>
                     <td><b>제목</b></td>
-                    <td><input name="title" id = "title" type="text" size = "100" placeholder = "제목을 입력하세요" required></td>
+                    <td><input name="title" id = "title" type="text" size = "100" placeholder = "제목을 입력하세요" value = "<%=home.getTitle() %>"required></td>
                 </tr>
                 <tr>
                     <td><b>나라</b></td>
+                    
                     <td>
-                        <label class="country_option"><input type="radio" name = "country" value="australia"><span>호주</span></label>
-                        <label class="country_option"><input type="radio" name = "country" value="japan"><span>일본</span></label>
-                        <label class="country_option"><input type="radio" name = "country" value="canada"><span>캐나다</span></label>
-                        <label class="country_option"><input type="radio" name = "country" value="newzealand"><span>뉴질랜드</span></label>
-                        <label class="country_option"><input type="radio" name = "country" value="germany"><span>독일</span></label>
+                        <label class="country_option"><input type="radio" name = "country" value="australia" <%=checkedCountry[0]%>><span>호주</span></label>
+                        <label class="country_option"><input type="radio" name = "country" value="japan" <%=checkedCountry[1]%>><span>일본</span></label>
+                        <label class="country_option"><input type="radio" name = "country" value="canada" <%=checkedCountry[2]%>><span>캐나다</span></label>
+                        <label class="country_option"><input type="radio" name = "country" value="newzealand" <%=checkedCountry[3]%>><span>뉴질랜드</span></label>
+                        <label class="country_option"><input type="radio" name = "country" value="germany" <%=checkedCountry[4]%>><span>독일</span></label>
                     </td>
                 </tr>
                 <tr> 
                     <td><b>집 종류</b></td>
                     <td>
-                        <label class="home_option"><input type="radio" name = "home" value="sharehouse"><span>쉐어하우스</span></label>
-                        <label class="home_option"><input type="radio" name = "home" value="dormitory"><span>기숙사</span></label>
-                        <label class="home_option"><input type="radio" name = "home" value="homestay"><span>홈스테이</span></label>
-                        <label class="home_option"><input type="radio" name = "home" value="oneroom"><span>원룸</span></label>
-                        <label class="home_option"><input type="radio" name = "home" value="apartment"><span>아파트</span></label>
+                        <label class="home_option"><input type="radio" name = "home" value="sharehouse" <%=checkedType[0] %>><span>쉐어하우스</span></label>
+                        <label class="home_option"><input type="radio" name = "home" value="dormitory" <%=checkedType[1] %>><span>기숙사</span></label>
+                        <label class="home_option"><input type="radio" name = "home" value="homestay" <%=checkedType[2] %>><span>홈스테이</span></label>
+                        <label class="home_option"><input type="radio" name = "home" value="oneroom" <%=checkedType[3] %>><span>원룸</span></label>
+                        <label class="home_option"><input type="radio" name = "home" value="apartment" <%=checkedType[4] %>><span>아파트</span></label>
                     </td>
                 </tr>
                 <tr>
                     <td><b>기간</b></td>
                     <td>
-                        <label class="term_option"><input type="radio" name = "period" value="3monthless"><span>3개월 미만</span></label>
-                        <label class="term_option"><input type="radio" name = "period" value="3months"><span>3개월 이상</span></label>
-                        <label class="term_option"><input type="radio" name = "period" value="6months"><span>6개월 이상</span></label>
-                        <label class="term_option"><input type="radio" name = "period" value="9month"><span>9개월 이상</span></label>
-                        <label class="term_option"><input type="radio" name = "period" value="1year"><span>1년 이상</span></label>
+                        <label class="term_option"><input type="radio" name = "period" value="3monthless" <%=checkedPeriod[0] %>><span>3개월 미만</span></label>
+                        <label class="term_option"><input type="radio" name = "period" value="3months" <%=checkedPeriod[1] %>><span>3개월 이상</span></label>
+                        <label class="term_option"><input type="radio" name = "period" value="6months" <%=checkedPeriod[2] %>><span>6개월 이상</span></label>
+                        <label class="term_option"><input type="radio" name = "period" value="9month" <%=checkedPeriod[3] %>><span>9개월 이상</span></label>
+                        <label class="term_option"><input type="radio" name = "period" value="1year" <%=checkedPeriod[4] %>><span>1년 이상</span></label>
                     </td>
                 </tr>
                 <tr> 
                     <td><b>주소</b></td>
-                    <td><input type = text" size = "100" id = "address" placeholder="집 주소를 입력하세요" name = "address" data-validation="required" data-validation-error-msg="주소를 입력해주세요."></td>
+                    <td><input type = text" size = "100" id = "address" placeholder="집 주소를 입력하세요" name = "address" data-validation="required" data-validation-error-msg="주소를 입력해주세요." value = <%=home.getAddress()%>></td>
                 </tr>
                 <tr> 
                     <td rowspan="3"><b>편의시설</b></td>
                     <td>
-                        <input type = "checkbox" name = "facilities" value = "essentialitem"> 필수품목(수건, 침대 시트, 비누, 화장지, 베개)
+                        <input type = "checkbox" name = "facilities" value = "essentialitem" <%=checkedEtc[0] %>> 필수품목(수건, 침대 시트, 비누, 화장지, 베개)
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <input type = "checkbox" name = "facilities" value = "wifi"> 무선인터넷 &nbsp;&nbsp;&nbsp;
-                        <input type = "checkbox" name = "facilities" value = "tv"> TV &nbsp;&nbsp;&nbsp;
-                        <input type = "checkbox" name = "facilities" value = "heater"> 난방
+                        <input type = "checkbox" name = "facilities" value = "wifi" <%=checkedEtc[1] %>> 무선인터넷 &nbsp;&nbsp;&nbsp;
+                        <input type = "checkbox" name = "facilities" value = "tv" <%=checkedEtc[2] %>> TV &nbsp;&nbsp;&nbsp;
+                        <input type = "checkbox" name = "facilities" value = "heater" <%=checkedEtc[3] %>> 난방
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <input type = "checkbox" name = "facilities" value = "aircondition"> 에어컨
+                        <input type = "checkbox" name = "facilities" value = "aircondition" <%=checkedEtc[4]%>> 에어컨
                     </td>
                 </tr>
                 <tr> 
                     <td><b>공용공간</b></td>
                     <td>
-                        <input type = "checkbox" name = "share" value = "livingroom"> 거실 &nbsp;&nbsp;&nbsp;
-                        <input type = "checkbox" name = "share" value = "diningroom"> 주방 &nbsp;&nbsp;&nbsp;
-                        <input type = "checkbox" name = "share" value = "bathroom"> 화장실
+                        <input type = "checkbox" name = "share" value = "livingroom" <%=checkedEtc[5] %>> 거실 &nbsp;&nbsp;&nbsp;
+                        <input type = "checkbox" name = "share" value = "diningroom" <%=checkedEtc[6] %>> 주방 &nbsp;&nbsp;&nbsp;
+                        <input type = "checkbox" name = "share" value = "bathroom" <%=checkedEtc[7] %>> 화장실
                     </td>
                 </tr>
                 <tr> 
                     <td><b>애완동물</b></td>
                     <td>
-                        <input type = "radio" name = "pet" value = "Y"> 유 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type = "radio" name = "pet" value = "N"> 무
+                        <input type = "radio" name = "pet" value = "Y" <%=checkedPet[0] %>> 유 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type = "radio" name = "pet" value = "N" <%=checkedPet[1] %>> 무
                     </td>
                 </tr>
                 <tr>
                     <td><b>요금</b></td>
-                    <td><input type = "number" id = "fee" name = "fee" placeholder = "요금을 입력해주세요" data-validation="required" data-validation-error-msg="요금을 입력해주세요."></td>
+                    <td><input type = "number" id = "fee" name = "fee" placeholder = "요금을 입력해주세요" data-validation="required" data-validation-error-msg="요금을 입력해주세요." value = "<%=home.getFee()%>"></td>
                 </tr>
                 <tr> 
+                	<input type = "hidden" name = "imgNo" value = "<%=flist.get(0).getImgNo()%>">
                     <td><b>대표사진</b></td>
                     <td><input type = "file" name = "photo1" id = "photo1"></td>
                 </tr>
@@ -248,12 +340,12 @@
                 <tr>
                     <td><b>상세내용</b></td>
                     <td colspan="2">
-                        <textarea cols="80" id = "detail" name="detail" rows="8" style="resize: none;"></textarea>
+                        <textarea cols="80" id = "detail" name="detail" rows="8" style="resize: none;"><%=home.getContent()%></textarea>
                     </td>
                 </tr>
                 <tr>
                   <td colspan="3">
-                    <button id = "submit" type="submit" disabled = "true">등록하기</button>
+                    <button id = "submit" type="submit">수정하기</button>
                   </td>
               </tr>
             </table>
@@ -266,20 +358,7 @@
     </div>
     
      <!-- 유효성 검사 -->
-    <script>
-      $(function(){
-        $("#registerForm").on('input',function(){
-          if($("#title").val() == '' || $("#fee").val() == '' || $("#address").val() == '' || $('input:radio[name=country]').is(':checked') == false
-            || $('input:radio[name=home]').is(':checked') == false || $('input:radio[name=period]').is(':checked') == false || $("#photo").val() == ''){
-            $("#submit").attr("disabled",true);
-          } else{
-            $("#submit").attr("disabled",false).attr("cursor","pointer").css("background","rgb(113, 177, 197)"),css("color","black");
-          }
-        });
-      });
-      
-     
-    </script>
+
 
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

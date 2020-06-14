@@ -1,8 +1,13 @@
 package home.model.vo;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Review {
+public class Review implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7180292135360067105L;
 	private int reviewNo;
 	private String img;
 	private String content;
@@ -11,11 +16,10 @@ public class Review {
 	private int houseNo;
 	private int score;
 	private int userNo;
+	private String userName;
 	
 	public Review() {}
 	
-	
-
 	public Review(String img, String content, int houseNo, int userNo) {
 		this.img = img;
 		this.content = content;
@@ -23,6 +27,45 @@ public class Review {
 		this.userNo = userNo;
 	}
 
+
+	public Review(String img, String content, int houseNo, int score, String userName) {
+		this.img = img;
+		this.content = content;
+		this.houseNo = houseNo;
+		this.score = score;
+		this.userName = userName;
+	}
+
+
+	public Review(String content, int houseNo, int score, String userName) {
+		this.content = content;
+		this.houseNo = houseNo;
+		this.score = score;
+		this.userName = userName;
+	}	
+	
+	
+
+	public Review(String img, String content, int houseNo, int score, int userNo) {
+		this.img = img;
+		this.content = content;
+		this.houseNo = houseNo;
+		this.score = score;
+		this.userNo = userNo;
+	}
+
+	public Review(int reviewNo, String img, String content, Date writeDate, int report, int houseNo, int score,
+			int userNo, String userName) {
+		this.reviewNo = reviewNo;
+		this.img = img;
+		this.content = content;
+		this.writeDate = writeDate;
+		this.report = report;
+		this.houseNo = houseNo;
+		this.score = score;
+		this.userNo = userNo;
+		this.userName = userName;
+	}
 
 
 	public Review(int reviewNo, String img, String content, Date writeDate, int report, int houseNo, int score,
@@ -36,6 +79,22 @@ public class Review {
 		this.score = score;
 		this.userNo = userNo;
 	}
+	
+	
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+
+
 
 	public int getReviewNo() {
 		return reviewNo;

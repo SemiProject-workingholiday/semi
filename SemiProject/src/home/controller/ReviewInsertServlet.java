@@ -9,22 +9,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import home.model.service.HomeService;
-import home.model.vo.Home;
-import home.model.vo.Img;
 import home.model.vo.Review;
 
 /**
- * Servlet implementation class HomeDetailServlet
+ * Servlet implementation class ReviewInsertServlet
  */
-@WebServlet("/detail.ho")
-public class HomeDetailServlet extends HttpServlet {
+@WebServlet("/insertReview.ho")
+public class ReviewInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HomeDetailServlet() {
+    public ReviewInsertServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,27 +34,22 @@ public class HomeDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String hNo = request.getParameter("hNo");
-		int hNo2 = Integer.valueOf(hNo);
-	
-		Home home = new HomeService().selectHome(hNo2);
-		ArrayList<Img> flist = new HomeService().selectImgList(hNo2);
-		ArrayList<Review> rlist = new HomeService().selectReplyList(hNo2);
+		int writer = Integer.valueOf(request.getParameter("writer"));
+		int hNo = Integer.valueOf( request.getParameter("hNo"));
+		String content = request.getParameter("content");
+		int score = Integer.valueOf(request.getParameter("score"));
+		String file = request.getParameter("file");
 		
-		// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+		System.out.println("writer : " +writer +"hno"+hNo+"content"+content + "score : " + score + "file : " + file);
 		
-//		System.out.println("rlist " + rlist);
+		Review r = new Review(file,content,hNo,score,writer);
 		
+		ArrayList<Review> rlist = new HomeService().insertReply(r);
 		
-		if(home != null) {
-			request.setAttribute("home", home);
-			request.setAttribute("flist", flist);
-//			request.setAttribute("rlist", rlist);
-			request.getRequestDispatcher("views/home/homeDetailView.jsp").forward(request, response);
-		} else {
-			System.out.println("실패");
-		}
+		response.setContentType("application/json;");
 		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(rlist,response.getWriter());
 	}
 
 	/**

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import home.model.vo.Home;
 import home.model.vo.Img;
+import home.model.vo.Reservation;
+import home.model.vo.Review;
 import oracle.security.o3logon.b;
 
 public class HomeDao {
@@ -270,7 +272,8 @@ public class HomeDao {
 								rs.getString("livingroom"),
 								rs.getString("diningroom"),
 								rs.getString("bathroom"),
-								rs.getString("pet"));
+								rs.getString("pet"),
+								rs.getInt("userno"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -389,6 +392,232 @@ public class HomeDao {
 			pstmt.setString(7, h.getDiningroom());
 			pstmt.setString(8, h.getBathroom());
 			pstmt.setString(9, h.getPet());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertReply(Connection conn, Review r) {
+		PreparedStatement pstmt = null;
+		
+		int result = 0;
+		
+		String query = "INSERT INTO HOMEREVIEW VALUES(SEQ_RID.NEXTVAL,?,?,SYSDATE,DEFAULT,?,?,?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, r.getImg());
+			pstmt.setString(2, r.getContent());
+			pstmt.setInt(3, r.getHouseNo());
+			pstmt.setInt(4, r.getScore());
+			pstmt.setInt(5, r.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+			System.out.println("댓글 잘 들어갔는지 Dao에서 확인 : " + result);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Review> selectReplyList(Connection conn, int houseNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		ArrayList<Review> rlist = new ArrayList<Review>();
+		
+		String query = "SELECT * FROM RLIST WHERE HOUSENO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, houseNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+
+				rlist.add(new Review(rs.getInt("reviewno"),
+									rs.getString("img"),
+									rs.getString("content"),
+									rs.getDate("writedate"),
+									rs.getInt("report"),
+									rs.getInt("houseno"),
+									rs.getInt("score"),
+									rs.getInt("userno"),
+									rs.getString("username")));
+			}
+//			System.out.println(rlist);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return rlist;
+	}
+
+	public int reservationHome(Connection conn, Reservation reservation) {
+		PreparedStatement pstmt = null;
+		
+		int result = 0;
+		
+		String query = "INSERT INTO HOMERESERVATION VALUES (SEQ_HOMERESERVATION.NEXTVAL,?,?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, reservation.getHouseNo());
+			pstmt.setInt(2, reservation.getUserNo());
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int reservationCheck(Connection conn, Reservation reservation) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String query = "SELECT COUNT(*) FROM HOMERESERVATION WHERE HOUSENO = ? AND USERNO = ?";
+		
+		int result = 0;
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, reservation.getHouseNo());
+			pstmt.setInt(2, reservation.getUserNo());
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				 result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return result;
+	}
+
+	public int updateHome(Connection conn, Home h) {
+		PreparedStatement pstmt = null;
+		
+		int result = 0;
+		
+		String query = "UPDATE HOME SET TYPE = ?, PERIOD = ?, FEE = ?, TITLE = ?, CONTENT = ?, REPORT = ?, ADDRESS = ?, WRITEDATE = SYSDATE, COUNTRYNO = ? WHERE HOUSENO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, h.getType());
+			pstmt.setString(2, h.getPeriod());
+			pstmt.setInt(3, h.getFee());
+			pstmt.setString(4, h.getTitle());
+			pstmt.setString(5, h.getContent());
+			pstmt.setInt(6, h.getReport());
+			pstmt.setString(7, h.getAddress());
+			pstmt.setInt(8, h.getCountryNo());
+			pstmt.setInt(9, h.gethNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateHomeImg(Connection conn, ArrayList<Img> fileList) {
+		PreparedStatement pstmt = null;
+		
+		int result = 0;
+		
+		String query = "UPDATE HOMEPHOTO SET IMG = ?, FILE_LEVEL = ? WHERE HOUSENO = ? AND IMGNO = ?";
+		
+		try {
+			for(int i = 0; i < fileList.size(); i++) {
+				Img at = fileList.get(i);
+			
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, at.getImg());
+				pstmt.setInt(2, at.getFileLevel());
+				pstmt.setInt(3, at.getHouseNo());
+				pstmt.setInt(4, at.getImgNo());
+				
+				result += pstmt.executeUpdate();
+				
+			} 
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateHomeEtc(Connection conn, Home h) {
+		PreparedStatement pstmt = null;
+		
+		int result = 0;
+		
+		String query = "UPDATE HOMEETC SET ESSENTIALITEM = ?, WIFI = ?, TELEVISION = ?, HEATER = ?, AIRCONDITIONAL = ?, LIVINGROOM = ?, DININGROOM = ?, BATHROOM = ?, PET = ? WHERE HOUSENO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			
+			pstmt.setString(1, h.getEssentialitem());
+			pstmt.setString(2, h.getWifi());
+			pstmt.setString(3, h.getTelevision());
+			pstmt.setString(4, h.getHeater());
+			pstmt.setString(5, h.getAirconditional());
+			pstmt.setString(6, h.getLivingroom());
+			pstmt.setString(7, h.getDiningroom());
+			pstmt.setString(8, h.getBathroom());
+			pstmt.setString(9, h.getPet());
+			pstmt.setInt(10, h.gethNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int deleteMember(Connection conn, int hNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "DELETE FROM HOME WHERE HOUSENO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			
+			pstmt.setInt(1, hNo);
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {

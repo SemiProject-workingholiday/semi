@@ -1,4 +1,4 @@
-package member.controller;
+package home.controller;
 
 import java.io.IOException;
 
@@ -8,24 +8,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.connector.Request;
-
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import home.model.service.HomeService;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class HomeDeleteServlet
  */
-@WebServlet("/login.me")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/delete.ho")
+public class HomeDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public HomeDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,24 +30,18 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id = request.getParameter("userId");
-		String pw = request.getParameter("userPw");
+		int hNo = Integer.valueOf(request.getParameter("hNo"));
 		
-		Member member = new Member(id,pw);
+		int result = new HomeService().deleteHome(hNo);
 		
-		Member loginUser = new MemberService().loginMember(member);
+		RequestDispatcher view = null;
 		
-		if(loginUser != null) {
-			HttpSession session = request.getSession();
-			session.setAttribute("loginUser",loginUser);
-			response.sendRedirect("main.jsp");
+		if(result > 0) {
+			response.sendRedirect("list.ho?currentPage=1");
+		} else {
+			System.out.println("게시글 삭제 실패");
 		}
-		else {
-			request.setAttribute("erorrMsg", "로그인실패");
-			RequestDispatcher view = request.getRequestDispatcher("views/member/login.jsp");
-			view.forward(request, response);
-		}
-		
+
 	}
 
 	/**

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import home.model.dao.HomeDao;
 import home.model.vo.Home;
 import home.model.vo.Img;
+import home.model.vo.Reservation;
+import home.model.vo.Review;
 
 public class HomeService {
 
@@ -102,7 +104,7 @@ public class HomeService {
 		int result2 = hDao.insertHomeImg(conn, fileList);
 		int result3 = hDao.insertHomeEtc(conn,h);
 		
-		if(result > 0 && result2 > 0) {
+		if(result > 0 && result2 > 0 && result3 > 0) {
 			commit(conn);
 		} else {
 			rollback(conn);
@@ -126,6 +128,103 @@ public class HomeService {
 		close(conn);
 		
 		return list;
+	}
+
+	public ArrayList<Review> insertReply(Review r) {
+		Connection conn = getConnetion();
+		
+		HomeDao hDao = new HomeDao();
+		
+		int result = hDao.insertReply(conn, r);
+		
+		ArrayList<Review> rlist = new ArrayList<>();
+		if(result > 0) {
+			commit(conn);
+			rlist = hDao.selectReplyList(conn, r.getHouseNo());
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return rlist;
+	}
+
+	public ArrayList<Review> selectReplyList(int hNo2) {
+		Connection conn = getConnetion();
+		
+		ArrayList<Review> rlist = new HomeDao().selectReplyList(conn, hNo2);
+		
+		close(conn);
+		
+		return rlist;
+	}
+
+	public int reservationHome(Reservation reservation) {
+		Connection conn = getConnetion();
+		
+		HomeDao hDao = new HomeDao();
+		
+		int result = hDao.reservationHome(conn, reservation);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+				
+		close(conn);
+		
+		return result;
+	}
+
+	public int reservationCheck(Reservation reservation) {
+		Connection conn = getConnetion();
+		
+		int result = new HomeDao().reservationCheck(conn, reservation);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public int updateHome(Home h, ArrayList<Img> fileList) {
+		Connection conn = getConnetion();
+		
+		HomeDao hDao = new HomeDao();
+		
+		int result = hDao.updateHome(conn, h);
+		int result2 = hDao.updateHomeImg(conn, fileList);
+		int result3 = hDao.updateHomeEtc(conn,h);
+		
+		System.out.println("result : " + result + "result2 : " + result2 + "result3 : " +result3);
+		
+		if(result > 0 && result2 > 0 && result3 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+			result = 0;
+		}
+				
+		close(conn);
+		
+		return result;
+	}
+
+	public int deleteHome(int hNo) {
+		Connection conn = getConnetion();
+		
+		int result = new HomeDao().deleteMember(conn, hNo);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
 	}
 
 

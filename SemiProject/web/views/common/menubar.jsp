@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+<%
+	Member loginUser = (Member)session.getAttribute("loginUser");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -172,8 +175,8 @@
         </ul>
     </div>
     <ul class="login_register" >
-        <li><a href="#">로그인</a></li>
-        <li><a href="#">회원가입</a></li>
+        <li><a href="#" onclick = "login();">로그인</a></li>
+        <li><a href="#" onclick = "join();">회원가입</a></li>
     </ul>
     </div>
 </header>
@@ -181,6 +184,11 @@
 	function goHome(){
 		location.href = "<%=request.getContextPath()%>/list.ho";
 	}
+	
+	function login(){
+		location.href = "<%=request.getContextPath()%>/views/member/login.jsp";
+	}
+	
 </script>
 </body>
 </html>

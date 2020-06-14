@@ -296,7 +296,12 @@
                 </ul>
             </div>
             
-            <button id = "register_btn" onclick = "registerHome();">등록하기</button>
+            <%if(loginUser != null) {%>
+            	<%if(loginUser.getGrade() == 3) { %>
+            	<button id = "register_btn" onclick = "registerHome();">등록하기</button>
+				<%}%>
+            
+            <%} %>
             
             <div id = "page_btn">
             	<button onclick = "location.href ='<%=request.getContextPath()%>/list.ho?currentPage=<%=1%>'"> << </button>
@@ -327,15 +332,14 @@
             
             $(function(){
 				$(".home li").click(function(){
-					var hNo = $(this).parent().children("input").val();
+					var hNo = $(this).prev().val();
 					
-					location.href = "<%=request.getContextPath()%>/detail.ho?hNo=" + hNo;
-					
-					<%-- <% if(loginUser != null) {%>
-						location.href = "<%=request.getContextPath()%>/detail.bo?bid=" + bid;
+					<% if(loginUser != null) {%>
+						location.href = "<%=request.getContextPath()%>/detail.ho?hNo=" + hNo;
+						alert(hNo);
 					<%} else{%>
 						alert("로그인 해야만 상세보기가 가능합니다.");
-					<%}%> --%>
+					<%}%>
 				});
 			});
             

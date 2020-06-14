@@ -14,6 +14,7 @@
 	String pet = home.getPet();
 	
 	ArrayList<Img> flist = (ArrayList<Img>)request.getAttribute("flist");
+	ArrayList<Review> rlist = (ArrayList<Review>)request.getAttribute("rlist");
 	
 %>
 <!DOCTYPE html>
@@ -37,6 +38,8 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="http://googledrive.com/host/0B-QKv6rUoIcGeHd6VV9JczlHUjg"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    
 
     <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 
@@ -114,7 +117,7 @@
 	      #contents td{
 			
 	    	padding-bottom:3%
-	        
+	        h
 	      }
 	
 	      .reservation_detail{
@@ -158,14 +161,20 @@
 		</div>
 
       <div id = "detail_content">
-        <div id = "top">
-          <h3><b><%=home.getTitle()%></b></h3>
+        <div id = "top" >
+        	<%if(loginUser.getUserNo() == home.getWriterNo()){ %>
+        	<button id = "modifyBtn" onclick = "location.href = '<%=request.getContextPath()%>/myHome.ho?hNo=<%=home.gethNo()%>';">수정하기</button>
+        	<button id = "modifyBtn" onclick = "location.href = '<%=request.getContextPath()%>/delete.ho?hNo=<%=home.gethNo()%>';">삭제하기</button>
+        	<%} %>
+          <h3 style = "display:inline;"><b><%=home.getTitle()%></b></h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <img style = "width:2%; height:2%; margin-top:-1%" src = "<%=request.getContextPath()%>/images/siren.png" onclick = "location.href = '<%=request.getContextPath()%>/report.ho?hNo=<%=home.gethNo()%>';">
           <div class = "detail">
             <p><%=home.getContent()%></p>
           </div>
         </div>
         <div id = "middle">
             <div id="reservation" style = "position: absolute">
+           
               <table class = "reservation_detail">
                 <tr> 
                     <td><b>가격</b></td>
@@ -192,9 +201,10 @@
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="3"><button>예약하기</button></td>
+                  <td colspan="3"><button onclick = "location.href ='<%=request.getContextPath()%>/reservation.ho?hNo=<%=home.gethNo()%>'">예약하기</button></td>
                 </tr>     
               </table>
+             
               
           </div>
      
@@ -266,52 +276,56 @@
                 <%} %>
                 
             </tr>
-            <form id = "reviewRegister" enctype="multipart/form-data" method = "post">
-	            <tr>
-	                <td rowspan="2"><b>후기</b></td>
-	                <td colspan="4">
-	                    <textarea cols="70" name="reviewContent" rows="5" style="resize: none;"></textarea>
-	                </td>
-	            </tr>
-	            <tr>
-	              <td>
-	                <div class="starRev">
-	                  <span class="starR on">별1</span>
-	                  <span class="starR">별2</span>
-	                  <span class="starR">별3</span>
-	                  <span class="starR">별4</span>
-	                  <span class="starR">별5</span>
-	                </div>
-	              </td>          
+            
+            <tr>
+                <td rowspan="2"><b>후기</b></td>
+                <td colspan="4">
+                    <textarea cols="70" name="reviewContent" rows="5" style="resize: none;"></textarea>
+                </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="starRev">
+                  <span class="starR on">별1</span>
+                  <span class="starR">별2</span>
+                  <span class="starR">별3</span>
+                  <span class="starR">별4</span>
+                  <span class="starR">별5</span>
+                </div>
+              </td>          
+             
 	              <td width = "250px">
-	                <input type = "file" multiple = "multiple" name = "photo" id = "reviewPhoto">
+	                <input type = "file" name = "reviewPhoto" id = "reviewPhoto">
 	              </td>
-	                  
-	              <td width = "120px"> <input type = "submit" id = "registerReview" onclick = "registerReview()" value = "확인"> </td>
-            	</tr>
-            </form>
+               <td width = "120px"> <button id = "registerReview">확인</button> </td>
+
+           	</tr>
           </table>
           <div id = "review">
-            <img src = "<%=request.getContextPath()%>/images/profile.png" style = "width: 40px; height: 40px;">
             <span><b>홍길동</b></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span><small>2020.05.29</small></span>
-            <pre style = "background: none; border: none; margin-left: -60px;">
-              <img src = "<%=request.getContextPath()%>/images/homes.jpg" style="width: 70px; height: 70px;">
+            <br><br>
+            <span><img src = "<%=request.getContextPath()%>/images/homes.jpg" style="width: 70px; height: 70px;"></span>
+            <br><br>
+            <div style = " width :70%">
+            	가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
 		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
-		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
-		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바
-            </pre>
-            <img src = "<%=request.getContextPath()%>/images/profile.png" style = "width: 40px; height: 40px;">
+		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바</div>
+   			<br>
             <span><b>홍길동</b></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span><small>2020.05.29</small></span>
-            <pre style = "background: none; border: none; margin-left: -60px;">
+            <br><br>
+            <span><img src = "<%=request.getContextPath()%>/images/homes.jpg" style="width: 70px; height: 70px;"></span>
+            <br><br>
+            <div style = " width :70%">
+            	가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
 		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
-		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
-		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바
-            </pre>
+		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바</div>
+   			<br>
           </div>
         </div>
       </div>
+      
     </div>
 
     <div id = "footer">
@@ -352,9 +366,7 @@
       $('.starRev span').click(function(){
          $(this).parent().children('span').removeClass('on');
          $(this).addClass('on').prevAll('span').addClass('on');
-
-         console.log($('.on').length);
-
+         
          return false;
       });
 
@@ -374,32 +386,57 @@
         });
       });
       
-      $(function(){
-    	  var fileTarget = $('#reviewPhoto');
-    	  var file = "";
-    	  var filename = "";
-
-		  fileTarget.on('change', function(){  // 값이 변경되면
-			if(window.FileReader){  // modern browser
-				filename = $(this)[0].files[0].name;
-				file = filename;
-			} 
-			else {  // old IE
-				filename = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
-				file = filename;
-			}
-
-			// 추출한 파일명 삽입
-		});
-			console.log(file);
-      })
-      
-      
-      
-     
-			
-
+      </script>
+		
+	<script>
+   	  $(function(){
+ 			$("#registerReview").click(function(){  
+				var writer = <%=loginUser.getUserNo()%>;
+				var hNo = <%=home.gethNo()%>;
+				var content = $("#reviewContent").val();
+				var score = $('.on').length;
+				var form = $('#reviewForm')[0];
+			    // FormData 객체 생성
+			    var formData = new FormData(form);
+		
+				$.ajax({
+					url:"<%=request.getContextPath()%>/insertReview.ho",
+					type:"post",
+					enctype: 'multipart/form-data',
+					data:{writer:writer, hNo:hNo, content:content, score:score, formData:formData},
+					processData: false,
+		            contentType: false,
+		            cache: false,
+					success:function(data){
+						$replyTable = $("#review");
+						$replyTable.html("");	
+						
+						// 새로 받아온 갱신 된 댓글리스트들을 for문을 통해 다시 table에 추가
+						for(var key in data){
+							var $span = $("<span>");	// 종료태그까지 포함
+							var $writerTd = $("<span>").text(data[key].userName);
+							var $dateTd = $("<span>").text(data[key].writeDate);
+							var $fileTd = $("<img>").text(data[key].img)
+							var $contentTd = $("<span>").text(data[key].content);
+							
+							$span.append($writerTd);
+							$span.append($fileTd);
+							$span.append($contentTd);
+							$span.append($dateTd);
+							
+							$replyTable.append($span);
+						}
+						// 댓글 작성 부분 기존 입력값 삭제
+						$("#reviewContent").val("");
+					},
+					error:function(request,status,error){
+		                  	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		            }
+				});
+ 			});
+   	  	});
     </script>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

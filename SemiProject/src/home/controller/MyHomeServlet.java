@@ -1,6 +1,7 @@
-package member.controller;
+package home.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,24 +9,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.connector.Request;
-
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import home.model.service.HomeService;
+import home.model.vo.Home;
+import home.model.vo.Img;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class MyHomeServlet
  */
-@WebServlet("/login.me")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/myHome.ho")
+public class MyHomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public MyHomeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,24 +33,23 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id = request.getParameter("userId");
-		String pw = request.getParameter("userPw");
+		int hNo = Integer.valueOf(request.getParameter("hNo"));
 		
-		Member member = new Member(id,pw);
+		Home home = new HomeService().selectHome(hNo);
+		ArrayList<Img> flist = new HomeService().selectImgList(hNo);
+		System.out.println("마이페이지 뿌려주기 직전 내 정보 : " + home);
 		
-		Member loginUser = new MemberService().loginMember(member);
+		RequestDispatcher view = null;
 		
-		if(loginUser != null) {
-			HttpSession session = request.getSession();
-			session.setAttribute("loginUser",loginUser);
-			response.sendRedirect("main.jsp");
+		if(home != null) {
+			view = request.getRequestDispatcher("views/home/myHomeView.jsp");
+			request.setAttribute("home", home);
+			request.setAttribute("flist", flist);
+		} else {
+			view = request.getRequestDispatcher("views/common/errorpage.jsp");
+			request.setAttribute("msg", "내 정보 조회에 실패했습니다.");
 		}
-		else {
-			request.setAttribute("erorrMsg", "로그인실패");
-			RequestDispatcher view = request.getRequestDispatcher("views/member/login.jsp");
-			view.forward(request, response);
-		}
-		
+		view.forward(request, response);
 	}
 
 	/**

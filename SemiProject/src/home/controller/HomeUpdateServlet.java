@@ -20,16 +20,16 @@ import home.model.vo.Img;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class HomeInsertServlet
+ * Servlet implementation class HomeUpdateServlet
  */
-@WebServlet("/insert.ho")
-public class HomeInsertServlet extends HttpServlet {
+@WebServlet("/update.ho")
+public class HomeUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HomeInsertServlet() {
+    public HomeUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,7 +38,6 @@ public class HomeInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		int maxSize = 1024 * 1024 * 10;
 		
 		String root = request.getSession().getServletContext().getRealPath("/");
@@ -50,6 +49,7 @@ public class HomeInsertServlet extends HttpServlet {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
+		int hNo = Integer.valueOf(multiRequest.getParameter("hno"));
 		String title = multiRequest.getParameter("title");
 		String country = multiRequest.getParameter("country");
 		String home = multiRequest.getParameter("home");
@@ -61,6 +61,7 @@ public class HomeInsertServlet extends HttpServlet {
 		int fee = Integer.valueOf(multiRequest.getParameter("fee"));
 		String detail = multiRequest.getParameter("detail");
 		int userNo = Integer.valueOf(loginUser.getUserNo());
+		int imgNo = Integer.valueOf(multiRequest.getParameter("imgNo"));
 
 		ArrayList<String> saveFiles = new ArrayList<>();
 		ArrayList<String> originFiles = new ArrayList<>();
@@ -78,6 +79,8 @@ public class HomeInsertServlet extends HttpServlet {
 		
 		
 		Home h = new Home();
+		
+		h.sethNo(hNo);
 		h.setTitle(title);
 		switch(country) {
 			case "australia" : h.setCountryNo(1); break;
@@ -129,6 +132,8 @@ public class HomeInsertServlet extends HttpServlet {
 		
 		for(int i = originFiles.size()-1; i>=0; i--) {
 			Img at = new Img();
+			at.setImgNo(imgNo+i);
+			at.setHouseNo(hNo);
 			at.setImg(originFiles.get(i));
 			
 			if(i == originFiles.size()-1) {
@@ -139,10 +144,10 @@ public class HomeInsertServlet extends HttpServlet {
 			
 			fileList.add(at);
 		}
-		
+		System.out.println(h);
 		System.out.println(fileList);
 		
-		int result = new HomeService().insertHome(h,fileList);
+		int result = new HomeService().updateHome(h,fileList);
 		
 		if(result > 0) {
 			response.sendRedirect("list.ho?currentPage=1");
