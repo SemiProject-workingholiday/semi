@@ -1,4 +1,4 @@
-package job.controller;
+package community.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,20 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import job.model.service.JobSearchService;
+import community.model.service.CommunityService;
+import community.model.vo.Community;
 import job.model.vo.Pagination;
 
 /**
- * Servlet implementation class jobListServlet
+ * Servlet implementation class CommunityListServlet
  */
-@WebServlet("/list.job")
-public class JobListServlet extends HttpServlet {
+@WebServlet("/list.c")
+public class CommunityListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public JobListServlet() {
+    public CommunityListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,9 +33,10 @@ public class JobListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		JobSearchService jService = new JobSearchService();
+
+		CommunityService community = new CommunityService();
 		
-		int listCount = jService.getListCount();
+		int listCount = CommunityService.getListCount();
 		
 		int currentPage;	// 현재 페이지를 표시 할 변수
 		int limit;			// 한 페이지에 게시글이 몇 개가 보여질 것인지
@@ -86,20 +88,16 @@ public class JobListServlet extends HttpServlet {
 		
 		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
-		// 1_2. 화면에 뿌려줄 찜테이블 리스트 조회하기
-		ArrayList list = jService.selectList(currentPage, limit);	
+		// 1_2. 화면에 뿌려줄 워홀러 내가 쓴 글 테이블 리스트 조회하기
+		ArrayList list = CommunityService.selectList(currentPage, limit);	
 		
 		RequestDispatcher view = null;
 		if(list != null) {
-			view = request.getRequestDispatcher("views/mypage/Work/JJIM.jsp");
+			view = request.getRequestDispatcher("views/mypage/Letter/wLetter.jsp");
 			request.setAttribute("list", list);
 			request.setAttribute("pn", pn);
-		}else {
-			view = request.getRequestDispatcher("views/common/errorPage.jsp");
-			request.setAttribute("msg", "게시글 조회 실패!!");
 		}
 		view.forward(request, response);
-		
 	}
 
 	/**

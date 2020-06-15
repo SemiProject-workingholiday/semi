@@ -1,4 +1,6 @@
-package mypage.controller;
+package member.controller;
+
+import static member.controller.Emailsand.EmailSandMethod;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,21 +10,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import member.model.service.MemberService;
-import mypage.model.service.MyPageService;
+import member.model.vo.Member;
 
 /**
- * Servlet implementation class PwdCheckServlet
+ * Servlet implementation class FindPwServlet
  */
-@WebServlet("/PwdCheckServlet")
-public class PwdCheckServlet extends HttpServlet {
+@WebServlet("/findpw.me")
+public class FindPwServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PwdCheckServlet() {
+    public FindPwServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,22 +34,25 @@ public class PwdCheckServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			String userPwd = request.getParameter("userPwd");
-			String userId = request.getParameter("userId");	
-		//		System.out.println(userId);
-				
-				int result = new MyPageService().pwdCheck(userPwd,userId);
-				
-				PrintWriter out = response.getWriter();
-				
-				if(result == 0) {
-					out.print("permit");
-				}else {
-					out.print("fail");
-				}
-				
-				out.flush();
-				out.close();
+		System.out.println("패스워드 찾기 서블릿 옴");
+		String userId=request.getParameter("userId");
+		String email=request.getParameter("email");
+		
+		String userPw = new MemberService().findUserPw(userId, email);
+		Member FindUser = new Member(userId,userPw,email);
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("FindUser", FindUser);
+		
+		PrintWriter out = response.getWriter();
+		String num="";
+		if(userPw != "") {
+			num=EmailSandMethod(email);
+			out.print(num);
+		}else {
+			out.print("No");
+
+		}
 	}
 
 	/**

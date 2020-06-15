@@ -1,31 +1,29 @@
-package member.controller;
-
-import static member.controller.Emailsand.EmailSandMethod;
+package job.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import job.model.service.JobSearchService;
+import job.model.vo.JobSearch;
 
 /**
- * Servlet implementation class FindIdServlet
+ * Servlet implementation class JJimDeleteServlet
  */
-@WebServlet("/findid.me")
-public class FindIdServlet extends HttpServlet {
+@WebServlet("/delete.jjim")
+public class JJimDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindIdServlet() {
+    public JJimDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,26 +32,17 @@ public class FindIdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		System.out.println("서블릿옴");
+		String userNo = request.getParameter("userNo");
+		String heartNo = request.getParameter("heartNo");
+		int userNo2 = Integer.valueOf(userNo);
+		int heartNo2 = Integer.valueOf(heartNo);
 		
-		String userName=request.getParameter("userName");
-		String email=request.getParameter("email");
+		ArrayList<JobSearch> jlist = new JobSearchService().deleteHeart(userNo2,heartNo2);
+		RequestDispatcher view = null;
 		
-		String userId = new MemberService().findUserId(userName, email);
-		Member FindUser = new Member(userId,userName,email);
-		
-		HttpSession session = request.getSession();
-		session.setAttribute("FindUser", FindUser);
-		
-		PrintWriter out = response.getWriter();
-		String num="";
-		if(userId != "") {
-			num=EmailSandMethod(email);
-			out.print(num);
-		}else {
-			out.print("No");
-
-		}
+			request.setAttribute("jlist",jlist);
+			view = request.getRequestDispatcher("/mypage/Work/JJIM.jsp");
+			view.forward(request, response);
 	}
 
 	/**

@@ -80,7 +80,9 @@
       transition: 0s;
     }
 
-  
+  nav{
+      text-align: center;
+    }
 
     /* .container {
       padding: 5px;
@@ -205,9 +207,7 @@
             border: 1px solid black !important;
         }
 
-        nav {
-            text-align: center;
-        }
+   
 
         tbody>tr>td,
         th {
@@ -241,21 +241,21 @@
     <nav class="side_menu" style="margin-top:80%">
 
       <ul class="depth2_menu">
-        <li class="depth2_list"><a class="depth2_anchor" href="2.2PIU.html" target="_self">개인정보수정</a>
+        <li class="depth2_list"><a class="depth2_anchor" href="<%=request.getContextPath() %>/views/mypage/PIU/personalIU.jsp" target="_self">개인정보수정</a>
 
         </li>
-        <li class="depth2_list actived"><a class="depth2_anchor" href="3.WHome.html" target="_self">집 예약 내역</a>
+        <li class="depth2_list actived"><a class="depth2_anchor" href="<%=request.getContextPath() %>/views/mypage/Home/wHome.jsp" target="_self">집 예약 내역</a>
         </li>
-        <li class="depth2_list"><a class="depth2_anchor" href="4WW.html" target="_self">구직 신청
+        <li class="depth2_list"><a class="depth2_anchor" href="<%=request.getContextPath() %>/views/mypage/Work/wWork.jsp" target="_self">구직 신청
             내역</a>
 
 
         </li>
-        <li class="depth2_list"><a class="depth2_anchor" href="5.WLetter.html" target="_self">내가 쓴 글</a>
+        <li class="depth2_list"><a class="depth2_anchor" href="<%=request.getContextPath() %>/views/mypage/Letter/wLetter.jsp" target="_self">내가 쓴 글</a>
 
 
         </li>
-        <li class="depth2_list"><a class="depth2_anchor" href="6.JJIM.html" target="_self">찜 목록</a>
+        <li class="depth2_list"><a class="depth2_anchor" href="<%=request.getContextPath() %>/views/mypage/Work/JJIM.jsp" target="_self">찜 목록</a>
 
 
         </li>
@@ -294,7 +294,7 @@
                         <td><i class="fas fa-grin-hearts"></i></td>
                         <td><%=((JobSearch)list.get(i)).getJobNo() %></td>
                         <td><%=((JobSearch)list.get(i)).getTitle() %></td>
-                        <td><%=((JobSearch)list.get(i)).getCountryNo() %></td> <!-- 나중에 나라테이블에서 나라번호랑 비교해서 일치하는 값 가져와야함  -->
+                        <td><%=((JobSearch)list.get(i)).getCountry() %></td>
                         <td><%=((JobSearch)list.get(i)).getPeriod() %></td>
                         <td><%=((JobSearch)list.get(i)).getWorkTime() %></td>
                         <td><%=((JobSearch)list.get(i)).getDueDate() %></td>
@@ -322,22 +322,22 @@
             </nav> -->
             <div class="pagingArea" align="center">
 			<!-- 맨 처음으로(<<) -->
-			<button onclick="location.href='<%=request.getContextPath() %>/list.bo?currentPage=1'"> << </button>
+			<button onclick="location.href='<%=request.getContextPath() %>/list.job?currentPage=1'"> << </button>
 			<!-- 이전 페이지로(<) -->
-			<button onclick="location.href='<%=request.getContextPath() %>/list.bo?currentPage=<%=currentPage-1 %>'"> < </button>
+			<button onclick="location.href='<%=request.getContextPath() %>/list.job?currentPage=<%=currentPage-1 %>'"> < </button>
 			<!-- 10개의 페이지 목록 -->
 			<% for(int p = startPage ; p <= endPage ; p ++) {%>
 				<%if(p == currentPage) {%>
 					<button disabled><%=p %></button>
 				<%}else{ %>
-					<button onclick="location.href='<%=request.getContextPath() %>/list.bo?currentPage=<%=p %>'"><%=p %></button>
+					<button onclick="location.href='<%=request.getContextPath() %>/list.job?currentPage=<%=p %>'"><%=p %></button>
 				<%} %>
 			<% } %>
 			
 			<!-- 다음 페이지로(>) -->
-			<button onclick="location.href='<%=request.getContextPath() %>/list.bo?currentPage=<%=currentPage+1 %>'"> > </button>
+			<button onclick="location.href='<%=request.getContextPath() %>/list.job?currentPage=<%=currentPage+1 %>'"> > </button>
 			<!-- 맨 끝으로(>>) -->
-			<button onclick="location.href='<%=request.getContextPath() %>/list.bo?currentPage=<%=maxPage %>'"> >> </button>
+			<button onclick="location.href='<%=request.getContextPath() %>/list.job?currentPage=<%=maxPage %>'"> >> </button>
 		</div>
         </form>
 
@@ -349,11 +349,26 @@
 		$("#listChoice td").click(function(){
 			
 
-				location.href="<%=request.getContextPath()%>/detail.job";
+				location.href="<%=request.getContextPath()%>/detail.job?jobNo=" +jobNo;
 		
 			// JobDetailServlet을 만들러 가자
 		});
-	})
+		
+		$("#listChoice td").children("i").click(function(){
+			var bool = confirm("찜목록에서 제거하시겠습니까?");
+			if(bool){
+				location.href="<%=request.getContextPath()%>/delete.jjim";
+			}
+		
+		})
+		
+			
+
+	
+		// JJimDeleteServlet을 만들러 가자
+	});
+		
+	
     </script>
 
 

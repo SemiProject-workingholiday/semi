@@ -26,8 +26,7 @@
 
     <!-- Custom styles for this template -->
     <style>
-<<<<<<< HEAD
-    
+
     	header{
       width: 100%;
       font-family: 'Noto Sans KR', sans-serif;

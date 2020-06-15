@@ -1,25 +1,27 @@
-package mypage.controller;
+package member.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mypage.model.service.MyPageService;
+import member.model.service.MemberService;
 
 /**
- * Servlet implementation class GradeCheckServlet
+ * Servlet implementation class IdCheckServlet
  */
-@WebServlet("/grade.check")
-public class GradeCheckServlet extends HttpServlet {
+@WebServlet("/idcheck.me")
+public class IdCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GradeCheckServlet() {
+    public IdCheckServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,19 +30,16 @@ public class GradeCheckServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
 		String userId = request.getParameter("userId");
-		String grade = request.getParameter("grade");
+		System.out.println(userId);
 		
-		int result = new MyPageService().gradeCheck(userId,grade);
-		if(result == 2) {
-			request.setAttribute(userId,userId );
-			request.setAttribute(grade, grade);
-			request.getRequestDispatcher("views/mypage/PIU/personalIU.jsp").forward(request, response); // 워홀러 마이페이지 개인정보수정으로
-		}else if(result == 3) {
-			request.setAttribute(userId,userId );
-			request.setAttribute(grade, grade);
-			request.getRequestDispatcher("views/mypage/PIU/NpersonalIU.jsp").forward(request, response); // 현지인 마이페이지 개인정보수정으로
+		int result = new MemberService().IdCheck(userId);
+		
+		PrintWriter out = response.getWriter();
+		if(result > 0) {
+			out.print("Y");
+		}else {
+			out.print("N");
 		}
 		
 	}

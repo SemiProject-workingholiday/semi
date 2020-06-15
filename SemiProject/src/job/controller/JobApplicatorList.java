@@ -14,16 +14,16 @@ import job.model.service.JobSearchService;
 import job.model.vo.Pagination;
 
 /**
- * Servlet implementation class jobListServlet
+ * Servlet implementation class JobApplicatorList
  */
-@WebServlet("/list.job")
-public class JobListServlet extends HttpServlet {
+@WebServlet("/list.ja")
+public class JobApplicatorList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public JobListServlet() {
+    public JobApplicatorList() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,9 +32,9 @@ public class JobListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		JobSearchService jService = new JobSearchService();
+	JobSearchService jService = new JobSearchService();
 		
-		int listCount = jService.getListCount();
+		int jalistCount = jService.getJaListCount();
 		
 		int currentPage;	// 현재 페이지를 표시 할 변수
 		int limit;			// 한 페이지에 게시글이 몇 개가 보여질 것인지
@@ -59,7 +59,7 @@ public class JobListServlet extends HttpServlet {
 		 * 목록 수가 123개이면 페이지 수는 총 13페이지임
 		 * 짜투리 목록이 최소 1개일 때, 1page로 처리하기 위해 0.9를 더함
 		 */
-		maxPage = (int)((double)listCount/limit + 0.9);
+		maxPage = (int)((double)jalistCount/limit + 0.9);
 
 		/*
 		 * startPage - 현재 페이지에 보여질 시작 페이지 수
@@ -84,14 +84,14 @@ public class JobListServlet extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
+		Pagination pn = new Pagination(currentPage, jalistCount, limit, maxPage, startPage, endPage);
 		
-		// 1_2. 화면에 뿌려줄 찜테이블 리스트 조회하기
-		ArrayList list = jService.selectList(currentPage, limit);	
+		// 1_2. 화면에 뿌려줄 구직신청자 테이블 리스트 조회하기
+		ArrayList list = jService.selectListJa(currentPage, limit);	
 		
 		RequestDispatcher view = null;
 		if(list != null) {
-			view = request.getRequestDispatcher("views/mypage/Work/JJIM.jsp");
+			view = request.getRequestDispatcher("views/mypage/Work/nWork.jsp");
 			request.setAttribute("list", list);
 			request.setAttribute("pn", pn);
 		}else {
@@ -99,7 +99,6 @@ public class JobListServlet extends HttpServlet {
 			request.setAttribute("msg", "게시글 조회 실패!!");
 		}
 		view.forward(request, response);
-		
 	}
 
 	/**

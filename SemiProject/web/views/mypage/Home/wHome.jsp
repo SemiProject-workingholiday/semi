@@ -1,5 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="home.model.vo.Home, java.util.ArrayList"%>
+<%
+
+ArrayList list = (ArrayList)request.getAttribute("list");
+String type = ((Home)list.get(0)).getType();
+String period =((Home)list.get(0)).getPeriod();
+String title = ((Home)list.get(0)).getTitle();
+String fee = ((Home)list.get(0)).getFee();
+String address = ((Home)list.get(0)).getAddress();
+String essentialItem = ((Home)list.get(0)).getEssentialItem();
+String wifi = ((Home)list.get(0)).getWifi();
+String television = ((Home)list.get(0)).getTelevision();
+String heater =((Home)list.get(0)).getHeater();
+String airConditional = ((Home)list.get(0)).getAirConditional();
+String livingroom = ((Home)list.get(0)).getLivingroom();
+String bathroom = ((Home)list.get(0)).getBathroom();
+String pet = ((Home)list.get(0)).getPet();
+String userName = ((Home)list.get(0)).getUserName();
+String email =((Home)list.get(0)).getEmail();
+
+%>    
+    
+    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +50,9 @@
 
   <style>
   
-
+nav{
+      text-align: center;
+    }
     #nation {
       border: 0.5px solid rgb(176, 171, 171);
       border-top-left-radius: 0.5em;
@@ -70,9 +94,7 @@
       transition: 0s;
     }
 
-    .nav>li>a {
-      color: black;
-    }
+  
 
     /* .container {
       padding: 5px;
@@ -106,102 +128,6 @@
 
     }
 
-    .nav {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      height: auto;
-      padding-top: 55px;
-    }
-
-    .nav li {
-      padding: 0 10px 4px;
-      line-height: 40px;
-      display: inline-block;
-    }
-
-    .nav>li>a {
-      display: block;
-      font-weight: 600;
-      font-size: 14px;
-      color: black;
-      text-decoration: none;
-    }
-
-
-
-    .nav>li:hover>a {
-      background: none;
-      color: white;
-    }
-
-    .nav li>ul {
-      display: none;
-    }
-
-    .nav li:hover>ul {
-      width: 500px;
-      position: absolute;
-      opacity: 1;
-      display: block;
-      margin: 5px 0 0 0;
-      height: 45px;
-      text-align: center;
-      background: #ADD4D9;
-      right: -5px;
-      z-index: 1000;
-    }
-
-    .nav li:hover>ul li {
-      float: left;
-      border: rgb(113, 177, 197);
-      margin: 0;
-      padding: 0;
-      display: inline;
-    }
-
-    .nav li:hover>ul>li>a {
-      float: left;
-      color: black;
-      padding: 0 10px 0 0;
-      margin: 0;
-      line-height: 45px;
-      display: block;
-      width: 90px;
-    }
-
-    .login_register {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      position: absolute;
-      top: 1%;
-      right: 5%;
-    }
-
-    .login_register li {
-      float: left;
-      position: relative;
-      padding: 0;
-      line-height: 40px;
-      padding: 0 10px;
-    }
-
-    .login_register li a {
-      display: block;
-      font-weight: 600;
-      font-size: 14px;
-      color: black;
-      text-decoration: none;
-    }
-
-    .login_register>li:hover>a {
-      background: none;
-      color: white;
-    }
-
-
 
 
     #nara {
@@ -231,6 +157,12 @@
       padding-left:5px;
       width:500px;
     }
+     .content1{
+      padding-left:5px;
+      width:400px;
+      color: red;
+      border: 1px solid black;
+    }
   </style>
 
 </head>
@@ -239,72 +171,40 @@
 
 <body>
 
-  <header>
-    <div class="container2 z1" style="position: relative;">
-      <div class="logo">
-        <a class="navbar-brand" href="#" style='width:160px !important; height: 120px !important; padding:0px;'><img
-            src="semi.png"
-            style='width:160px !important; height: 120px !important; margin-top:0px !important; margin-left: 0px !important; '></img></a>
-      </div>
-      <div class="menu">
-        <ul class="nav">
-          <li class="active"><a href="#">소개</a></li>
-          <li><a href="order.php">안전정보</a></li>
-          <li><a href="order_check.php">집 예약</a></li>
-          <li><a href="order_change.html">구직 정보</a></li>
-          <li><a href="order_change.html">커뮤니티</a>
-            <ul id="nara">
-              <li><a href="http://www.naver.com">뉴질랜드</a></li>
-              <li><a href="http://www.naver.com">독일</a></li>
-              <li><a href="http://www.naver.com">일본</a></li>
-              <li><a href="http://www.naver.com">캐나다</a></li>
-              <li><a href="http://www.naver.com">호주</a></li>
-            </ul>
-          </li>
-        </ul>
-
-        <ul class="login_register">
-          <li><a href="2.2PIU.html">마이페이지</a></li>
-          <li><a href="1.mainpage.html">로그아웃</a></li>
-        </ul>
-      </div>
-    </div>
-  </header>
+ 
+	<%@=include file="/views/common/menubar.jsp" %>
 
 
+ <div style="position:static;">
+ <div class="area side z2"
+    style="width: 160px; height: 900px; margin: 0; padding: 0; border-right: 1px solid lightgray; ">
 
-    <div class="area" id="wrap" align="left"
-      style="width:160px; height: 800px; margin: 0; padding: 0; border-right: 1px solid lightgray; ">
+    <nav class="side_menu" style="margin-top:80%">
 
-      <nav class="side_menu">
+      <ul class="depth2_menu">
+        <li class="depth2_list"><a class="depth2_anchor" href="<%=request.getContextPath() %>/views/mypage/PIU/personalIU.jsp" target="_self">개인정보수정</a>
 
-        <ul class="depth2_menu" style="margin-top: 80%;">
-          <li class="depth2_list"><a class="depth2_anchor"
-              href="2.2PIU.html"
-              target="_self">개인정보수정</a>
-
-          </li>
-          <li class="depth2_list actived"><a class="depth2_anchor" href="3.WHome.html"
-              target="_self">집 예약 내역</a>
-          </li>
-          <li class="depth2_list"><a class="depth2_anchor" href="4WW.html" target="_self">구직 신청
-              내역</a>
+        </li>
+        <li class="depth2_list actived"><a class="depth2_anchor" href="<%=request.getContextPath() %>/views/mypage/Home/wHome.jsp" target="_self">집 예약 내역</a>
+        </li>
+        <li class="depth2_list"><a class="depth2_anchor" href="<%=request.getContextPath() %>/views/mypage/Work/wWork.jsp" target="_self">구직 신청
+            내역</a>
 
 
-          </li>
-          <li class="depth2_list"><a class="depth2_anchor" href="5.WLetter.html" target="_self">내가 쓴 글</a>
+        </li>
+        <li class="depth2_list"><a class="depth2_anchor" href="<%=request.getContextPath() %>/views/mypage/Letter/wLetter.jsp" target="_self">내가 쓴 글</a>
 
 
-          </li>
-          <li class="depth2_list"><a class="depth2_anchor" href="6.JJIM.html" target="_self">찜 목록</a>
+        </li>
+        <li class="depth2_list"><a class="depth2_anchor" href="<%=request.getContextPath() %>/views/mypage/Work/JJIM.jsp" target="_self">찜 목록</a>
 
 
-          </li>
+        </li>
 
-        </ul>
+      </ul>
 
-      </nav>
-    </div>
+    </nav>
+  </div>
     
 
     <div id="wrap" class="area" style="position:absolute; margin-left: 5%;"; align="center">
@@ -314,46 +214,131 @@
       <form style="margin-top: 100px; margin-left: 280px;  " >
 
         <table align="center" id="home">
-          <tr>
-            <td class="mainChoice">건물 이름</td>
-            <td class="content">트리하우스</td>
+        <%if(list.isEmpty()){ %>
+         <tr>
+            <td class="mainChoice">글 제목</td>
+            <td class="content1" rowspan="10" >X 예약 내역이 없습니다.<br> 좋은 집들이 많으니 어서 예약하세요!!</td>
           </tr>
           <tr>
             <td class="mainChoice">집 종류</td>
-            <td class="content">원룸/아파트</td>
           </tr>
           <tr>
             <td class="mainChoice">입주 기간</td>
-            <td class="content">2020년 05월 18일 ~ 2020년 12월 18일</td>
           </tr>
           <tr>
             <td class="mainChoice">월세</td>
-            <td class="content">￦199,883</td>
           </tr>
           <tr>
             <td class="mainChoice">건물주 이름</td>
-            <td class="content">김성훈</td>
           </tr>
           <tr>
-            <td class="mainChoice">건물주 전화번호</td>
-            <td class="content">010-5170-4587</td>
+            <td class="mainChoice">건물주 이메일</td>
           </tr>
           <tr>
             <td class="mainChoice">건물 주소</td>
-            <td class="content">서울특별시 강남구 테헤란로 14길 6 남도빌딩 2F</td>
           </tr>
           <tr>
             <td class="mainChoice">편의 시설</td>
-            <td class="content">TV, 무선인터넷, 난방, 에어컨</td>
           </tr>
           <tr>
             <td class="mainChoice">공용 공간</td>
-            <td class="content">거실, 주방, 화장실</td>
           </tr>
           <tr>
             <td class="mainChoice">애완동물</td>
-            <td class="content">있음</td>
           </tr>
+          <%}else{ %>
+          <tr>
+            <td class="mainChoice">글 제목</td>
+            <td class="content"><%=title %></td>
+          </tr>
+          <tr>
+            <td class="mainChoice">집 종류</td>
+            <td class="content"><%=type %></td>
+          </tr>
+          <tr>
+            <td class="mainChoice">입주 기간</td>
+            <td class="content"><%=period %></td>
+          </tr>
+          <tr>
+            <td class="mainChoice">월세</td>
+            <td class="content"><%=fee %></td>
+          </tr>
+          <tr>
+            <td class="mainChoice">건물주 이름</td>
+            <td class="content"><%=userName %></td>
+          </tr>
+          <tr>
+            <td class="mainChoice">건물주 이메일</td>
+            <td class="content"><%=email %></td>
+          </tr>
+          <tr>
+            <td class="mainChoice">건물 주소</td>
+            <td class="content"><%=address %></td>
+          </tr>
+          <tr>
+            <td class="mainChoice">편의 시설</td>
+            <td class="content">
+            
+            <%if(essentialItem.charAt(0)=='Y'){ %>
+            	essentialItem = "수건, 침대, 식탁  ";
+            <%}else{ %>
+            	essentialItem = "";
+            <%} %>
+            
+            <%if(wifi.charAt(0)=='Y'){ %>
+            	wifi = "wifi ";
+            <%}else{ %>
+            	wifi = "";
+            <%} %>
+
+            <%if(television.charAt(0)=='Y'){ %>
+            	television = "TV ";
+            <%}else{ %>
+            	television = "";
+            <%} %>
+            
+            <%if(heater.charAt(0)=='Y'){ %>
+            	heater = "난방 ";
+            <%}else{ %>
+            	heater = "";
+            <%} %>
+            
+             <%if(airConditional.charAt(0)=='Y'){ %>
+            	airConditional = "공기청정기 ";
+            <%}else{ %>
+            	airConditional = "";
+            <%} %>
+            </td>
+          </tr>
+          <tr>
+            <td class="mainChoice">공용 공간</td>
+            <td class="content">
+             <%if(livingroom.charAt(0)=='Y'){ %>
+            	livingroom = "거실 ";
+            <%}else{ %>
+            	livingroom = "";
+            <%} %>
+            
+             <%if(bathroom.charAt(0)=='Y'){ %>
+            	bathroom = "화장실 ";
+            <%}else{ %>
+            	bathroom = "";
+            <%} %>
+            
+            </td>
+          </tr>
+          <tr>
+            <td class="mainChoice">애완동물</td>
+            <td class="content">
+             <%if(pet.charAt(0)=='Y'){ %>
+            	pet = "O";
+            <%}else{ %>
+            	pet = "--";
+            <%} %>
+            </td>
+          </tr>
+          
+          <%} %>
         </table>
       </form>
       <br><br>
@@ -366,11 +351,12 @@
         $("#homeless").click(function(){ 
         var result = confirm("예약을 취소 하시겠습니까?");
           if(result){
-            location.assign("11.NOHome.html");
-          }else{
-           location.reload();
+        	  location.href="<%=request.getContextPath()%>/delete.home";
           }
       })
+      $("#home .content").click(function(){
+			location.href="<%=request.getContextPath()%>/detail.home";
+	});
     })
 
 

@@ -1,31 +1,28 @@
 package member.controller;
 
-import static member.controller.Emailsand.EmailSandMethod;
-
 import java.io.IOException;
-import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class FindIdServlet
+ * Servlet implementation class UpdateMemberServlet
  */
-@WebServlet("/findid.me")
-public class FindIdServlet extends HttpServlet {
+@WebServlet("/update.me")
+public class UpdateMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindIdServlet() {
+    public UpdateMemberServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,26 +31,25 @@ public class FindIdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		System.out.println("서블릿옴");
+		request.setCharacterEncoding("utf-8");
 		
-		String userName=request.getParameter("userName");
-		String email=request.getParameter("email");
 		
-		String userId = new MemberService().findUserId(userName, email);
-		Member FindUser = new Member(userId,userName,email);
+		String userName = request.getParameter("userName");
+		String email = request.getParameter("email");
+		String userPwd = request.getParameter("userPwd");
+		String userId = request.getParameter("userId");
 		
-		HttpSession session = request.getSession();
-		session.setAttribute("FindUser", FindUser);
+	
+		int resultName = new MemberService().updateName(userName,userId);
+		int resultPwd = new MemberService().updatePwd(userPwd,userId);
+		int resultEmail = new MemberService().updateEmail(email,userId);
 		
-		PrintWriter out = response.getWriter();
-		String num="";
-		if(userId != "") {
-			num=EmailSandMethod(email);
-			out.print(num);
-		}else {
-			out.print("No");
-
-		}
+		RequestDispatcher view = null;
+		 if(resultName > 0 || resultPwd > 0 ||  resultEmail > 0) {
+			 view = request.getRequestDispatcher("views/mypage/PIU/personalIU.jsp");
+		 }
+		 
+		 view.forward(request, response);
 	}
 
 	/**

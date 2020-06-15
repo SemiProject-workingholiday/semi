@@ -1,31 +1,29 @@
-package member.controller;
-
-import static member.controller.Emailsand.EmailSandMethod;
+package home.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import home.model.service.HomeService;
+import home.model.vo.Home;
 
 /**
- * Servlet implementation class FindIdServlet
+ * Servlet implementation class HomeReservationDelete
  */
-@WebServlet("/findid.me")
-public class FindIdServlet extends HttpServlet {
+@WebServlet("/delete.home")
+public class HomeReservationDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindIdServlet() {
+    public HomeReservationDelete() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,27 +32,17 @@ public class FindIdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		System.out.println("서블릿옴");
+		String reservationNo = request.getParameter("reservationNo");
+		int  reservationNo2 = Integer.valueOf(reservationNo);
 		
-		String userName=request.getParameter("userName");
-		String email=request.getParameter("email");
-		
-		String userId = new MemberService().findUserId(userName, email);
-		Member FindUser = new Member(userId,userName,email);
-		
-		HttpSession session = request.getSession();
-		session.setAttribute("FindUser", FindUser);
-		
-		PrintWriter out = response.getWriter();
-		String num="";
-		if(userId != "") {
-			num=EmailSandMethod(email);
-			out.print(num);
-		}else {
-			out.print("No");
-
-		}
+		ArrayList<Home> homelist = new HomeService().deletehome(reservationNo2);
+		RequestDispatcher view = null;
+		if(homelist == null) {
+			request.setAttribute("homelist",homelist);
+			view = request.getRequestDispatcher("/mypage/Home/wHome.jsp");
+			view.forward(request, response);
 	}
+		}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

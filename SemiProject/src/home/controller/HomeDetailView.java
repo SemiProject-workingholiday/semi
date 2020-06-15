@@ -1,4 +1,4 @@
-package mypage.controller;
+package home.controller;
 
 import java.io.IOException;
 
@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mypage.model.service.MyPageService;
-import mypage.model.vo.Member;
+import home.model.service.HomeService;
+import home.model.vo.Home;
 
 /**
- * Servlet implementation class UpdateMemberServlet
+ * Servlet implementation class HomeDetailView
  */
-@WebServlet("/update.me")
-public class UpdateMemberServlet extends HttpServlet {
+@WebServlet("/detail.home")
+public class HomeDetailView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateMemberServlet() {
+    public HomeDetailView() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,25 +31,30 @@ public class UpdateMemberServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
 		
-		
-		String userName = request.getParameter("userName");
-		String email = request.getParameter("email");
-		String userPwd = request.getParameter("userPwd");
-		String userId = request.getParameter("userId");
+		// 오류가 생긴다면 heartno를 추가하던지 해야될듯 jsp에
+		String houseNo = request.getParameter("houseNo");
+		int houseNo2 = Integer.valueOf(houseNo);
+		String userNo = request.getParameter("userNo");
+		int userNo2 = Integer.valueOf(userNo);
+	
+		Home home  = new HomeService().selectHome(houseNo2, userNo2);
 		
 	
-		int resultName = new MyPageService().updateName(userName,userId);
-		int resultPwd = new MyPageService().updatePwd(userPwd,userId);
-		int resultEmail = new MyPageService().updateEmail(email,userId);
+		if(home != null) {
+			request.setAttribute("home", home);
+			request.getRequestDispatcher("views/Home/민지의.jsp").forward(request, response);
+			
+			
+		}else {
+			request.setAttribute("msg", "게시글이 존재하지 않습니다.!");
+			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
+
+			view.forward(request, response);
+		}
 		
-		RequestDispatcher view = null;
-		 if(resultName > 0 || resultPwd > 0 ||  resultEmail > 0) {
-			 view = request.getRequestDispatcher("views/mypage/PIU/personalIU.jsp");
-		 }
-		 
-		 view.forward(request, response);
+	
+		
 	}
 
 	/**

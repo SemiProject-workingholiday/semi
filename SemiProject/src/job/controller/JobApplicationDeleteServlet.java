@@ -1,31 +1,29 @@
-package member.controller;
-
-import static member.controller.Emailsand.EmailSandMethod;
+package job.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import job.model.service.JobSearchService;
+import job.model.vo.JobSearch;
 
 /**
- * Servlet implementation class FindIdServlet
+ * Servlet implementation class JobApplicationDeleteServlet
  */
-@WebServlet("/findid.me")
-public class FindIdServlet extends HttpServlet {
+@WebServlet("/delete.job")
+public class JobApplicationDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindIdServlet() {
+    public JobApplicationDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,26 +32,17 @@ public class FindIdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		System.out.println("서블릿옴");
+		String jobApplyNo = request.getParameter("jobApplyNo");
+	
+		int jobApplyNo2 = Integer.valueOf(jobApplyNo);
 		
-		String userName=request.getParameter("userName");
-		String email=request.getParameter("email");
+		ArrayList<JobSearch> Alist = new JobSearchService().deleteA(jobApplyNo2);
+		RequestDispatcher view = null;
 		
-		String userId = new MemberService().findUserId(userName, email);
-		Member FindUser = new Member(userId,userName,email);
+			request.setAttribute("Alist",Alist);
+			view = request.getRequestDispatcher("/mypage/Work/wWork.jsp");
+			view.forward(request, response);
 		
-		HttpSession session = request.getSession();
-		session.setAttribute("FindUser", FindUser);
-		
-		PrintWriter out = response.getWriter();
-		String num="";
-		if(userId != "") {
-			num=EmailSandMethod(email);
-			out.print(num);
-		}else {
-			out.print("No");
-
-		}
 	}
 
 	/**

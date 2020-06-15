@@ -4,12 +4,12 @@ import java.sql.Date;
 
 public class Member {
 
+	private int tableNo;
 	private int userNo;
 	private String userId;
-	private String userPw;
+	private String userPwd;
 	private String userName;
 	private Date userBirth;
-	private String phone;
 	private String email;
 	private int grade;
 	private String sanction;
@@ -18,33 +18,85 @@ public class Member {
 	
 	
 	public Member() {
-		
+		super();
 	}
 
 
-	public Member(String userId, String userPw) {
+	public Member(String userId, String userPwd) {
 		super();
 		this.userId = userId;
-		this.userPw = userPw;
+		this.userPwd = userPwd;
+	}
+
+	
+	
+	public Member(String userId, String userPwd, String email) {
+		super();
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.email = email;
 	}
 
 
+	public Member(String userId, String userName,String userPwd, String email) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.userPwd = userPwd;
+		this.email = email;
+	}
 
 
-	public Member(int userNo, String userId, String userPw, String userName, Date userBirth, String phone, String email,
+	public Member(String userId, String userPwd, String userName, Date userBirth, String email, int grade,
+			String gender) {
+		super();
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.userBirth = userBirth;
+		this.email = email;
+		this.grade = grade;
+		this.gender = gender;
+	}
+
+	public Member(int userNo, String userId, String userPwd, String userName, Date userBirth,String email,
 			int grade, String sanction, String status, String gender) {
 		super();
 		this.userNo = userNo;
 		this.userId = userId;
-		this.userPw = userPw;
+		this.userPwd = userPwd;
 		this.userName = userName;
 		this.userBirth = userBirth;
-		this.phone = phone;
 		this.email = email;
 		this.grade = grade;
 		this.sanction = sanction;
 		this.status = status;
 		this.gender = gender;
+	}
+
+	public Member(int tableNo, int userNo, String userId, String userPwd, String userName, Date userBirth, String email,
+			int grade, String sanction, String status, String gender) {
+		this.tableNo = tableNo;
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.userBirth = userBirth;
+		this.email = email;
+		this.grade = grade;
+		this.sanction = sanction;
+		this.status = status;
+		this.gender = gender;
+	}
+	
+	
+	public int getTableNo() {
+		return tableNo;
+	}
+
+
+	public void setTableNo(int tableNo) {
+		this.tableNo = tableNo;
 	}
 
 
@@ -68,13 +120,13 @@ public class Member {
 	}
 
 
-	public String getUserPw() {
-		return userPw;
+	public String getUserPwd() {
+		return userPwd;
 	}
 
 
-	public void setUserPw(String userPw) {
-		this.userPw = userPw;
+	public void setUserPwd(String userPwd) {
+		this.userPwd = userPwd;
 	}
 
 
@@ -96,17 +148,6 @@ public class Member {
 	public void setUserBirth(Date userBirth) {
 		this.userBirth = userBirth;
 	}
-
-
-	public String getPhone() {
-		return phone;
-	}
-
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
 
 	public String getEmail() {
 		return email;
@@ -160,13 +201,18 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "Member [userNo=" + userNo + ", userId=" + userId + ", userPw=" + userPw + ", userName=" + userName
-				+ ", userBirth=" + userBirth + ", phone=" + phone + ", email=" + email + ", grade=" + grade
+		return "Member [tableNo=" + tableNo + ", userNo=" + userNo + ", userId=" + userId + ", userPwd=" + userPwd
+				+ ", userName=" + userName + ", userBirth=" + userBirth + ", email=" + email + ", grade=" + grade
 				+ ", sanction=" + sanction + ", status=" + status + ", gender=" + gender + "]";
 	}
+
+
+
+
 	
-	
-	
-	
+
+
+
+
 
 }

@@ -1,4 +1,4 @@
-package job.controller;
+package home.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import job.model.service.JobSearchService;
+import home.model.service.HomeService;
 import job.model.vo.Pagination;
 
 /**
- * Servlet implementation class jobListServlet
+ * Servlet implementation class HomeReservationList
  */
-@WebServlet("/list.job")
-public class JobListServlet extends HttpServlet {
+@WebServlet("/list.home")
+public class HomeReservationList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public JobListServlet() {
+    public HomeReservationList() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,9 +32,9 @@ public class JobListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		JobSearchService jService = new JobSearchService();
+		HomeService hService = new HomeService();
 		
-		int listCount = jService.getListCount();
+		int listCount = hService.getListCount();
 		
 		int currentPage;	// 현재 페이지를 표시 할 변수
 		int limit;			// 한 페이지에 게시글이 몇 개가 보여질 것인지
@@ -86,12 +86,12 @@ public class JobListServlet extends HttpServlet {
 		
 		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
-		// 1_2. 화면에 뿌려줄 찜테이블 리스트 조회하기
-		ArrayList list = jService.selectList(currentPage, limit);	
+		// 1_2. 화면에 뿌려줄 집 예약자 테이블 리스트 조회하기
+		ArrayList list = hService.selectList(currentPage, limit);	
 		
 		RequestDispatcher view = null;
 		if(list != null) {
-			view = request.getRequestDispatcher("views/mypage/Work/JJIM.jsp");
+			view = request.getRequestDispatcher("views/mypage/Home/nHome.jsp");
 			request.setAttribute("list", list);
 			request.setAttribute("pn", pn);
 		}else {
@@ -99,6 +99,9 @@ public class JobListServlet extends HttpServlet {
 			request.setAttribute("msg", "게시글 조회 실패!!");
 		}
 		view.forward(request, response);
+		
+		
+		
 		
 	}
 

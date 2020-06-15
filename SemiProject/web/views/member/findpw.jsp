@@ -59,12 +59,17 @@
       */
  }
  #log_btn{
-	 width: 447px;
+  	 width: 447px;
      height: 55px;
      font-weight: 1000; 
      font-size: 25px; 
      border: none; 
      background-color:rgb(202, 202, 202);
+ }
+ #CertificationNum{
+ 	width:340px; 
+ 	margin-right:10px;  
+ 	border-radius:5px;
  }
 </style>
 </head>
@@ -72,17 +77,17 @@
 <div id="warp">
 	<img id="logoimg" src="<%=request.getContextPath()%>/images/logo2.png" onclick="location.href='main.jsp'">
 		<br>
-	<form action="idcomplete.jsp" method="post" onsubmit="return keyCheck();">
+	<form action="pwcomplete.jsp" method="post" onsubmit="return keyCheck();">
 	<div class="center_div">
-		<p style=" font-weight: 1000; font-size: 25px; color:rgb(127,127,127); margin:10px ">아이디 찾기
+		<p style=" font-weight: 1000; font-size: 25px; color:rgb(127,127,127); margin:10px ">비밀번호 찾기
 		<div class="center_div" style="border-top:2px solid rgb(202,202,202); padding: 10px; width:470px;">	</div>
 		
-		<input type="text" name="userName" id="userName" class="log" placeholder="이름을 입력해 주세요">
+		<input type="text" name="userId" id="userId" class="log" placeholder="아이디를 입력해 주세요">
 		<br><br><br>
 		<input type="email" name="email" id="email" class="log" placeholder="이메일을 입력해 주세요">	
 		<br><br><br>
 		
-		<input style="width:340px; margin-right:10px;  border-radius:5px;" type="text" name="CertificationNum"  class="log" id="CertificationNum" placeholder="인증번호를 입력해주세요" readonly>
+		<input type="text" name="CertificationNum"  class="log" id="CertificationNum" placeholder="인증번호를 입력해주세요" readonly>
 		<button style="float:left; border-radius:5px;  background-color:rgb(202, 202, 202); border: none;  height: 52px;" type="button"  onclick="Btn();">인증번호 받기</button>
 		<br><br><br><br>
 		
@@ -92,7 +97,7 @@
 		<br><br><br><br>
 		<div class="center_div" style="border-top:1px solid rgb(202,202,202); padding: 10px; width:470px;">			
 				<div class="menup" onclick="location.href='findid.jsp'">아이디 찾기</div>
-				<div class="menup" style="border-left: 1.5px solid rgb(202, 202, 202); border-right: 1.5px solid rgb(202, 202, 202);" onclick="location.href='findpw.jsp'" >비밀번호 찾기</div>
+				<div class="menup" style="border-left: 1.5px solid rgb(202, 202, 202); border-right: 1.5px solid rgb(202, 202, 202); onclick="location.href='findpw.jsp'"  ">비밀번호 찾기</div>
 				<div class="menup" onclick="location.href='join.html'">회원가입</div>
 		</div>
 	</div>
@@ -103,20 +108,20 @@
 	//맞다면 이메일 인증번호를 보냄
 	var randomKey;
 	function Btn(){
-		var userName = $("#userName");
+		var userId = $("#userId");
 		var email = $("#email");
 		
-		if(userName.val().trim().length == 0){
-			alert("이름을 입력해 주세요");
+		if(userId.val().trim().length == 0){
+			alert("아이디를 입력해 주세요");
 			userName.focus();
 		} else if(email.val().trim().length == 0){
 			alert("이메일을 입력해 주세요");
 			email.focus();
 		}else{
 			$.ajax({
-				url:"<%=request.getContextPath()%>/findid.me",
+				url:"<%=request.getContextPath()%>/findpw.me",
 				type:"post",
-				data:{userName:userName.val(), email:email.val()},
+				data:{userId:userId.val(), email:email.val()},
 				success:function(data){
 					if(data=="No"){
 						alert("입력하신 정보와 일치하는 정보가 없습니다.\n다시한번 확인한 후 인증번호 받기 버튼을 눌러주세요");
