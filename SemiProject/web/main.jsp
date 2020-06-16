@@ -253,7 +253,7 @@
             <div id="area1" class="notice">
                 <h3 class = "title">공지사항<small><a href="http://www.naver.com" class = "more">+더보기</a></small></h3>
                 <ul class="infor">
-                  <li><a href="http://www.naver.com">가나다라마바사가나다라마바사가나다라마바사</a></li>
+                  <li><a href="http://www.naver.com">하이하이</a></li>
                   <li><a href="http://www.naver.com">가나다라마바사가나다라마바사가나다라마바사</a></li>
                   <li><a href="http://www.naver.com">가나다라마바사가나다라마바사가나다라마바사</a></li>
                   <li><a href="http://www.naver.com">가나다라마바사가나다라마바사가나다라마바사</a></li>
