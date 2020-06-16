@@ -20,6 +20,30 @@ public class Review implements Serializable{
 	
 	public Review() {}
 	
+	
+	public Review(String content, int houseNo, int score, int userNo) {
+		this.content = content;
+		this.houseNo = houseNo;
+		this.score = score;
+		this.userNo = userNo;
+	}
+	
+	
+
+
+	public Review(int reviewNo, String content, Date writeDate, int report, int houseNo, int score, int userNo,
+			String userName) {
+		this.reviewNo = reviewNo;
+		this.content = content;
+		this.writeDate = writeDate;
+		this.report = report;
+		this.houseNo = houseNo;
+		this.score = score;
+		this.userNo = userNo;
+		this.userName = userName;
+	}
+
+
 	public Review(String img, String content, int houseNo, int userNo) {
 		this.img = img;
 		this.content = content;

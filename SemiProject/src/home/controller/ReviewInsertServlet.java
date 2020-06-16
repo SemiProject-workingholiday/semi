@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import home.model.service.HomeService;
+import home.model.vo.Pagination;
 import home.model.vo.Review;
 
 /**
@@ -34,15 +35,13 @@ public class ReviewInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int writer = Integer.valueOf(request.getParameter("writer"));
+		int userNo = Integer.valueOf(request.getParameter("userNo"));
+		System.out.println(userNo);
 		int hNo = Integer.valueOf( request.getParameter("hNo"));
 		String content = request.getParameter("content");
 		int score = Integer.valueOf(request.getParameter("score"));
-		String file = request.getParameter("file");
 		
-		System.out.println("writer : " +writer +"hno"+hNo+"content"+content + "score : " + score + "file : " + file);
-		
-		Review r = new Review(file,content,hNo,score,writer);
+		Review r = new Review(content,hNo,score,userNo);
 		
 		ArrayList<Review> rlist = new HomeService().insertReply(r);
 		

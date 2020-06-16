@@ -158,11 +158,11 @@
                 <tr>
                     <td><b>나라</b></td>
                     <td>
-                        <label class="country_option"><input type="radio" name = "country" value="australia"><span>호주</span></label>
-                        <label class="country_option"><input type="radio" name = "country" value="japan"><span>일본</span></label>
-                        <label class="country_option"><input type="radio" name = "country" value="canada"><span>캐나다</span></label>
-                        <label class="country_option"><input type="radio" name = "country" value="newzealand"><span>뉴질랜드</span></label>
-                        <label class="country_option"><input type="radio" name = "country" value="germany"><span>독일</span></label>
+                        <label class="country_option"><input type="radio" name = "country" value="호주"><span>호주</span></label>
+                        <label class="country_option"><input type="radio" name = "country" value="일본"><span>일본</span></label>
+                        <label class="country_option"><input type="radio" name = "country" value="캐나다"><span>캐나다</span></label>
+                        <label class="country_option"><input type="radio" name = "country" value="뉴질랜드"><span>뉴질랜드</span></label>
+                        <label class="country_option"><input type="radio" name = "country" value="독일"><span>독일</span></label>
                     </td>
                 </tr>
                 <tr> 

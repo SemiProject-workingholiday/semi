@@ -31,15 +31,13 @@ public class HomeReport extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int hNo = Integer.valueOf(request.getParameter("hNo"));
-		
-		int result = new HomeService().deleteHome(hNo);
-		
-		RequestDispatcher view = null;
-		
+
+		int result = new HomeService().reportHome(hNo);
+
 		if(result > 0) {
 			response.sendRedirect("list.ho?currentPage=1");
 		} else {
-			System.out.println("게시글 삭제 실패");
+			System.out.println("게시글 신고 실패");
 		}
 	}
 

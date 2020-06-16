@@ -40,15 +40,12 @@ public class HomeDetailServlet extends HttpServlet {
 		ArrayList<Img> flist = new HomeService().selectImgList(hNo2);
 		ArrayList<Review> rlist = new HomeService().selectReplyList(hNo2);
 		
-		// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
-		
-//		System.out.println("rlist " + rlist);
-		
-		
+		System.out.println("집" + home);
+		System.out.println("이미지" + flist);
 		if(home != null) {
 			request.setAttribute("home", home);
 			request.setAttribute("flist", flist);
-//			request.setAttribute("rlist", rlist);
+			request.setAttribute("rlist", rlist);
 			request.getRequestDispatcher("views/home/homeDetailView.jsp").forward(request, response);
 		} else {
 			System.out.println("실패");

@@ -42,26 +42,124 @@ public class HomeDao {
 		return result;
 	}
 	
-	public int getListCount2(Connection conn, String country, String home, String period) {
+	public int getRListCount(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String query = "SELECT COUNT(*) FROM HOME WHERE PERIOD = ? AND COUNTRYNO = ? AND TYPE = ?";
+		String query = "SELECT COUNT(*) FROM HOMEREVIEW";
 		
 		int result = 0;
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			
-			pstmt.setString(1, period);
-			pstmt.setInt(2, Integer.valueOf(country));
-			pstmt.setString(3, home);
-			
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				 result = rs.getInt(1);
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return result;
+	}
+	
+	public int getListCount2(Connection conn, String country, String home, String period) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String query = "SELECT COUNT(*) FROM HOME WHERE PERIOD = ? AND COUNTRYNO = ? AND TYPE = ?";
+		String query2 = "SELECT COUNT(*) FROM HOME WHERE PERIOD = ?";
+		String query3 = "SELECT COUNT(*) FROM HOME WHERE COUNTRYNO = ?";
+		String query4 = "SELECT COUNT(*) FROM HOME WHERE TYPE = ?";
+		String query5 = "SELECT COUNT(*) FROM HOME WHERE PERIOD = ? AND COUNTRYNO = ?";
+		String query6 = "SELECT COUNT(*) FROM HOME WHERE COUNTRYNO = ? AND TYPE = ?";
+		String query7 = "SELECT COUNT(*) FROM HOME WHERE PERIOD = ? AND TYPE = ?";
+		
+		int result = 0;
+		
+		try {
+			if(country!=null && home!=null && period!=null) {
+				pstmt = conn.prepareStatement(query);
+				
+				pstmt.setString(1, period);
+				pstmt.setInt(2, Integer.valueOf(country));
+				pstmt.setString(3, home);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					 result = rs.getInt(1);
+				}
+			} else if(period != null && country == null && home == null) {
+				pstmt = conn.prepareStatement(query2);
+				
+				pstmt.setString(1, period);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					 result = rs.getInt(1);
+				}
+			} else if(period == null && country != null && home == null) {
+				pstmt = conn.prepareStatement(query3);
+				
+				pstmt.setInt(1, Integer.valueOf(country));
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					 result = rs.getInt(1);
+				}
+			} else if(period == null && country == null && home != null) {
+				pstmt = conn.prepareStatement(query4);
+				
+				pstmt.setString(1, home);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					 result = rs.getInt(1);
+				}
+			} else if(period != null && country != null && home == null) {
+				pstmt = conn.prepareStatement(query5);
+				
+				pstmt.setString(1, home);
+				pstmt.setInt(2, Integer.valueOf(country));
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					 result = rs.getInt(1);
+				}
+				
+			} else if(period == null && country != null && home != null) {
+				pstmt = conn.prepareStatement(query6);
+				
+				pstmt.setInt(1, Integer.valueOf(country));
+				pstmt.setString(2, home);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					 result = rs.getInt(1);
+				}
+			} else {
+				pstmt = conn.prepareStatement(query7);
+				
+				pstmt.setString(1, period);
+				pstmt.setString(2, home);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					 result = rs.getInt(1);
+				}
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -101,7 +199,7 @@ public class HomeDao {
 									rs.getInt("report"),
 									rs.getString("address"),
 									rs.getDate("writeDate"),
-									rs.getInt("countryNo"),
+									rs.getString("countryNo"),
 									rs.getInt("userNo"));
 			
 				
@@ -131,9 +229,10 @@ public class HomeDao {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				at = new Img(rs.getInt("imgno"),
-							rs.getInt("houseno"),
-							rs.getString("img"),
-							rs.getInt("file_level")
+						rs.getInt("houseno"),
+						rs.getString("img"),
+						rs.getString("saveimg"),
+						rs.getInt("file_level")
 							);
 				list.add(at);
 			}
@@ -158,34 +257,197 @@ public class HomeDao {
 		int endRow = currentPage * limit;
 		
 		String query = "SELECT RNUM , HOUSENO, TYPE, PERIOD, FEE, TITLE, CONTENT, REPORT, ADDRESS, WRITEDATE, COUNTRYNO, USERNO FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE PERIOD = ? AND COUNTRYNO = ? AND TYPE = ? ORDER BY HOUSENO DESC) WHERE RNUM BETWEEN ? AND ?";
+		String query2 = "SELECT RNUM , HOUSENO, TYPE, PERIOD, FEE, TITLE, CONTENT, REPORT, ADDRESS, WRITEDATE, COUNTRYNO, USERNO FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE PERIOD = ? ORDER BY HOUSENO DESC) WHERE RNUM BETWEEN ? AND ?";
+		String query3 = "SELECT RNUM , HOUSENO, TYPE, PERIOD, FEE, TITLE, CONTENT, REPORT, ADDRESS, WRITEDATE, COUNTRYNO, USERNO FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE COUNTRYNO = ? ORDER BY HOUSENO DESC) WHERE RNUM BETWEEN ? AND ?";
+		String query4 = "SELECT RNUM , HOUSENO, TYPE, PERIOD, FEE, TITLE, CONTENT, REPORT, ADDRESS, WRITEDATE, COUNTRYNO, USERNO FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE TYPE = ? ORDER BY HOUSENO DESC) WHERE RNUM BETWEEN ? AND ?";
+		String query5 = "SELECT RNUM , HOUSENO, TYPE, PERIOD, FEE, TITLE, CONTENT, REPORT, ADDRESS, WRITEDATE, COUNTRYNO, USERNO FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE PERIOD = ? AND COUNTRYNO = ? ORDER BY HOUSENO DESC) WHERE RNUM BETWEEN ? AND ?";
+		String query6 = "SELECT RNUM , HOUSENO, TYPE, PERIOD, FEE, TITLE, CONTENT, REPORT, ADDRESS, WRITEDATE, COUNTRYNO, USERNO FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE COUNTRYNO = ? AND TYPE = ? ORDER BY HOUSENO DESC) WHERE RNUM BETWEEN ? AND ?";
+		String query7 = "SELECT RNUM , HOUSENO, TYPE, PERIOD, FEE, TITLE, CONTENT, REPORT, ADDRESS, WRITEDATE, COUNTRYNO, USERNO FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE PERIOD = ? AND TYPE = ? ORDER BY HOUSENO DESC) WHERE RNUM BETWEEN ? AND ?";
 		
 		try {
-			pstmt = conn.prepareStatement(query);
-		
-			pstmt.setString(1, period);
-			pstmt.setInt(2, Integer.valueOf(country));
-			pstmt.setString(3, home);
-			pstmt.setInt(4, startRow);
-			pstmt.setInt(5, endRow);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				Home h = new Home(rs.getInt("houseno"),
-									rs.getString("type"),
-									rs.getString("period"),
-									rs.getInt("fee"),
-									rs.getString("title"),
-									rs.getString("content"),
-									rs.getInt("report"),
-									rs.getString("address"),
-									rs.getDate("writeDate"),
-									rs.getInt("countryNo"),
-									rs.getInt("userNo"));
-			
+			if(country!=null && home!=null && period!=null) {
+				pstmt = conn.prepareStatement(query);
 				
-				list.add(h);
+				pstmt.setString(1, period);
+				pstmt.setInt(2, Integer.valueOf(country));
+				pstmt.setString(3, home);
+				pstmt.setInt(4, startRow);
+				pstmt.setInt(5, endRow);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					Home h = new Home(rs.getInt("houseno"),
+										rs.getString("type"),
+										rs.getString("period"),
+										rs.getInt("fee"),
+										rs.getString("title"),
+										rs.getString("content"),
+										rs.getInt("report"),
+										rs.getString("address"),
+										rs.getDate("writeDate"),
+										rs.getString("countryNo"),
+										rs.getInt("userNo"));
+				
+					
+					list.add(h);
+				}
+			} else if(period != null && country == null && home == null) {
+				pstmt = conn.prepareStatement(query2);
+				
+				pstmt.setString(1, period);
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					Home h = new Home(rs.getInt("houseno"),
+										rs.getString("type"),
+										rs.getString("period"),
+										rs.getInt("fee"),
+										rs.getString("title"),
+										rs.getString("content"),
+										rs.getInt("report"),
+										rs.getString("address"),
+										rs.getDate("writeDate"),
+										rs.getString("countryNo"),
+										rs.getInt("userNo"));
+				
+					
+					list.add(h);
+				}
+			} else if(period == null && country != null && home == null) {
+				pstmt = conn.prepareStatement(query3);
+				
+				pstmt.setInt(1, Integer.valueOf(country));
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					Home h = new Home(rs.getInt("houseno"),
+										rs.getString("type"),
+										rs.getString("period"),
+										rs.getInt("fee"),
+										rs.getString("title"),
+										rs.getString("content"),
+										rs.getInt("report"),
+										rs.getString("address"),
+										rs.getDate("writeDate"),
+										rs.getString("countryNo"),
+										rs.getInt("userNo"));
+				
+					
+					list.add(h);
+				}
+			} else if(period == null && country == null && home != null) {
+				pstmt = conn.prepareStatement(query4);
+				
+				pstmt.setString(1, home);
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					Home h = new Home(rs.getInt("houseno"),
+										rs.getString("type"),
+										rs.getString("period"),
+										rs.getInt("fee"),
+										rs.getString("title"),
+										rs.getString("content"),
+										rs.getInt("report"),
+										rs.getString("address"),
+										rs.getDate("writeDate"),
+										rs.getString("countryNo"),
+										rs.getInt("userNo"));
+				
+					
+					list.add(h);
+				}
+			} else if(period != null && country != null && home == null) {
+				pstmt = conn.prepareStatement(query5);
+				
+				pstmt.setString(1, period);
+				pstmt.setInt(2, Integer.valueOf(country));
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					Home h = new Home(rs.getInt("houseno"),
+										rs.getString("type"),
+										rs.getString("period"),
+										rs.getInt("fee"),
+										rs.getString("title"),
+										rs.getString("content"),
+										rs.getInt("report"),
+										rs.getString("address"),
+										rs.getDate("writeDate"),
+										rs.getString("countryNo"),
+										rs.getInt("userNo"));
+				
+					
+					list.add(h);
+				}
+				
+			} else if(period == null && country != null && home != null) {
+				pstmt = conn.prepareStatement(query6);
+				
+				pstmt.setInt(1, Integer.valueOf(country));
+				pstmt.setString(2, home);
+				pstmt.setInt(3, startRow);
+				pstmt.setInt(4, endRow);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					Home h = new Home(rs.getInt("houseno"),
+										rs.getString("type"),
+										rs.getString("period"),
+										rs.getInt("fee"),
+										rs.getString("title"),
+										rs.getString("content"),
+										rs.getInt("report"),
+										rs.getString("address"),
+										rs.getDate("writeDate"),
+										rs.getString("countryNo"),
+										rs.getInt("userNo"));
+				
+					
+					list.add(h);
+				}
+			} else {
+				pstmt = conn.prepareStatement(query7);
+				
+				pstmt.setString(1, period);
+				pstmt.setString(2, home);
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					Home h = new Home(rs.getInt("houseno"),
+										rs.getString("type"),
+										rs.getString("period"),
+										rs.getInt("fee"),
+										rs.getString("title"),
+										rs.getString("content"),
+										rs.getInt("report"),
+										rs.getString("address"),
+										rs.getDate("writeDate"),
+										rs.getString("countryNo"),
+										rs.getInt("userNo"));
+				
+					
+					list.add(h);
+				}
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -211,26 +473,157 @@ public class HomeDao {
 				"FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE PERIOD = ? AND COUNTRYNO = ? AND TYPE = ? ORDER BY HOUSENO DESC) H\r\n" + 
 				"JOIN HOMEPHOTO P ON(H.HOUSENO = P.HOUSENO)\r\n" + 
 				"WHERE FILE_LEVEL = 0 AND RNUM BETWEEN ? AND ?";
-		
+		String query2 = "SELECT IMGNO, IMG, FILE_LEVEL, P.HOUSENO\r\n" + 
+				"FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE PERIOD = ? ORDER BY HOUSENO DESC) H\r\n" + 
+				"JOIN HOMEPHOTO P ON(H.HOUSENO = P.HOUSENO)\r\n" + 
+				"WHERE FILE_LEVEL = 0 AND RNUM BETWEEN ? AND ?";
+		String query3 = "SELECT IMGNO, IMG, FILE_LEVEL, P.HOUSENO\r\n" + 
+				"FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE COUNTRYNO = ? ORDER BY HOUSENO DESC) H\r\n" + 
+				"JOIN HOMEPHOTO P ON(H.HOUSENO = P.HOUSENO)\r\n" + 
+				"WHERE FILE_LEVEL = 0 AND RNUM BETWEEN ? AND ?";
+		String query4 = "SELECT IMGNO, IMG, FILE_LEVEL, P.HOUSENO\r\n" + 
+				"FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE TYPE = ? ORDER BY HOUSENO DESC) H\r\n" + 
+				"JOIN HOMEPHOTO P ON(H.HOUSENO = P.HOUSENO)\r\n" + 
+				"WHERE FILE_LEVEL = 0 AND RNUM BETWEEN ? AND ?";
+		String query5 = "SELECT IMGNO, IMG, FILE_LEVEL, P.HOUSENO\r\n" + 
+				"FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE PERIOD = ? AND COUNTRYNO = ? ORDER BY HOUSENO DESC) H\r\n" + 
+				"JOIN HOMEPHOTO P ON(H.HOUSENO = P.HOUSENO)\r\n" + 
+				"WHERE FILE_LEVEL = 0 AND RNUM BETWEEN ? AND ?";
+		String query6 = "SELECT IMGNO, IMG, FILE_LEVEL, P.HOUSENO\r\n" + 
+				"FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE COUNTRYNO = ? AND TYPE = ? ORDER BY HOUSENO DESC) H\r\n" + 
+				"JOIN HOMEPHOTO P ON(H.HOUSENO = P.HOUSENO)\r\n" + 
+				"WHERE FILE_LEVEL = 0 AND RNUM BETWEEN ? AND ?";
+		String query7 = "SELECT IMGNO, IMG, FILE_LEVEL, P.HOUSENO\r\n" + 
+				"FROM (SELECT ROWNUM RNUM, H.* FROM HOME H WHERE PERIOD = ? AND TYPE = ? ORDER BY HOUSENO DESC) H\r\n" + 
+				"JOIN HOMEPHOTO P ON(H.HOUSENO = P.HOUSENO)\r\n" + 
+				"WHERE FILE_LEVEL = 0 AND RNUM BETWEEN ? AND ?";
 		
 		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, period);
-			pstmt.setInt(2, Integer.valueOf(country));
-			pstmt.setString(3, home);
-			pstmt.setInt(4, startRow);
-			pstmt.setInt(5, endRow);
-			
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				at = new Img(rs.getInt("imgno"),
+			if(country!=null && home!=null && period!=null) {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, period);
+				pstmt.setInt(2, Integer.valueOf(country));
+				pstmt.setString(3, home);
+				pstmt.setInt(4, startRow);
+				pstmt.setInt(5, endRow);
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					at = new Img(rs.getInt("imgno"),
 							rs.getInt("houseno"),
 							rs.getString("img"),
+							rs.getString("saveimg"),
 							rs.getInt("file_level")
-							);
-				list.add(at);
-			}
-		} catch (SQLException e) {
+								);
+					list.add(at);
+				}
+			} else if(period != null && country == null && home == null) {
+				pstmt = conn.prepareStatement(query2);
+				
+				pstmt.setString(1, period);
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					at = new Img(rs.getInt("imgno"),
+							rs.getInt("houseno"),
+							rs.getString("img"),
+							rs.getString("saveimg"),
+							rs.getInt("file_level")
+								);
+					list.add(at);
+				}
+			} else if(period == null && country != null && home == null) {
+				pstmt = conn.prepareStatement(query3);
+				
+				pstmt.setInt(1, Integer.valueOf(country));
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					at = new Img(rs.getInt("imgno"),
+							rs.getInt("houseno"),
+							rs.getString("img"),
+							rs.getString("saveimg"),
+							rs.getInt("file_level")
+								);
+					list.add(at);
+				}
+			} else if(period == null && country == null && home != null) {
+				pstmt = conn.prepareStatement(query4);
+				
+				pstmt.setString(1, home);
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					at = new Img(rs.getInt("imgno"),
+							rs.getInt("houseno"),
+							rs.getString("img"),
+							rs.getString("saveimg"),
+							rs.getInt("file_level")
+								);
+					list.add(at);
+				}
+			} else if(period != null && country != null && home == null) {
+				pstmt = conn.prepareStatement(query5);
+				
+				pstmt.setString(1, period);
+				pstmt.setInt(2, Integer.valueOf(country));
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					at = new Img(rs.getInt("imgno"),
+							rs.getInt("houseno"),
+							rs.getString("img"),
+							rs.getString("saveimg"),
+							rs.getInt("file_level")
+								);
+					list.add(at);
+				}
+				
+			} else if(period == null && country != null && home != null) {
+				pstmt = conn.prepareStatement(query6);
+				
+				pstmt.setString(2, home);
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					at = new Img(rs.getInt("imgno"),
+							rs.getInt("houseno"),
+							rs.getString("img"),
+							rs.getString("saveimg"),
+							rs.getInt("file_level")
+								);
+					list.add(at);
+				}
+			} else {
+				pstmt = conn.prepareStatement(query7);
+				
+				pstmt.setString(1, period);
+				pstmt.setString(2, home);
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					at = new Img(rs.getInt("imgno"),
+							rs.getInt("houseno"),
+							rs.getString("img"),
+							rs.getString("saveimg"),
+							rs.getInt("file_level")
+								);
+					list.add(at);
+				}
+			
+		} }catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
@@ -246,6 +639,8 @@ public class HomeDao {
 		Home home = null;
 		
 		String query = "SELECT * FROM HDETAIL WHERE HOUSENO = ?";
+		
+		System.out.println("dao");
 
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -292,7 +687,7 @@ public class HomeDao {
 		Img at = null;
 		ArrayList list = new ArrayList();
 		
-		String query = "SELECT IMGNO, HOUSENO, IMG, FILE_LEVEL FROM HOMEPHOTO WHERE HOUSENO = ?";
+		String query = "SELECT IMGNO, HOUSENO, IMG, SAVEIMG, FILE_LEVEL FROM HOMEPHOTO WHERE HOUSENO = ?";
 		
 		
 		try {
@@ -304,6 +699,7 @@ public class HomeDao {
 				at = new Img(rs.getInt("imgno"),
 							rs.getInt("houseno"),
 							rs.getString("img"),
+							rs.getString("saveimg"),
 							rs.getInt("file_level")
 							);
 				list.add(at);
@@ -323,7 +719,7 @@ public class HomeDao {
 		
 		int result = 0;
 		
-		String query = "INSERT INTO HOMEPHOTO VALUES(SEQ_HOMEIMG.NEXTVAL,SEQ_HOME.CURRVAL,?,?)";
+		String query = "INSERT INTO HOMEPHOTO VALUES(SEQ_HOMEIMG.NEXTVAL,SEQ_HOME.CURRVAL,?,?,?)";
 		
 		try {
 			for(int i = 0; i < fileList.size(); i++) {
@@ -332,6 +728,7 @@ public class HomeDao {
 				pstmt = conn.prepareStatement(query);
 				pstmt.setString(1, at.getImg());
 				pstmt.setInt(2, at.getFileLevel());
+				pstmt.setString(3, at.getSaveImg());
 				
 				result += pstmt.executeUpdate();
 				
@@ -360,7 +757,7 @@ public class HomeDao {
 			pstmt.setString(4, h.getTitle());
 			pstmt.setString(5, h.getContent());
 			pstmt.setString(6, h.getAddress());
-			pstmt.setInt(7, h.getCountryNo());
+			pstmt.setString(7, h.getCountryNo());
 			pstmt.setInt(8, h.getWriterNo());
 			
 			result = pstmt.executeUpdate();
@@ -408,7 +805,7 @@ public class HomeDao {
 		
 		int result = 0;
 		
-		String query = "INSERT INTO HOMEREVIEW VALUES(SEQ_RID.NEXTVAL,?,?,SYSDATE,DEFAULT,?,?,?)";
+		String query = "INSERT INTO HOMEREVIEW VALUES(SEQ_HOMEREVIEW.NEXTVAL,?,?,SYSDATE,DEFAULT,?,?,?)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -431,33 +828,34 @@ public class HomeDao {
 		return result;
 	}
 
-	public ArrayList<Review> selectReplyList(Connection conn, int houseNo) {
+	public ArrayList<Review> selectReplyList(Connection conn, int houseNo, int currentPage, int limit) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		ArrayList<Review> rlist = new ArrayList<Review>();
 		
-		String query = "SELECT * FROM RLIST WHERE HOUSENO = ?";
+		String query = "SELECT * FROM (SELECT ROWNUM RNUM1, R.* FROM RLIST R WHERE HOUSENO = ?) WHERE RNUM1 BETWEEN ? AND ?";;
 		
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, houseNo);
+			pstmt.setInt(2, currentPage);
+			pstmt.setInt(3, limit);
 			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-
+				
+				
 				rlist.add(new Review(rs.getInt("reviewno"),
-									rs.getString("img"),
 									rs.getString("content"),
-									rs.getDate("writedate"),
+									rs.getDate("writeDATE"),
 									rs.getInt("report"),
 									rs.getInt("houseno"),
 									rs.getInt("score"),
 									rs.getInt("userno"),
 									rs.getString("username")));
 			}
-//			System.out.println(rlist);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -506,6 +904,7 @@ public class HomeDao {
 			
 			rs = pstmt.executeQuery();
 			
+			
 			if(rs.next()) {
 				 result = rs.getInt(1);
 			}
@@ -535,7 +934,7 @@ public class HomeDao {
 			pstmt.setString(5, h.getContent());
 			pstmt.setInt(6, h.getReport());
 			pstmt.setString(7, h.getAddress());
-			pstmt.setInt(8, h.getCountryNo());
+			pstmt.setString(8, h.getCountryNo());
 			pstmt.setInt(9, h.gethNo());
 			
 			result = pstmt.executeUpdate();
@@ -629,9 +1028,87 @@ public class HomeDao {
 		return result;
 	}
 
-	
+	public int reportHome(Connection conn, int hNo) {
+		PreparedStatement pstmt = null;
+		
+		int result = 0;
+		
+		String query = "UPDATE HOME SET REPORT = HOME.REPORT + 1 WHERE HOUSENO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			
+			pstmt.setInt(1, hNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 
-	
+	public int reportReviewe(Connection conn, int reviewNo) {
+		PreparedStatement pstmt = null;
+		
+		int result = 0;
+		
+		String query = "UPDATE HOMEREVIEW SET REPORT = HOMEREVIEW.REPORT + 1 WHERE REVIEWNO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			
+			pstmt.setInt(1, reviewNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Review> selectReplyList(Connection conn, int houseNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		ArrayList<Review> rlist = new ArrayList<Review>();
+		
+		String query = "SELECT * FROM RLIST WHERE HOUSENO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, houseNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				rlist.add(new Review(rs.getInt("reviewno"),
+						rs.getString("content"),
+						rs.getDate("writeDATE"),
+						rs.getInt("report"),
+						rs.getInt("houseno"),
+						rs.getInt("score"),
+						rs.getInt("userno"),
+						rs.getString("username")));
+			}
+//			System.out.println(rlist);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return rlist;
+		
+	}
+
 
 
 }

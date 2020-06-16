@@ -75,7 +75,7 @@ public class HomeListServlet extends HttpServlet {
 				endPage = maxPage;
 			 }
 				
-		} else {
+		} else{
 			list = hService.selectList2(currentPage, limit, country, home, period);
 			flist = hService.selectImgList2(currentPage, limit, country, home, period);
 			listCount = hService.getListCount2(country, home, period);

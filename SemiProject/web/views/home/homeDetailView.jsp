@@ -54,8 +54,9 @@
 	        display: grid;
 	        width: 100%;
 	        grid-template-columns: 35% 20% 20%;
-	        grid-template-rows: 48% 48%;
-	        margin: 3.5em 12em;
+	        grid-template-rows: 38% 38%;
+	        margin-top: 3em;
+	        margin-left: 12em;
 	    }
 	     #photo img{
 	        width: 100%;
@@ -68,9 +69,7 @@
 	      }
 	
 	      #detail_content{
-	        position: relative;
 	        margin-left: 17%;
-	        margin-bottom: 7%;
 	      }
 	
 	      .detail{
@@ -99,9 +98,10 @@
 	        position: absolute; 
 	        font-size: 0.9em; 
 	        background: #eaeaea;
-	        width: 22%;
-	        height: 17%;
-	        right: 0;
+	        width: 18%;
+	        height: 30%;
+	        right: 1%;
+	        textx-align:center;
 	      }
 	
 	      .reservation_detail tr:last-child {
@@ -112,12 +112,11 @@
 	        width: 70%;
 	        line-height: 2.4em;
 	        margin-top: 12%;
+	        margin-left:15%
 	      }
 	
 	      #contents td{
-			
-	    	padding-bottom:3%
-	        h
+	    	padding-bottom:3.5%;
 	      }
 	
 	      .reservation_detail{
@@ -144,6 +143,9 @@
 	      }
 	
 	      .starR.on{background-position:0 0;}
+	      
+	      #modifyBtn{background:rgb(113, 177, 197); border:none; color:white;}
+	      #deleteBtn{background:rgb(113, 177, 197); border:none; color:white;}
     </style>
   </head>
   <body>
@@ -155,19 +157,20 @@
 			<%} else{%>
 				<%for(int i = 0; i < flist.size(); i++) { 
 					Img a = flist.get(i);%>
-				        <div class = "item<%=i%>" style = "background-color: red;"><img src = "<%=request.getContextPath() %>/home_uploadFiles/<%=a.getImg()%>"></div>
+				        <div class = "item<%=i%>"><img src = "<%=request.getContextPath() %>/home_uploadFiles/<%=a.getSaveImg()%>"></div>
 				<%} %>
 			<%} %>
 		</div>
 
       <div id = "detail_content">
         <div id = "top" >
+        	<img style = "width:2%; height:2%; margin-top:-1%" src = "<%=request.getContextPath()%>/images/siren.png" onclick = "location.href = '<%=request.getContextPath()%>/report.ho?hNo=<%=home.gethNo()%>';">
+        	<br>
         	<%if(loginUser.getUserNo() == home.getWriterNo()){ %>
-        	<button id = "modifyBtn" onclick = "location.href = '<%=request.getContextPath()%>/myHome.ho?hNo=<%=home.gethNo()%>';">수정하기</button>
-        	<button id = "modifyBtn" onclick = "location.href = '<%=request.getContextPath()%>/delete.ho?hNo=<%=home.gethNo()%>';">삭제하기</button>
+        	<button id = "modifyBtn" onclick = "location.href = '<%=request.getContextPath()%>/myHome.ho?hNo=<%=home.gethNo()%>';">수정</button>
+        	<button id = "deleteBtn" onclick = "location.href = '<%=request.getContextPath()%>/delete.ho?hNo=<%=home.gethNo()%>';">삭제</button>
         	<%} %>
-          <h3 style = "display:inline;"><b><%=home.getTitle()%></b></h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <img style = "width:2%; height:2%; margin-top:-1%" src = "<%=request.getContextPath()%>/images/siren.png" onclick = "location.href = '<%=request.getContextPath()%>/report.ho?hNo=<%=home.gethNo()%>';">
+          <h3><b><%=home.getTitle()%></b></h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <div class = "detail">
             <p><%=home.getContent()%></p>
           </div>
@@ -177,13 +180,14 @@
            
               <table class = "reservation_detail">
                 <tr> 
-                    <td><b>가격</b></td>
+                	<br>
+                    <td><b>&nbsp;&nbsp;가격  </b></td>
                     <td style="text-align: center;">
                        <span id = "price" width:38px;><%=home.getFee()%></span>
                     </td>
                 </tr>
                 <tr>
-                  <td><b>개월</b></td>
+                  <td><b>&nbsp;&nbsp;개월</b></td>
                   <td style="text-align: center;">
                     <div class="number">
                       <a href="#" id="decreaseQuantity"><img src = "<%=request.getContextPath()%>/images/decrease.png" style="width: 18px; height: 18px;"></a>
@@ -195,7 +199,7 @@
                 <tr><td></td></tr>
 
                 <tr> 
-                  <td style="width:70px;"><b>총 가격</b></td>
+                  <td style="width:70px;"><b>&nbsp;&nbsp;총 가격</b></td>
                   <td style="text-align: center;">
                      <span id = "totalPrice" width:38px;><%=home.getFee()%></span>
                   </td>
@@ -204,8 +208,6 @@
                   <td colspan="3"><button onclick = "location.href ='<%=request.getContextPath()%>/reservation.ho?hNo=<%=home.gethNo()%>'">예약하기</button></td>
                 </tr>     
               </table>
-             
-              
           </div>
      
           <table id = "detailContent">
@@ -223,7 +225,7 @@
                     	<img src = "<%=request.getContextPath()%>/images/wifi.png"> 무선인터넷 &nbsp;&nbsp;
                 	<%} %>
                 	<% if(television.equals("Y")) { %>
-                    	<img src = "<%=request.getContextPath()%>/images/wifi.png"> TV &nbsp;&nbsp;&nbsp;
+                    	<img src = "<%=request.getContextPath()%>/images/tv.png"> TV &nbsp;&nbsp;&nbsp;
                 	<%} %>
                 	<% if(heater.equals("Y")) { %>
                     	<img src = "<%=request.getContextPath()%>/images/heater.png"> 난방 &nbsp;&nbsp;
@@ -258,8 +260,7 @@
                 	<td colspan="2">
                     	<img src = "<%=request.getContextPath()%>/images/pet.png">
                 	</td>
-                <%} %> 
-                
+                <%}%>
             </tr>
             <tr>
                 <td><b>기간</b></td>
@@ -280,7 +281,7 @@
             <tr>
                 <td rowspan="2"><b>후기</b></td>
                 <td colspan="4">
-                    <textarea cols="70" name="reviewContent" rows="5" style="resize: none;"></textarea>
+                    <textarea cols="70" name="reviewContent" id = "reviewContent" rows="5" style="resize: none;"></textarea>
                 </td>
             </tr>
             <tr>
@@ -293,39 +294,30 @@
                   <span class="starR">별5</span>
                 </div>
               </td>          
-             
-	              <td width = "250px">
-	                <input type = "file" name = "reviewPhoto" id = "reviewPhoto">
-	              </td>
-               <td width = "120px"> <button id = "registerReview">확인</button> </td>
+               <td width = "120px"><button id = "registerReview">확인</button> </td>
 
            	</tr>
           </table>
-          <div id = "review">
-            <span><b>홍길동</b></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span><small>2020.05.29</small></span>
-            <br><br>
-            <span><img src = "<%=request.getContextPath()%>/images/homes.jpg" style="width: 70px; height: 70px;"></span>
-            <br><br>
-            <div style = " width :70%">
-            	가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
-		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
-		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바</div>
-   			<br>
-            <span><b>홍길동</b></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span><small>2020.05.29</small></span>
-            <br><br>
-            <span><img src = "<%=request.getContextPath()%>/images/homes.jpg" style="width: 70px; height: 70px;"></span>
-            <br><br>
-            <div style = " width :70%">
-            	가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
-		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사
-		              가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바</div>
-   			<br>
-          </div>
+          <div name = "review" id = "review">
+          	<% if(rlist.isEmpty()){ %>
+			<%} else{%>
+					<%for(int i=0; i<rlist.size(); i++) { int score = rlist.get(i).getScore();%>	
+						<span style = "padding-right:1.3%; font-weight:bold"><%=rlist.get(i).getUserName() %></span>
+						<span style = "padding-right:1.3%; font-size:0.8em"><%=rlist.get(i).getWriteDate() %></span>
+						<img style = "width:1.5%; height:1.5%;" src = "<%=request.getContextPath()%>/images/siren.png" onclick = "location.href = '<%=request.getContextPath()%>/reportReview.ho?reviewNo=<%=rlist.get(i).getReviewNo()%>';">
+						<br>				
+						<span style = "padding-right:1.3%; font-size:0.9em">
+							<%for(int j = 0 ; j < score; j++){ %>
+								<img src = "<%=request.getContextPath()%>/images/score.png" style = "width:1.5%; height 1.5%">					
+							<%} %>
+							&nbsp;&nbsp;<%=rlist.get(i).getScore()%>점
+						</span>
+			            <div style = " width :70%"><%=rlist.get(i).getContent() %></div>
+			            <br>
+					<%}%>
+				<%}%>
         </div>
       </div>
-      
     </div>
 
     <div id = "footer">
@@ -391,38 +383,45 @@
 	<script>
    	  $(function(){
  			$("#registerReview").click(function(){  
-				var writer = <%=loginUser.getUserNo()%>;
+				var userNo = <%=loginUser.getUserNo()%>;
 				var hNo = <%=home.gethNo()%>;
 				var content = $("#reviewContent").val();
 				var score = $('.on').length;
-				var form = $('#reviewForm')[0];
-			    // FormData 객체 생성
-			    var formData = new FormData(form);
 		
 				$.ajax({
 					url:"<%=request.getContextPath()%>/insertReview.ho",
 					type:"post",
-					enctype: 'multipart/form-data',
-					data:{writer:writer, hNo:hNo, content:content, score:score, formData:formData},
-					processData: false,
-		            contentType: false,
-		            cache: false,
+					data:{userNo:userNo, hNo:hNo, content:content, score:score},
 					success:function(data){
 						$replyTable = $("#review");
 						$replyTable.html("");	
 						
 						// 새로 받아온 갱신 된 댓글리스트들을 for문을 통해 다시 table에 추가
 						for(var key in data){
-							var $span = $("<span>");	// 종료태그까지 포함
-							var $writerTd = $("<span>").text(data[key].userName);
-							var $dateTd = $("<span>").text(data[key].writeDate);
-							var $fileTd = $("<img>").text(data[key].img)
-							var $contentTd = $("<span>").text(data[key].content);
+							var $span = $("<span>");
+							var $writerTd = $("<span>").text(data[key].userName).css("font-weight","bold").css("padding-right","3%");
+							var $scoreTd = $("<img>").attr("src","<%=request.getContextPath()%>/images/score.png").css("width","1.5%").css("height","1.5%");
+							var $dateTd = $("<span>").text(data[key].writeDate).css("font-size","0.8em").css("padding-bottom","5%").css("padding-right","1.3%");
+							var $reportTd = $("<img>").attr("src","<%=request.getContextPath()%>/images/siren.png").css("width","1.5%").css("height","1.5%");
+							var $contentTd = $("<div>").text(data[key].content);
+							var $brTd = $("<br>");
+							
+							var score = data[key].score;
 							
 							$span.append($writerTd);
-							$span.append($fileTd);
-							$span.append($contentTd);
 							$span.append($dateTd);
+							
+							for(i=0; i < score; i++){
+								console.log(score);
+								console.log(i);
+								$span.append($scoreTd);
+							}
+							
+							$span.append($reportTd);
+							$span.append($brTd);
+							$span.append($brTd);
+							$span.append($contentTd);
+							$span.append($brTd);
 							
 							$replyTable.append($span);
 						}
@@ -430,7 +429,7 @@
 						$("#reviewContent").val("");
 					},
 					error:function(request,status,error){
-		                  	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		               	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		            }
 				});
  			});

@@ -11,22 +11,16 @@ public class Img implements Serializable{
 	private int imgNo;
 	private int houseNo;
 	private String img;
+	private String saveImg;
 	private int fileLevel;
 	
 	public Img() {}
 
-	public Img(int imgNo, int houseNo, String img) {
+	public Img(int imgNo, int houseNo, String img, String saveImg, int fileLevel) {
 		this.imgNo = imgNo;
 		this.houseNo = houseNo;
 		this.img = img;
-	}
-	
-	
-
-	public Img(int imgNo, int houseNo, String img, int fileLevel) {
-		this.imgNo = imgNo;
-		this.houseNo = houseNo;
-		this.img = img;
+		this.saveImg = saveImg;
 		this.fileLevel = fileLevel;
 	}
 
@@ -53,8 +47,15 @@ public class Img implements Serializable{
 	public void setImg(String img) {
 		this.img = img;
 	}
-	
-	
+
+	public String getSaveImg() {
+		return saveImg;
+	}
+
+	public void setSaveImg(String saveImg) {
+		this.saveImg = saveImg;
+	}
+
 	public int getFileLevel() {
 		return fileLevel;
 	}
@@ -63,9 +64,18 @@ public class Img implements Serializable{
 		this.fileLevel = fileLevel;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
-		return "Img [imgNo=" + imgNo + ", houseNo=" + houseNo + ", img=" + img + "]";
+		return "Img [imgNo=" + imgNo + ", houseNo=" + houseNo + ", img=" + img + ", saveImg=" + saveImg + ", fileLevel="
+				+ fileLevel + "]";
 	}
+
+	
+
+	
 	
 }

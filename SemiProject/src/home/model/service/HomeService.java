@@ -36,6 +36,17 @@ public class HomeService {
 		
 		return listCount;
 	}
+	
+
+	public int getRListCount() {
+		Connection conn = getConnetion();
+		
+		int listCount = new HomeDao().getRListCount(conn);
+		
+		close(conn);
+		
+		return listCount;
+	}
 
 	public ArrayList<Home> selectList(int currentPage, int limit) {
 		Connection conn = getConnetion();
@@ -89,6 +100,8 @@ public class HomeService {
 	public Home selectHome(int hNo2) {
 		Connection conn = getConnetion();
 		Home home = new HomeDao().selectHome(conn, hNo2);
+		
+		System.out.println("service: " + home);
 		
 		close(conn);
 		
@@ -197,8 +210,6 @@ public class HomeService {
 		int result2 = hDao.updateHomeImg(conn, fileList);
 		int result3 = hDao.updateHomeEtc(conn,h);
 		
-		System.out.println("result : " + result + "result2 : " + result2 + "result3 : " +result3);
-		
 		if(result > 0 && result2 > 0 && result3 > 0) {
 			commit(conn);
 		} else {
@@ -227,10 +238,43 @@ public class HomeService {
 		return result;
 	}
 
+	public int reportHome(int hNo) {
+		Connection conn = getConnetion();
+		
+		HomeDao hDao = new HomeDao();
+		
+		int result = hDao.reportHome(conn, hNo);
 
-	
+		if(result > 0 ) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+				
+		close(conn);
+		
+		return result;
+	}
 
-	
+	public int reportReview(int reviewNo) {
+		Connection conn = getConnetion();
+		
+		HomeDao hDao = new HomeDao();
+		
+		int result = hDao.reportReviewe(conn, reviewNo);
+
+		if(result > 0 ) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+				
+		close(conn);
+		
+		return result;
+	}
+
+
 
 
 

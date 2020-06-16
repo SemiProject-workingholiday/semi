@@ -80,11 +80,11 @@ public class HomeInsertServlet extends HttpServlet {
 		Home h = new Home();
 		h.setTitle(title);
 		switch(country) {
-			case "australia" : h.setCountryNo(1); break;
-			case "japan" : h.setCountryNo(2); break;
-			case "canada" : h.setCountryNo(3); break;
-			case "newzealand" : h.setCountryNo(4); break;
-			case "germany" : h.setCountryNo(5); break;
+			case "호주" : h.setCountryNo("N1"); break;
+			case "일본" : h.setCountryNo("N2"); break;
+			case "캐나다" : h.setCountryNo("N3"); break;
+			case "뉴질랜드" : h.setCountryNo("N4"); break;
+			case "독일" : h.setCountryNo("N5"); break;
 			default : break;
 		}
 		
@@ -130,14 +130,16 @@ public class HomeInsertServlet extends HttpServlet {
 		for(int i = originFiles.size()-1; i>=0; i--) {
 			Img at = new Img();
 			at.setImg(originFiles.get(i));
+			at.setSaveImg(saveFiles.get(i));
 			
-			if(i == originFiles.size()-1) {
+			if(i == originFiles.size()-1) {	// 대표이미지
 				at.setFileLevel(0);
 			} else {
 				at.setFileLevel(1);
 			}
 			
 			fileList.add(at);
+			
 		}
 		
 		System.out.println(fileList);

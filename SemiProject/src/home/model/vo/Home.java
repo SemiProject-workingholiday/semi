@@ -19,7 +19,7 @@ public class Home implements Serializable{
 	private int report;		// 신고횟수
 	private String address;	// 주소
 	private Date writeDate;	// 작성날짜
-	private int countryNo;	// 나라번호
+	private String countryNo;	// 나라번호
 	private String country;
 
 	private String userName;
@@ -37,7 +37,7 @@ public class Home implements Serializable{
 	public Home() {}
 
 	public Home(int hNo, String type, String period, int fee, String title, String content, int report, String address,
-			Date writeDate, int countryNo, int writerNo) {
+			Date writeDate, String countryNo, int writerNo) {
 		this.hNo = hNo;
 		this.type = type;
 		this.period = period;
@@ -176,11 +176,11 @@ public class Home implements Serializable{
 		this.writeDate = writeDate;
 	}
 
-	public int getCountryNo() {
+	public String getCountryNo() {
 		return countryNo;
 	}
 
-	public void setCountryNo(int countryNo) {
+	public void setCountryNo(String countryNo) {
 		this.countryNo = countryNo;
 	}
 
