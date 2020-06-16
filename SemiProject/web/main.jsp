@@ -228,19 +228,25 @@
         <div class="menu">
           <ul class="nav">
             <li class="active"><a href="#">소개</a></li>
-            <li><a href="order.php">안전정보</a></li>
-            <li><a href="order_check.php">집 예약</a></li>
-            <li><a href="order_change.html">구직 정보</a></li>
-            <li><a href="order_change.html">커뮤니티</a>
+            <li><a href="#">안전정보</a></li>
+            <li><a href="#">집 예약</a></li>
+            <li><a href="#" onclick="jobBoard();">구직 정보</a></li>
+            <li><a href="#">커뮤니티</a>
               <ul id="nara">
                 <li><a href="http://www.naver.com">뉴질랜드</a></li>
                 <li><a href="http://www.naver.com">독일</a></li>
                 <li><a href="http://www.naver.com">일본</a></li>
                 <li><a href="http://www.naver.com">캐나다</a></li>
-                <li><a href="http://www.naver.com">호주</a></li>
+                <li><a href="">호주</a></li>
               </ul>
             </li>
           </ul>
+          
+          <script>
+          	function jobBoard(){
+          		location.href="<%=request.getContextPath()%>/jobList.bo";
+          	}
+          </script>
         
           <ul class="login_register" >
             <li><a href="order.php">로그인</a></li>

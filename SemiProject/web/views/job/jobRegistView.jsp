@@ -112,20 +112,20 @@
                 <td style='vertical-align: top;'><div style='margin-top:20%;'>직종</div></td>
                 <td>
                     <div id='category' class='select'>
-                        <input type='radio' id='c1' name='jobCategori' value='외식·음료'><label for='c1'> 외식·음료</label>
-                        <input type='radio' id='c2' name='jobCategori' value='유통·판매'><label for='c2'>유통·판매</label>
-                        <input type='radio' id='c3' name='jobCategori' value='문화·여가생활'><label for='c3'>문화·여가생활</label>
-                        <input type='radio' id='c4' name='jobCategori' value='서비스'><label for='c4'>서비스</label>
-                        <input type='radio' id='c5' name='jobCategori' value='사무직'><label for='c5'>사무직</label>
-                        <input type='radio' id='c6' name='jobCategori' value='고객상담·리서치·영업'><label for='c6'>고객상담·리서치·영업</label>
-                        <input type='radio' id='c7' name='jobCategori' value='생산·건설·노무'><label for='c7'>생산·건설·노무</label>
-                        <input type='radio' id='c8' name='jobCategori' value='IT·컴퓨터'><label for='c8'>IT·컴퓨터</label>
-                        <input type='radio' id='c9' name='jobCategori' value='교육·강사'><label for='c9'>교육·강사</label>
-                        <input type='radio' id='c10' name='jobCategori' value='디자인'><label for='c10'>디자인</label>
-                        <input type='radio' id='c11' name='jobCategori' value='미디어'><label for='c11'>미디어</label>
-                        <input type='radio' id='c12' name='jobCategori' value='운전·배달'><label for='c12'>운전·배달</label>
-                        <input type='radio' id='c13' name='jobCategori' value='병원·간호·연구'><label for='c13'>병원·간호·연구</label>
-                        <input type='radio' id='c14' name='jobCategori' value='기타'><label for='c14'>기타</label>
+                        <input type='radio' id='c1' name='jobCategory' value='외식·음료'><label for='c1'> 외식·음료</label>
+                        <input type='radio' id='c2' name='jobCategory' value='유통·판매'><label for='c2'>유통·판매</label>
+                        <input type='radio' id='c3' name='jobCategory' value='문화·여가생활'><label for='c3'>문화·여가생활</label>
+                        <input type='radio' id='c4' name='jobCategory' value='서비스'><label for='c4'>서비스</label>
+                        <input type='radio' id='c5' name='jobCategory' value='사무직'><label for='c5'>사무직</label>
+                        <input type='radio' id='c6' name='jobCategory' value='고객상담·리서치·영업'><label for='c6'>고객상담·리서치·영업</label>
+                        <input type='radio' id='c7' name='jobCategory' value='생산·건설·노무'><label for='c7'>생산·건설·노무</label>
+                        <input type='radio' id='c8' name='jobCategory' value='IT·컴퓨터'><label for='c8'>IT·컴퓨터</label>
+                        <input type='radio' id='c9' name='jobCategory' value='교육·강사'><label for='c9'>교육·강사</label>
+                        <input type='radio' id='c10' name='jobCategory' value='디자인'><label for='c10'>디자인</label>
+                        <input type='radio' id='c11' name='jobCategory' value='미디어'><label for='c11'>미디어</label>
+                        <input type='radio' id='c12' name='jobCategory' value='운전·배달'><label for='c12'>운전·배달</label>
+                        <input type='radio' id='c13' name='jobCategory' value='병원·간호·연구'><label for='c13'>병원·간호·연구</label>
+                        <input type='radio' id='c14' name='jobCategory' value='기타'><label for='c14'>기타</label>
                     </div>
                 </td>
             </tr>

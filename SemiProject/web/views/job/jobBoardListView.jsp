@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="job.model.vo.*, java.util.ArrayList"%>
 <%
-	Pagenation pn=(Pagenation)request.getAttribute("pn");
-	ArrayList list=(ArrayList)request.getAttribute("list");
+	JobPagination pn = (JobPagination)request.getAttribute("pn");
+	ArrayList<Job> list=(ArrayList<Job>)request.getAttribute("list");
+	
+ 	int listCount = pn.getListCount();
+	int currentPage = pn.getCurrentPage();
+	int maxPage = pn.getMaxPage();
+	int startPage = pn.getStartPage();
+	int endPage = pn.getEndPage();
 
-	int listCount=pn.getListCount();
-	int currentPage=pn.getCurrentPage();
-	int maxPage=pn.getMaxPage();
-	int startPage=pn.getStartPage();
-	int endPage=pn.getEndPage();
 %>
     
 <!DOCTYPE html>
@@ -114,7 +115,8 @@
 
     .jobLogo {
       margin-bottom: 5%;
-      width: 100%;
+      width: 306.4px;
+      height: 276.15px !important;
     }
 
     .like {
@@ -173,6 +175,7 @@
           <tr>
             <td style='margin-right: 5%; vertical-align:top;'><div style='margin-top:20%'>직종</div></td>
             <td>
+            <div style='margin-top: 3%;'>
               <input type='checkbox' id='jobCategori1' class='jobCategori' name='jobCategori' value='외식·음료'>
               <label for='jobCategori1' style='margin-left:1%;'>외식·음료</label>
               <input type='checkbox' id='jobCategori2' class='jobCategori' name='jobCategori' value='유통·판매'>
@@ -236,37 +239,40 @@
   <!-- 직업 게시판-->
   <div id='postFrame'>
     <table>
-    	<%if(list.isEmpty()){%>
+    	
+     	  <%if(list.isEmpty()){%>
     		<tr>조회된 게시글이 없습니다.</tr>
     	<%}else{ %>
     		<%for(int i=0;i<list.size();i++){ %>
+    		<%Job j=list.get(i); %>
       			<tr class="jpost">
         			<div class='jobPost'>
           				<td>
-            				<img src='../../images/jobImg/canada_img.jpg' class='jobLogo'>
-            				<p>스타벅스커피호주<br>
-             			 		스타벅스 바리스타 모집합니다.
-           						<img class='like' src='../../images/jobImg/heart-icon_white.png' align='right'>
+          					<input type="hidden" value="<%=((Job)list.get(i)).getJobNo() %>">
+            				<img src="<%=request.getContextPath() %>/job_uploadFiles/<%=j.getChangeName() %>" class='jobLogo'>
+            				<p><%=((Job)list.get(i)).getCoName() %><br>
+             			 		<%=((Job)list.get(i)).getTitle() %>
+           						<img class='like' src='<%=request.getContextPath() %>/images/jobImg/heart-icon_white.png' align='right'>
          					</p>
           				</td>
         			</div>
       			</tr>
       		<%} %>
-      	<%} %>
+      	<%} %>  
 
-      <tr class="jpost">
+    <tr class="jpost">
         <div class='jobPost'>
           <td>
-            <img src='../../images/jobImg/canada_img.jpg' class='jobLogo'>
+            <img src='<%=request.getContextPath() %>/images/jobImg/canada_img.jpg' class='jobLogo'>
             <p>스타벅스커피호주<br>
               스타벅스 바리스타 모집합니다.
-           <img class='like' src='../../images/jobImg/heart-icon_white.png' align='right'>
+           <img class='like' src='<%=request.getContextPath() %>/images/jobImg/heart-icon_white.png' align='right'>
          </p>
           </td>
         </div>
       </tr>
       
-      <tr class="jpost">
+      <!--  <tr class="jpost">
         <div class='jobPost'>
           <td>
             <img src='../../images/jobImg/canada_img.jpg' class='jobLogo'>
@@ -348,7 +354,7 @@
           </p>
           </td>
         </div>
-      </tr>
+      </tr> -->
 
     </table>
   </div>
@@ -362,13 +368,25 @@
 
 
   <!-- 페이지 -->
-  <div id='pageBtn' align='center'>
-    <button><<<button>
-    <button><</button>
-    <!-- <button>1~10</button> -->
-    <button>></button>
-    <button>>></button>
-  </div>
+    <div id='pageBtn' align='center'>
+			<!-- 맨 처음으로(<<) -->
+			<button onclick="location.href='<%=request.getContextPath() %>/jobList.bo?currentPage=1'"> << </button>
+			<!-- 이전 페이지로(<) -->
+			<button onclick="location.href='<%=request.getContextPath() %>/jobList.bo?currentPage=<%=currentPage-1 %>'"> < </button>
+			<!-- 10개의 페이지 목록 -->
+			<% for(int p = startPage ; p <= endPage ; p ++) {%>
+				<%if(p == currentPage) {%>
+					<button disabled><%=p %></button>
+				<%}else{ %>
+					<button onclick="location.href='<%=request.getContextPath() %>/jobList.bo?currentPage=<%=p %>'"><%=p %></button>
+				<%} %>
+			<% } %>
+			
+			<!-- 다음 페이지로(>) -->
+			<button onclick="location.href='<%=request.getContextPath() %>/jobList.bo?currentPage=<%=currentPage+1 %>'"> > </button>
+			<!-- 맨 끝으로(>>) -->
+			<button onclick="location.href='<%=request.getContextPath() %>/jobList.bo?currentPage=<%=maxPage %>'"> >> </button>
+  </div> 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="assets/js/docs.min.js"></script>

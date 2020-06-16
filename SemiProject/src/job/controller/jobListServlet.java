@@ -11,18 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import job.model.service.JobService;
+import job.model.vo.JobPagination;
 
 /**
  * Servlet implementation class jobListViewServlet
  */
 @WebServlet("/jobList.bo")
-public class jobListViewServlet extends HttpServlet {
+public class jobListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public jobListViewServlet() {
+    public jobListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,6 +37,7 @@ public class jobListViewServlet extends HttpServlet {
 		// 1-1. 게시판 리스트 총 갯수 구하기
 		int listCount=jService.getListCount();
 //		System.out.println(listCount);
+		System.out.println("서블릿 listCount : " + listCount);
 		
 //		----------------- 페이징 처리 추가 ----------------------
 		int currentPage;	// 현재 페이지를 표시할 변수
@@ -75,7 +77,7 @@ public class jobListViewServlet extends HttpServlet {
 		 * 아래쪽에 페이지 수가 10개씩 보여지게 할 경우
 		 * 10,20,30,40,...
 		 */
-		endPage=startPage+limit-1;
+		endPage=startPage+limit;
 		
 		
 		/*
@@ -86,7 +88,7 @@ public class jobListViewServlet extends HttpServlet {
 		if(maxPage<endPage) {
 			endPage=maxPage;
 		}
-		Pagenation pn=new Pagenation(currentPage, listCount, limit, maxPage, startPage, endPage);
+		JobPagination pn=new JobPagination(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
 		// 1-2. 화면에 뿌려줄 게시판 리스트 조회하기
 		ArrayList list=jService.selectList(currentPage, limit);

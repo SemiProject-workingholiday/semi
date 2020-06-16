@@ -12,11 +12,12 @@ import job.model.vo.Job;
 
 public class JobDao {
 
+//	public int registJob(Connection conn, Job j, ArrayList<Job> fileList) {
 	public int registJob(Connection conn, Job j) {
 		PreparedStatement pstmt=null;
 		int result=0;
 		
-		String query="INSERT INTO JOBSEARCH VALUES(SEQ_JNO,?,?,?,?,?,?,?,?,?,?,?,?,?,JOBREPORT,SYSDATE,?,?)";
+		String query="INSERT INTO JOBSEARCH VALUES(SEQ_JOBNO,?,?,?,?,?,?,?,?,?,?,?,?,?,0,SYSDATE,?,?,?,?)";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
@@ -33,8 +34,10 @@ public class JobDao {
 			pstmt.setString(11, j.getWorkday());
 			pstmt.setString(12, j.getTitle());
 			pstmt.setString(13, j.getContent());
-			pstmt.setString(14, j.getCountryNo());
-			pstmt.setInt(15, j.getUserNo());
+			pstmt.setString(14, j.getCountry());
+			pstmt.setString(15, j.getUserId());
+			pstmt.setString(16, j.getChangeName());
+			pstmt.setString(17, j.getFilePath());
 			
 			result=pstmt.executeUpdate();
 			
@@ -66,13 +69,63 @@ public class JobDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
 		}
-		return 0;
+		return result;
 	}
 
 	public ArrayList selectList(Connection conn, int currentPage, int limit) {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		
+		ArrayList list=new ArrayList();
+		
+		int startRow=(currentPage-1)*limit+1;
+		int endRow=currentPage*limit;
+		
+		System.out.println("startRow : " + startRow + ", endRow : " + endRow);
+		
+		String query="SELECT * FROM (SELECT ROWNUM RNUM1, J.* FROM JSLIST J) WHERE RNUM1 BETWEEN ? AND ?";
+//		String query="SELECT * FROM JSLIST WHERE RNUM BETWEEN ? AND ?";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Job j=new Job(
+									rset.getInt("jobno"),
+									rset.getString("job"),
+									rset.getString("period"),
+									rset.getString("logoimg"),
+									rset.getString("duedate"),
+									rset.getDate("worktime"),
+									rset.getString("workday"),
+									rset.getString("title"),
+									rset.getString("content"),
+									rset.getInt("jobreport"),
+									rset.getDate("writedate"),
+									rset.getString("country"),
+									rset.getString("userid"),
+									rset.getString("changename"),
+									rset.getString("filepath"),
+									rset.getString("coname"));
+				list.add(j);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		return list;
 	}
 
 }

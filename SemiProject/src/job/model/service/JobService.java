@@ -37,6 +37,7 @@ public class JobService {
 		Connection conn= getConnection();
 		
 		ArrayList list=new JobDao().selectList(conn, currentPage, limit);
+		System.out.println("JobService list값 : " + list);
 		
 		close(conn);
 		return list;
