@@ -1,23 +1,27 @@
 package member.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import member.model.service.MemberService;
+
 /**
- * Servlet implementation class SessionClearServlet
+ * Servlet implementation class ReprotSetSanction
  */
-@WebServlet("/sessionclear.me")
-public class SessionClearServlet extends HttpServlet {
+@WebServlet("/reportsetsanction.me")
+public class ReprotSetSanction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SessionClearServlet() {
+    public ReprotSetSanction() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,14 +30,27 @@ public class SessionClearServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String nowView =request.getParameter("nowView");
 		
-		request.getSession().invalidate();
+		int reportNo = Integer.valueOf(request.getParameter("reportNo"));
+		int userNo = Integer.valueOf(request.getParameter("userNo"));
 		
-	
-		response.sendRedirect("main.jsp");
+		
+		 PrintWriter out = response.getWriter();
+		
+		
 			
-		
+		 int result1 = new MemberService().SetSanction(userNo); 
+		 if(result1 > 0 ) {
+			 int reuslt2 = new MemberService().SetProcess(reportNo,"BR");
+			 if(reuslt2 > 0) {
+		 
+				 out.print("Y");
+		 
+			 }
+			 } else { 
+				 out.print("N");
+			 }
+			 
 		
 	}
 

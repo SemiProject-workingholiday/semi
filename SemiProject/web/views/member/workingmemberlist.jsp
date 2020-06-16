@@ -99,7 +99,7 @@
 			<ul>
 			<li><div onclick="location.href='<%=request.getContextPath()%>/wselectallmember.me'">워홀러 회원조회</div></li>
 			<li><div onclick="location.href='<%=request.getContextPath()%>/nselectallmember.me'">현지인 회원조회</div></li>
-			<li>신고내역</li>
+			<li><div onclick="location.href='reportlist.jsp'">신고내역</div></li>
 			</ul>
 		</div>
 		

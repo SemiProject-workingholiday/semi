@@ -7,17 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import member.model.service.MemberService;
+
 /**
- * Servlet implementation class SessionClearServlet
+ * Servlet implementation class DeleteReportBoard
  */
-@WebServlet("/sessionclear.me")
-public class SessionClearServlet extends HttpServlet {
+@WebServlet("/deletereportboard.me")
+public class DeleteReportBoard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SessionClearServlet() {
+    public DeleteReportBoard() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,14 +28,11 @@ public class SessionClearServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String nowView =request.getParameter("nowView");
+		int categoryNo = Integer.valueOf(request.getParameter("categoryNo"));
+		int boardNo = Integer.valueOf(request.getParameter("boardNo"));
+		int reportNo = Integer.valueOf(request.getParameter("reportNo"));
 		
-		request.getSession().invalidate();
-		
-	
-		response.sendRedirect("main.jsp");
-			
-		
+		int result = new MemberService().ReportDeleteBoard(categoryNo,boardNo);
 		
 	}
 

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="member.model.vo.*"%>
+    
+<%
+	Member loginUser = (Member)session.getAttribute("loginUser");
+%>    
 <!DOCTYPE html>
 
 <html>
@@ -173,8 +177,13 @@
         </ul>
     </div>
     <ul class="login_register" >
-        <li><a href="#">로그인</a></li>
-        <li><a href="#">회원가입</a></li>
+    	<%if(loginUser == null){ %>
+        <li><a href="<%=request.getContextPath() %>/views/member/login.jsp">로그인</a></li>
+        <li><a href="<%=request.getContextPath() %>/views/member/join.jsp">회원가입</a></li>
+        <%} else{ %>
+        <li><a href="#">마이페이지</a></li>
+        <li><a href="<%=request.getContextPath()%>/sessionclear.me">로그아웃</a></li>
+        <%} %>
     </ul>
     </div>
 </header>

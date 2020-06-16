@@ -3,7 +3,6 @@ package member.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,23 +10,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.oracle.jrockit.jfr.RequestDelegate;
-
 import home.model.vo.Pagination;
 import member.model.service.MemberService;
 import member.model.vo.Member;
+import member.model.vo.Report;
 
 /**
- * Servlet implementation class WorkingMemberServlet
+ * Servlet implementation class ReportSelectList
  */
-@WebServlet("/wselectallmember.me")
-public class WSelectAllMemberServlet extends HttpServlet {
+@WebServlet("/reportlist.me")
+public class ReportSelectList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public WSelectAllMemberServlet() {
+    public ReportSelectList() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,7 +40,9 @@ public class WSelectAllMemberServlet extends HttpServlet {
 		int startPage;
 		int endPage;
 	
-		int listCount = new MemberService().SelectListCount(2);
+		int listCount = new MemberService().ReportListCount();
+		
+		
 		
 		currentPage =1;
 		if(request.getParameter("currentPage") != null) {
@@ -60,19 +60,20 @@ public class WSelectAllMemberServlet extends HttpServlet {
 		
 		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
-		ArrayList<Member> list = new MemberService().WSelectAllMember(limit,currentPage);
+		ArrayList<Report> rplist = new MemberService().ReportList(limit,currentPage);
 		
 		
 		
 		RequestDispatcher view = null;
-		if(list != null) {
-			request.setAttribute("list", list);
+		if(rplist != null) {
+			request.setAttribute("rplist", rplist);
 			request.setAttribute("pn", pn);
-			view = request.getRequestDispatcher("views/member/workingmemberlist.jsp");
+			view = request.getRequestDispatcher("views/member/reportlist.jsp");
 			
 		}
 		view.forward(request, response);
 	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

@@ -56,9 +56,10 @@ tr{
 
 <button onclick="location.href='<%=request.getContextPath()%>/wselectallmember.me'">워홀러 회원 관리</button>
 <button onclick="location.href='<%=request.getContextPath()%>/nselectallmember.me'">현지인 회원 관리</button>
+<button onclick="location.href='<%=request.getContextPath()%>/reportlist.me'">신고내역</button>
 <table>
 	<tr id="tb_tr" border="1" data-toggle="modal" href="#registarModal">
-		<th style="width: 53px ">번호</th>
+		
 		<th>회원번호</th>
 		<th style="width: 120px">아이디</th>
 		<th style="width: 230px">이메일</th>

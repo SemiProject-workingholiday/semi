@@ -221,7 +221,7 @@
 			  
 			<label class="label_style"">생년월일</label><br>
 			<div style="height:8px;"></div>
-			<input maring-top:50px" type="text" name="birth" id="birth" class="log"  placeholder=" 생년월일 입력(4자)">
+			<input maring-top:50px" type="text" name="birth" id="birth" class="log"  placeholder=" 생년월일 입력(6자)">
 			
 			<br><br>
 			 <label style="float: left; font-size: 18px; font-weight: 900; width: 100px; text-align: left;">성별</label>
